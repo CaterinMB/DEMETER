@@ -1,26 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { BiEdit } from 'react-icons/bi'
-import { AiOutlineEye, AiFillDelete } from 'react-icons/ai'
+import { MdToggleOn, MdToggleOff } from "react-icons/md";
 import '../css/style.css'
 import '../css/landing.css'
 
 import { useUser } from '../Context/User.context.jsx';
-import UserCard from '../Components/User.card.jsx';
-// import CreateUser from '../Components/CreateUser';
-// import EditUser from '../Components/EditUser';
-import DeleteUser from '../Components/DeleteUser';
 
-function UserPage() {
-    const { user, getUsers, deleteUser } = useUser();
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-    const [userToEdit, setUserToEdit] = useState(null);
-    const [userToDelete, setUserToDelete] = useState(null);
+function WaiterPage() {
+    const { user, getWaiters, toggleUserStatus } = useUser();
     const [searchTerm, setSearchTerm] = useState('');
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const barraClass = user.State ? "" : "desactivado";
 
     useEffect(() => {
-        getUsers();
+        getWaiters();
     }, []);
 
     const navigateToCreateUser = () => {
@@ -31,36 +24,13 @@ function UserPage() {
         getUsers();
     };
 
-    const handleEdit = (user) => {
-        setUserToEdit(user);
-        setIsEditModalOpen(true);
-    };
-
-    const handleDelete = (user) => {
-        setUserToDelete(user);
-        setIsDeleteModalOpen(true);
-    };
-
-    const confirmDelete = () => {
-        if (userToDelete) {
-            deleteUser(userToDelete.ID_USUARIO);
-            setUserToDelete(null);
-            setIsDeleteModalOpen(false);
-        }
-    };
-
-    const cancelDelete = () => {
-        setUserToDelete(null);
-        setIsDeleteModalOpen(false);
-    };
-
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
     };
 
-    const filteredUsers = user.filter((user) => {
-        const { Type_Document, Document, Name_User, LastName_User, Email, State } = user;
-        const searchString = `${Type_Document} ${Document} ${Name_User} ${LastName_User} ${Email} ${State}`.toLowerCase();
+    const filteredWaiters = user.filter((user) => {
+        const { Type_Document, Document, Name_User, LastName_User, Restaurant, State } = user;
+        const searchString = `${Type_Document} ${Document} ${Name_User} ${LastName_User} ${Restaurant} ${State}`.toLowerCase();
         return searchString.includes(searchTerm.toLowerCase());
     });
 
@@ -73,7 +43,7 @@ function UserPage() {
 
                             <div className="card">
                                 <div className="card-header">
-                                    <h5>Visualización del empleados</h5>
+                                    <h5>Visualización del Meseros</h5>
                                 </div>
                                 <div className="card-body">
                                     <div className="row">
@@ -83,7 +53,7 @@ function UserPage() {
                                                 className='btn btn-primary'
                                                 onClick={navigateToCreateUser}
                                             >
-                                                Crear Usuario
+                                                Crear Mesero
                                             </button>
 
                                         </div>
@@ -111,45 +81,46 @@ function UserPage() {
                                                         <th>N° documento</th>
                                                         <th>Nombre</th>
                                                         <th>Apellido</th>
-                                                        <th>Email</th>
-                                                        <th>Rol</th>
+                                                        <th>Restaurante</th>
                                                         <th>Estado</th>
                                                         <th>Acciones</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {filteredUsers.map((user) => (
-                                                        <UserCard
-                                                            user={user}
-                                                            key={user.ID_User}
-                                                            onEdit={() => handleEdit(user)}
-                                                            onDelete={() => handleDelete(user)}
-                                                        />
+                                                    {filteredWaiters.map((waiter) => (
+                                                        <tr>
+                                                            <td>{waiter.Type_Document}</td>
+                                                            <td>{waiter.Document}</td>
+                                                            <td>{waiter.Name_User}</td>
+                                                            <td>{waiter.LastName_User}</td>
+                                                            <td>{waiter.Restaurant}</td>
+                                                            <td className={`${barraClass}`}>
+                                                                {waiter.State ? "Habilitado" : "Deshabilitado"}
+                                                            </td>
+                                                            <td>
+                                                                <div>
+                                                                    <button
+                                                                        className={`barra-container ${barraClass} adjust`}
+                                                                        onClick={() => toggleUserStatus(waiter.ID_User)}
+                                                                    >
+                                                                        {waiter.State ? (
+                                                                            <MdToggleOn className={`estado-icon active ${barraClass}`} />
+                                                                        ) : (
+                                                                            <MdToggleOff className={`estado-icon inactive ${barraClass}`} />
+                                                                        )}
+                                                                    </button>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
                                                     ))}
                                                 </tbody>
                                             </table>
-
-                                            {isDeleteModalOpen && (
-                                                <DeleteUser
-                                                    onClose={cancelDelete}
-                                                    onDelete={confirmDelete}
-                                                />
-                                            )}
 
                                             {isModalOpen && (
                                                 <div className="fixed inset-0 flex items-center justify-center z-50">
                                                     <div className="modal-overlay" onClick={() => setIsModalOpen(false)}></div>
                                                     <div className="modal-container">
                                                         <CreateUser onClose={() => setIsModalOpen(false)} onCreated={handleCreated} />
-                                                    </div>
-                                                </div>
-                                            )}
-
-                                            {isEditModalOpen && (
-                                                <div className="fixed inset-0 flex items-center justify-center z-50">
-                                                    <div className="modal-overlay" onClick={() => setIsEditModalOpen(false)}></div>
-                                                    <div className="modal-container">
-                                                        <EditUser onClose={() => setIsEditModalOpen(false)} userToEdit={userToEdit} />
                                                     </div>
                                                 </div>
                                             )}
@@ -166,4 +137,4 @@ function UserPage() {
     )
 }
 
-export default UserPage
+export default WaiterPage

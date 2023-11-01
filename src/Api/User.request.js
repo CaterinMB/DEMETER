@@ -9,4 +9,5 @@ export const deleteUserRequest = (ID_User) => axios.delete(`/user/${ID_User}`);
 
 // --------------------------- Mesero --------------------------- //
 export const getWaitersRequest = () => axios.get(`waiter`);
+export const getWaiterRequest = (ID_User) => axios.get(`/waiter/${ID_User}`);
 export const createWaiterRequest = (waiter) => axios.post(`/add_waiter`, waiter);
