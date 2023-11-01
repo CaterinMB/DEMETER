@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { BiEdit } from "react-icons/bi";
-import { AiOutlineEye, AiFillDelete } from "react-icons/ai";
+import { AiFillDelete } from "react-icons/ai";
+import { MdToggleOn, MdToggleOff } from "react-icons/md";
 import "../css/style.css";
 import "../css/landing.css";
 
 import { useUser } from "../Context/User.context.jsx";
-import UserCard from "../Components/User.card.jsx";
 // import CreateUser from "../Components/CreateUser";
 // import EditUser from '../Components/EditUser';
 import DeleteUser from "../Components/DeleteUser";
 
+import { useRole } from "../Context/Role.context";
+
 function UserPage() {
-    const { user, getUsers, deleteUser } = useUser();
+    const { user, getUsers, toggleUserStatus, deleteUser } = useUser()
+    const { role } = useRole();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -64,6 +67,12 @@ function UserPage() {
         return searchString.includes(searchTerm.toLowerCase());
     });
 
+    const roles = role.find(
+        (rol) => rol.ID_Role === user.Role_ID
+    );
+
+    const barraClass = user.State ? "" : "desactivado";
+
     return (
         <section className="pc-container">
             <div className="pcoded-content">
@@ -73,7 +82,7 @@ function UserPage() {
 
                             <div className="card">
                                 <div className="card-header">
-                                    <h5>Visualización del empleados</h5>
+                                    <h5>Visualización de empleados</h5>
                                 </div>
                                 <div className="card-body">
                                     <div className="row">
@@ -83,7 +92,7 @@ function UserPage() {
                                                 className='btn btn-primary'
                                                 onClick={navigateToCreateUser}
                                             >
-                                                Crear Usuario
+                                                Registrar
                                             </button>
 
                                         </div>
@@ -119,12 +128,48 @@ function UserPage() {
                                                 </thead>
                                                 <tbody>
                                                     {filteredUsers.map((user) => (
-                                                        <UserCard
-                                                            user={user}
-                                                            key={user.ID_User}
-                                                            onEdit={() => handleEdit(user)}
-                                                            onDelete={() => handleDelete(user)}
-                                                        />
+                                                        <tr key={user.ID_User}>
+                                                            <td>{user.Type_Document}</td>
+                                                            <td>{user.Document}</td>
+                                                            <td>{user.Name_User}</td>
+                                                            <td>{user.LastName_User}</td>
+                                                            <td>{user.Email}</td>
+                                                            <td>
+                                                                {roles && roles.Name_Role}
+                                                            </td>
+                                                            <td className={`${barraClass}`}>
+                                                                {user.State ? "Habilitado" : "Deshabilitado"}
+                                                            </td>
+                                                            <td>
+                                                                <div style={{ display: "flex", alignItems: "center" }}>
+                                                                    <button
+                                                                        onClick={() => handleEdit(user)}
+                                                                        className={`btn btn-icon btn-primary ${!user.State ? "text-gray-400 cursor-not-allowed" : ""}`}
+                                                                        disabled={!user.State}
+                                                                    >
+                                                                        <BiEdit />
+                                                                    </button>
+                                                                    <button
+                                                                        onClick={() => handleDelete(user)}
+                                                                        className={`btn btn-icon btn-danger ${!user.State ? "text-gray-400 cursor-not-allowed" : ""}`}
+                                                                        disabled={!user.State}
+                                                                    >
+                                                                        <AiFillDelete />
+                                                                    </button>
+                                                                    <button
+                                                                        type="button"
+                                                                        className={`btn btn-icon btn-success ${barraClass}`}
+                                                                        onClick={() => toggleUserStatus(user.ID_User)}
+                                                                    >
+                                                                        {user.State ? (
+                                                                            <MdToggleOn className={`estado-icon active ${barraClass}`} />
+                                                                        ) : (
+                                                                            <MdToggleOff className={`estado-icon inactive ${barraClass}`} />
+                                                                        )}
+                                                                    </button>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
                                                     ))}
                                                 </tbody>
                                             </table>
@@ -159,17 +204,11 @@ function UserPage() {
                                 </div>
                             </div>
                         </div>
-                      )}
                     </div>
-                  </div>
                 </div>
-              </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
+        </section >
+    )
 }
 
 export default UserPage

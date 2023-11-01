@@ -10,29 +10,29 @@ function WaiterPage() {
     const [searchTerm, setSearchTerm] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const barraClass = user.State ? "" : "desactivado";
-
     useEffect(() => {
         getWaiters();
     }, []);
 
-    const navigateToCreateUser = () => {
+    const navigateToCreateWaiter = () => {
         setIsModalOpen(true);
     };
 
     const handleCreated = () => {
-        getUsers();
+        getWaiters();
     };
 
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
     };
 
-    const filteredWaiters = user.filter((user) => {
-        const { Type_Document, Document, Name_User, LastName_User, Restaurant, State } = user;
+    const filteredWaiters = user.filter((waiter) => {
+        const { Type_Document, Document, Name_User, LastName_User, Restaurant, State } = waiter;
         const searchString = `${Type_Document} ${Document} ${Name_User} ${LastName_User} ${Restaurant} ${State}`.toLowerCase();
         return searchString.includes(searchTerm.toLowerCase());
     });
+    
+    const barraClass = user.State ? "" : "desactivado";
 
     return (
         <section className="pc-container">
@@ -43,7 +43,7 @@ function WaiterPage() {
 
                             <div className="card">
                                 <div className="card-header">
-                                    <h5>Visualización del Meseros</h5>
+                                    <h5>Visualización de meseros</h5>
                                 </div>
                                 <div className="card-body">
                                     <div className="row">
@@ -51,9 +51,9 @@ function WaiterPage() {
                                             <button
                                                 type='button'
                                                 className='btn btn-primary'
-                                                onClick={navigateToCreateUser}
+                                                onClick={navigateToCreateWaiter}
                                             >
-                                                Crear Mesero
+                                                Registrar
                                             </button>
 
                                         </div>
@@ -100,7 +100,8 @@ function WaiterPage() {
                                                             <td>
                                                                 <div>
                                                                     <button
-                                                                        className={`barra-container ${barraClass} adjust`}
+                                                                        type="button"
+                                                                        className={`btn btn-icon btn-success ${barraClass}`}
                                                                         onClick={() => toggleUserStatus(waiter.ID_User)}
                                                                     >
                                                                         {waiter.State ? (
