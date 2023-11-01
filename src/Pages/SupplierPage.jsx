@@ -21,6 +21,7 @@ function SupplierPage() {
     getSupplier().then(console.log(supplier));
   }, []);
 
+
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
@@ -40,6 +41,7 @@ function SupplierPage() {
       `${Type_Document} ${Document} ${Name_Supplier} ${Name_Business} ${Phone} ${City} ${Email} ${State}`.toLowerCase();
     return searchString.includes(searchTerm.toLowerCase());
   });
+
 
   const onUpdate = (event, id, modalView) => {
     event.preventDefault();

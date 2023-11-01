@@ -19,6 +19,7 @@ const style = {
   pb: 3
 };
 
+
 export default function CreateSupplier({
   onDefaultSubmit = null,
   buttonProps = {
@@ -33,7 +34,15 @@ export default function CreateSupplier({
     formState: { errors, isValid }
   } = useForm();
   const { createSupplier, supplier } = useSupplier();
+
   const [open, setOpen] = React.useState(false);
+  const [supplyToEdit, setSupplyToEdit] = useState(null);
+
+  const handleEdit = (supply) => {
+    setSupplyToEdit(supply);
+  };
+
+
 
   const onSubmit = handleSubmit(async (values) => {
     const isDocumentoDuplicate = supplier.some(
@@ -71,6 +80,7 @@ export default function CreateSupplier({
         message: "La nombre de la empresa ya existe."
       });
       return;
+
     }
 
     if (isPhoneDuplicate) {
@@ -82,8 +92,10 @@ export default function CreateSupplier({
     }
 
     createSupplier(values);
+
     setOpen(false);
   });
+
 
   const handleOpen = () => {
     setOpen(true);
@@ -268,6 +280,7 @@ export default function CreateSupplier({
                           <p className="text-red-500">{errors.Phone.message}</p>
                         )}
                       </div>
+
 
                       <div class="form-group col-md-6">
                         <label htmlFor="Email" className="form-label">
