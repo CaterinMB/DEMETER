@@ -13,13 +13,15 @@ import CreateSupplier from "../Components/CreateSupplier.jsx";
 import DeleteSupplier from "../Components/DeleteSupplier.jsx";
 
 function SupplierPage() {
-  const { supplier, getSupplier, deleteSupplier, updateSupplier } =
+  const { supplier, getSupplier, deleteSupplier, updateSupplier, toggleSupplyStatus } =
     useSupplier();
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     getSupplier().then(console.log(supplier));
   }, []);
+
+  const status = supplier.State ? "" : "desactivado";
 
 
   const handleSearchChange = (event) => {
@@ -53,25 +55,25 @@ function SupplierPage() {
   };
 
   return (
-    <section class="pc-container">
-      <div class="pcoded-content">
-        <div class="row w-100">
-          <div class="col-md-12">
-            <div class=" w-100 col-sm-12">
-              <div class="card">
-                <div class="card-header">
-                  <h5>Visualización del proveedor</h5>
+    <section className="pc-container">
+      <div className="pcoded-content">
+        <div className="row w-100">
+          <div className="col-md-12">
+            <div className=" w-100 col-sm-12">
+              <div className="card">
+                <div className="card-header">
+                  <h5>Visualización de proveedores</h5>
                 </div>
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-md-6">
+                <div className="card-body">
+                  <div className="row">
+                    <div className="col-md-6">
                       <CreateSupplier />
                     </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
+                    <div className="col-md-6">
+                      <div className="form-group">
                         <input
                           type="search"
-                          class="form-control"
+                          className="form-control"
                           id="exampleInputEmail1"
                           aria-describedby="emailHelp"
                           placeholder="Buscador"
@@ -82,9 +84,9 @@ function SupplierPage() {
                     </div>
                   </div>
 
-                  <div class="card-body table-border-style">
-                    <div class="table-responsive">
-                      <table class="table table-hover">
+                  <div className="card-body table-border-style">
+                    <div className="table-responsive">
+                      <table className="table table-hover">
                         <thead>
                           <tr>
                             <th>Tipo de documento</th>
@@ -108,9 +110,11 @@ function SupplierPage() {
                               <td>{supplierItem.Phone}</td>
                               <td>{supplierItem.City}</td>
                               <td>{supplierItem.Email}</td>
-                              <td>{supplierItem.State}</td>
+                              <td className={`${status}`}>
+                                {supplierItem.State ? "Habilitado" : "Deshabilitado"}
+                                </td>
 
-                              <td>
+                              <td className="flex items-center">
                                 <CreateSupplier
                                   key={supplierItem.ID_Supplier}
                                   onDefaultSubmit={(event, setOpen) =>
@@ -134,11 +138,16 @@ function SupplierPage() {
                                 />
                                 <button
                                   type="button"
-                                  class="btn  btn-icon btn-success"
+                                  className={`btn  btn-icon btn-success ${status}`}
+                            
+                                  onClick={() => toggleSupplyStatus(supplierItem.ID_Supplier)}
                                 >
-                                  <i data-feather="check-circle">
-                                    <MdToggleOn />
-                                  </i>
+                                  {supplierItem.State ? (
+                                    <MdToggleOn className={`estado-icon active${status}`} />
+                                  ) : (
+                                    <MdToggleOff className={`estado-icon inactive${status}`} />
+
+                                  )}
                                 </button>
                               </td>
                             </tr>
