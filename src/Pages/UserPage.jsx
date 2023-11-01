@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { BiEdit } from 'react-icons/bi'
-import { AiOutlineEye, AiFillDelete } from 'react-icons/ai'
-import '../css/style.css'
-import '../css/landing.css'
+import React, { useState, useEffect } from "react";
+import { BiEdit } from "react-icons/bi";
+import { AiOutlineEye, AiFillDelete } from "react-icons/ai";
+import "../css/style.css";
+import "../css/landing.css";
 
-import { useUser } from '../Context/User.context.jsx';
-import UserCard from '../Components/User.card.jsx';
-// import CreateUser from '../Components/CreateUser';
+import { useUser } from "../Context/User.context.jsx";
+import UserCard from "../Components/User.card.jsx";
+// import CreateUser from "../Components/CreateUser";
 // import EditUser from '../Components/EditUser';
-import DeleteUser from '../Components/DeleteUser';
+import DeleteUser from "../Components/DeleteUser";
 
 function UserPage() {
     const { user, getUsers, deleteUser } = useUser();
@@ -159,11 +159,17 @@ function UserPage() {
                                 </div>
                             </div>
                         </div>
+                      )}
                     </div>
+                  </div>
                 </div>
+              </div>
             </div>
-        </section>
-    )
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }
 
 export default UserPage

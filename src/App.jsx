@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import './index.css'
+import './App.css'
 
 //Context
 import { Role } from './Context/Role.context.jsx'
