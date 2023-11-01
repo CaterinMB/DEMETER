@@ -35,6 +35,7 @@ function SupplierPage() {
     });
 
 
+
     return (
         <section class="pc-container">
             <div class="pcoded-content">
