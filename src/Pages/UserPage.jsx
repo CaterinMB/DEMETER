@@ -136,6 +136,8 @@ function UserPage() {
                                                             <td>{user.Email}</td>
                                                             <td>
                                                                 {roles && roles.Name_Role}
+                                                                {/* {user.Role_ID ? role.find((rol) => rol.ID_Role === user.Role_ID)?.Name_Role || '' : ''} */}
+
                                                             </td>
                                                             <td className={`${barraClass}`}>
                                                                 {user.State ? "Habilitado" : "Deshabilitado"}

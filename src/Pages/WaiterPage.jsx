@@ -4,6 +4,7 @@ import '../css/style.css'
 import '../css/landing.css'
 
 import { useUser } from '../Context/User.context.jsx';
+import CreateWaiter from '../Components/CreateWaiter.jsx';
 
 function WaiterPage() {
     const { user, getWaiters, toggleUserStatus } = useUser();
@@ -88,7 +89,7 @@ function WaiterPage() {
                                                 </thead>
                                                 <tbody>
                                                     {filteredWaiters.map((waiter) => (
-                                                        <tr>
+                                                        <tr key={waiter.ID_User}>
                                                             <td>{waiter.Type_Document}</td>
                                                             <td>{waiter.Document}</td>
                                                             <td>{waiter.Name_User}</td>
@@ -121,7 +122,7 @@ function WaiterPage() {
                                                 <div className="fixed inset-0 flex items-center justify-center z-50">
                                                     <div className="modal-overlay" onClick={() => setIsModalOpen(false)}></div>
                                                     <div className="modal-container">
-                                                        <CreateUser onClose={() => setIsModalOpen(false)} onCreated={handleCreated} />
+                                                        <CreateWaiter onClose={() => setIsModalOpen(false)} onCreated={handleCreated} />
                                                     </div>
                                                 </div>
                                             )}

@@ -100,6 +100,7 @@ export const User = ({ children }) => {
         try {
             const res = await createWaiterRequest(user);
             getWaiters();
+            console.log(res)
         } catch (error) {
             console.log(error);
         }
