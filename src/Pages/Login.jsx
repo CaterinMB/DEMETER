@@ -3,10 +3,6 @@ import logo from '../img/logo.png'
 import {AiOutlineMail, AiOutlineLock} from 'react-icons/ai'
 import '../css/style.css'
 import '../css/landing.css'
-import '../fonts/cryptofont.css'
-import '../fonts/feather.css'
-import '../fonts/fontawesome.css'
-import '../fonts//material.css'
 
 function Login() {
   return (

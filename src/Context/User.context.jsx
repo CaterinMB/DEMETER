@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from 'react';
 import { getUsersRequest, getUserRequest, createUserRequest, statusUserRequest, updateUserRequest, deleteUserRequest } from '../Api/User.request.js'
-import { getWaitersRequest, createWaiterRequest } from '../Api/User.request.js';
+import { getWaitersRequest, getWaiterRequest, createWaiterRequest } from '../Api/User.request.js';
 
 export const UserContext = createContext();
 
@@ -87,10 +87,20 @@ export const User = ({ children }) => {
         }
     }
 
+    const getWaiter = async (id) => {
+        try {
+            const res = await getWaiterRequest(id);
+            return res.data
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     const createWaiter = async (user) => {
         try {
             const res = await createWaiterRequest(user);
             getWaiters();
+            console.log(res)
         } catch (error) {
             console.log(error);
         }
@@ -108,6 +118,7 @@ export const User = ({ children }) => {
                 deleteUser,
                 // ---------- Mesero ---------- //
                 getWaiters,
+                getWaiter,
                 createWaiter,
             }}
         >

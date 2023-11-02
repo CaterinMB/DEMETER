@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import './index.css'
+import './App.css'
 
 //Context
 import { Role } from './Context/Role.context.jsx'
@@ -13,6 +13,7 @@ import { CategoryProducts } from './Context/CategoryProducts.context.jsx'
 import UserPage from './Pages/UserPage.jsx'
 import SupplierPage from './Pages/SupplierPage.jsx'
 import SuppliesPage from './Pages/SuppliesPage.jsx'
+import WaiterPage from './Pages/WaiterPage.jsx'
 
 // Menu & Header
 import Navbar from './Components/Navbar.jsx'
@@ -23,8 +24,8 @@ function App() {
   return (
     <BrowserRouter>
       <Role>
-        <User
-        ><CategorySupplies>
+        <User>
+          <CategorySupplies>
             <CategoryProducts>
               <Supplier>
                 <Supplies>

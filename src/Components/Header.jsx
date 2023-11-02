@@ -19,7 +19,7 @@ const Header = () => {
 			<div className="mr-auto pc-mob-drp">
 				<ul className="list-unstyled">
 					<li className="dropdown pc-h-item">
-						<h3><strong className='pc-tamaño'>DEMETER</strong></h3>
+						<h3>DEMETER</h3>
 					</li>
 				</ul>
 			</div>
@@ -46,7 +46,7 @@ const Header = () => {
 											navigate('/');
 										}}
 									>
-										<i class="material-icons-two-tone">
+										<i className="material-icons-two-tone">
 											<ChromeReaderModeIcon />
 										</i>
 										<span>Editar perfil</span>
@@ -58,7 +58,7 @@ const Header = () => {
 											navigate('/');
 										}}
 									>
-										<i class="material-icons-two-tone">
+										<i className="material-icons-two-tone">
 											<LockIcon />
 										</i>
 										<span>Cambio contraseña</span>
@@ -70,7 +70,7 @@ const Header = () => {
 											navigate('/');
 										}}
 									>
-										<i class="material-icons-two-tone">
+										<i className="material-icons-two-tone">
 											<ExitToAppIcon />
 										</i>
 										<span>Logout</span>
