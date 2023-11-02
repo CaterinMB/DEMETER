@@ -78,13 +78,13 @@ function WaiterPage() {
                                             <table className="table table-hover">
                                                 <thead>
                                                     <tr>
-                                                        <th>Tipo de documento</th>
-                                                        <th>N° documento</th>
-                                                        <th>Nombre</th>
-                                                        <th>Apellido</th>
-                                                        <th>Restaurante</th>
-                                                        <th>Estado</th>
-                                                        <th>Acciones</th>
+                                                        <th className="text-center">Tipo de documento</th>
+                                                        <th className="text-center">N° documento</th>
+                                                        <th className="text-center">Nombre</th>
+                                                        <th className="text-center">Apellido</th>
+                                                        <th className="text-center">Restaurante</th>
+                                                        <th className="text-center">Estado</th>
+                                                        <th className="text-center">Acciones</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>

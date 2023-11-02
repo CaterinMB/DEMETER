@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import '../css/style.css'
 import '../css/landing.css'
 import ChromeReaderModeIcon from '@mui/icons-material/ChromeReaderMode';
@@ -7,12 +7,31 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 
 const Header = () => {
 	const [showDropdown, setShowDropdown] = useState(false);
+	const dropdownRef = useRef();
 
 	const toggleDropdown = () => {
 		setShowDropdown(prevState => !prevState)
 
 		setTimeout(() => setShowDropdown(false), 5000);
 	};
+
+	useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setShowDropdown(false);
+            }
+        };
+
+        if (showDropdown) {
+            document.addEventListener('mousedown', handleClickOutside);
+        } else {
+            document.removeEventListener('mousedown', handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [showDropdown]);
 
 	return (
 		<header className="pc-header">
@@ -32,6 +51,7 @@ const Header = () => {
 							aria-haspopup="false"
 							aria-expanded="false"
 							onClick={toggleDropdown}
+							ref={dropdownRef}
 						>
 							<span>
 								<span className="user-name">Samuel Rios A.</span>
