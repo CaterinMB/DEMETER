@@ -5,12 +5,11 @@ import { MdToggleOn, MdToggleOff } from "react-icons/md";
 import "../css/style.css";
 import "../css/landing.css";
 
+import { useRole } from "../Context/Role.context";
 import { useUser } from "../Context/User.context.jsx";
 // import CreateUser from "../Components/CreateUser";
 // import EditUser from '../Components/EditUser';
 import DeleteUser from "../Components/DeleteUser";
-
-import { useRole } from "../Context/Role.context";
 
 function UserPage() {
     const { user, getUsers, toggleUserStatus, deleteUser } = useUser()
@@ -116,14 +115,14 @@ function UserPage() {
                                             <table className="table table-hover">
                                                 <thead>
                                                     <tr>
-                                                        <th>Tipo de documento</th>
-                                                        <th>N° documento</th>
-                                                        <th>Nombre</th>
-                                                        <th>Apellido</th>
-                                                        <th>Email</th>
-                                                        <th>Rol</th>
-                                                        <th>Estado</th>
-                                                        <th>Acciones</th>
+                                                        <th className="text-center">Tipo de documento</th>
+                                                        <th className="text-center">N° documento</th>
+                                                        <th className="text-center">Nombre</th>
+                                                        <th className="text-center">Apellido</th>
+                                                        <th className="text-center">Email</th>
+                                                        <th className="text-center">Rol</th>
+                                                        <th className="text-center">Estado</th>
+                                                        <th className="text-center">Acciones</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -136,8 +135,6 @@ function UserPage() {
                                                             <td>{user.Email}</td>
                                                             <td>
                                                                 {roles && roles.Name_Role}
-                                                                {/* {user.Role_ID ? role.find((rol) => rol.ID_Role === user.Role_ID)?.Name_Role || '' : ''} */}
-
                                                             </td>
                                                             <td className={`${barraClass}`}>
                                                                 {user.State ? "Habilitado" : "Deshabilitado"}
