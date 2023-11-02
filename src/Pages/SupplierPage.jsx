@@ -116,12 +116,14 @@ function SupplierPage() {
 
                               <td className="flex items-center">
                                 <CreateSupplier
+                                  disabled={!supplierItem.State}
                                   key={supplierItem.ID_Supplier}
                                   onDefaultSubmit={(event, setOpen) =>
                                     onUpdate(
                                       event,
                                       supplierItem.ID_Supplier,
-                                      setOpen
+                                      setOpen, 
+                                      
                                     )
                                   }
                                   buttonProps={{

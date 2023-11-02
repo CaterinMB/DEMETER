@@ -9,6 +9,7 @@ import { Supplier } from './Context/Supplier.context.jsx'
 // Pages
 import UserPage from './Pages/UserPage.jsx'
 import SupplierPage from './Pages/SupplierPage.jsx'
+import ShoppingPage from './Pages/ShoppingPage.jsx' 
 
 // Menu & Header
 import Navbar from './Components/Navbar.jsx'
@@ -30,7 +31,7 @@ function App() {
               <Route path='/category_supplies' element={<h3>Cateria insumo</h3>} />
               <Route path='/supplies' element={<h3>Insumos</h3>} />
               <Route path='/supplier' element={<SupplierPage />} />
-              <Route path='/shopping' element={<h3>Compras</h3>} />
+              <Route path='/shopping' element={<ShoppingPage/>} />
               <Route path='/category_product' element={<h3>Categoria producto</h3>} />
               <Route path='/product' element={<h3>Producto</h3>} />
               <Route path='/waiter' element={<h3>Meseros</h3>} />
