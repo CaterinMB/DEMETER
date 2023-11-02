@@ -5,18 +5,17 @@ import { useForm } from 'react-hook-form';
 import { useUser } from '../Context/User.context.jsx';
 
 const style = {
-    position: "absolute",
+    position: "fixed",
     top: "50%",
-    left: "60%",
-    transform: "translate(-40%, -60%)",
-    width: 100,
-    height: 100,
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
     bgcolor: "background.paper",
-    border: "1px solid #000",
-    boxShadow: 20,
-    pt: 1,
-    px: 3,
-    pb: 2
+    border: "2px solid #000",
+    boxShadow: 24,
+    pt: 2,
+    px: 4,
+    pb: 3
 };
 
 function CreateWaiter({ onClose, onCreated }) {
@@ -26,8 +25,6 @@ function CreateWaiter({ onClose, onCreated }) {
 
     const typeOptions = [
         { label: 'Seleccione tipo', value: '', isDisabled: true },
-        { label: 'Registro civli', value: 'RC' },
-        { label: 'Tarjeta de identidad', value: 'TI' },
         { label: 'Cédula de ciudadanía', value: 'CC' },
         { label: 'Cédula de extranjería', value: 'CE' },
         { label: 'Pasaporte', value: 'PB' },
@@ -54,7 +51,7 @@ function CreateWaiter({ onClose, onCreated }) {
     };
 
     const onSubmit = handleSubmit(async (values) => {
-        const isDocumentouplicate = user.some(users => users.Document === values.Document);
+        const isDocumentouplicate = user.some(waiters => waiters.Document === values.Document);
 
         if (isDocumentouplicate) {
             setError('Document', {
@@ -84,17 +81,17 @@ function CreateWaiter({ onClose, onCreated }) {
     };
 
     return (
-        <Box sx={{ ...style, width: 500, height: 500 }}>
+        <Box sx={{ ...style, width: 600 }}>
             <div>
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header">
+                <div className="col-md-12">
+                    <div className="card">
+                        <div className="card-header">
                             <h5>Registro de mesero</h5>
                         </div>
-                        <div class="card-body">
+                        <div className="card-body">
                             <form onSubmit={onSubmit}>
                                 <div className="control">
-                                    <div class="form-group col-md-6">
+                                    <div className="form-group col-md-6">
                                         <div className="mb-3">
                                             <label htmlFor="Type_Document" className="form-label mt-3">
                                                 Tipo de documento: <strong>*</strong>
@@ -124,7 +121,7 @@ function CreateWaiter({ onClose, onCreated }) {
                                         </div>
                                     </div>
 
-                                    <div class="form-group col-md-6">
+                                    <div className="form-group col-md-6">
                                         <label htmlFor="Document" className="form-label">
                                             Número de identidad: <strong>*</strong>
                                         </label>
@@ -154,9 +151,9 @@ function CreateWaiter({ onClose, onCreated }) {
                                 </div>
 
                                 <div className="control">
-                                    <div class="form-group col-md-6">
+                                    <div className="form-group col-md-6">
                                         <label htmlFor="Name_User" className="form-label">
-                                            Nombre
+                                            Nombres: <strong>*</strong>
                                         </label>
                                         <input
                                             {...register("Name_User", {
@@ -177,9 +174,9 @@ function CreateWaiter({ onClose, onCreated }) {
                                         )}
                                     </div>
 
-                                    <div class="form-group col-md-6">
+                                    <div className="form-group col-md-6">
                                         <label htmlFor="LastName_User" className="form-label">
-                                            Empresa
+                                            Apellidos: <strong>*</strong>
                                         </label>
                                         <input
                                             {...register("LastName_User", {
@@ -202,17 +199,21 @@ function CreateWaiter({ onClose, onCreated }) {
                                 </div>
 
                                 <div className="control">
-                                    <div class="form-group col-md-6">
+                                    <div className="form-group col-md-6">
                                         <label htmlFor="Restaurant" className="form-label">
                                             Restaurante: <strong>*</strong>
                                         </label>
                                         <input
                                             {...register("Restaurant", {
-                                                required: "El restaurante es obligatorio"
+                                                required: "El restaurante es obligatorio",
+                                                pattern: {
+                                                    value: /^[A-ZÁÉÍÓÚÑ][a-záéíóúñ\s]*[a-záéíóúñ]$/,
+                                                    message:
+                                                        "El apellido del mesero debe tener la primera letra en mayúscula y solo letras."
+                                                }
                                             })}
                                             type="text"
                                             className="form-control"
-                                            required
                                         />
                                         {errors.Restaurant && (
                                             <p className="text-red-500">
@@ -223,16 +224,16 @@ function CreateWaiter({ onClose, onCreated }) {
                                 </div>
 
                                 <div className="buttonconfirm">
-                                    <div class="mb-3">
+                                    <div className="mb-3">
                                         <button
-                                            class="btn btn-primary mr-5"
+                                            className="btn btn-primary mr-5"
                                             type="submit"
-                                            disabled={!isValid}
+                                            // disabled={!isValid}
                                         >
                                             Confirmar
                                         </button>
                                         <button
-                                            class="btn btn-primary"
+                                            className="btn btn-primary"
                                             onClick={onCancel}
                                             type="button"
                                         >

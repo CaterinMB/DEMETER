@@ -89,7 +89,7 @@ function WaiterPage() {
                                                 </thead>
                                                 <tbody>
                                                     {filteredWaiters.map((waiter) => (
-                                                        <tr>
+                                                        <tr key={waiter.ID_User}>
                                                             <td>{waiter.Type_Document}</td>
                                                             <td>{waiter.Document}</td>
                                                             <td>{waiter.Name_User}</td>
