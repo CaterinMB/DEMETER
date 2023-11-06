@@ -7,7 +7,7 @@ import "../css/landing.css";
 
 import { useRole } from "../Context/Role.context";
 import { useUser } from "../Context/User.context.jsx";
-// import CreateUser from "../Components/CreateUser";
+import CreateUser from "../Components/CreateUser";
 // import EditUser from '../Components/EditUser';
 import DeleteUser from "../Components/DeleteUser";
 
@@ -45,7 +45,7 @@ function UserPage() {
 
     const confirmDelete = () => {
         if (userToDelete) {
-            deleteUser(userToDelete.ID_USUARIO);
+            deleteUser(userToDelete.ID_User);
             setUserToDelete(null);
             setIsDeleteModalOpen(false);
         }
