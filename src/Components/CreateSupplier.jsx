@@ -203,7 +203,7 @@ export default function CreateSupplier({
                                 parsedValue < 10000000 ||
                                 parsedValue > 9999999999
                               ) {
-                                return "El número no es valido, debe tener de 8 a 10 caracteres.";
+                                return "El número debe tener de 8 a 10 caracteres.";
                               }
                             }
                           })}
@@ -229,7 +229,7 @@ export default function CreateSupplier({
                             pattern: {
                               value: /^[A-ZÁÉÍÓÚÑ][a-záéíóúñ\s]*[a-záéíóúñ]$/,
                               message:
-                                "El nombre del proveedor debe tener la primera letra en mayúscula y solo letras."
+                                "La primera letra debe ser mayúscula y solo letras."
                             }
                           })}
                           type="text"
@@ -252,7 +252,7 @@ export default function CreateSupplier({
                             pattern: {
                               value: /^[A-ZÁÉÍÓÚÑ][a-záéíóúñ\s]*[a-záéíóúñ]$/,
                               message:
-                                "El nombre de la empresa debe tener la primera letra en mayúscula y solo letras."
+                                "La primera letra debe ser mayúscula y solo letras."
                             }
                           })}
                           type="text"
@@ -317,7 +317,7 @@ export default function CreateSupplier({
                             pattern: {
                               value: /^[A-ZÁÉÍÓÚÑ][a-záéíóúñ\s]*[a-záéíóúñ]$/,
                               message:
-                                "La ciudad debe tener la primera letra en mayúscula y solo letras."
+                                "La primera letra debe ser mayúscula y solo letras."
                             }
                           })}
                           type="text"
@@ -337,7 +337,7 @@ export default function CreateSupplier({
                         <button
                           className="btn btn-primary"
                           onClick={handleClose}
-                          type="submit"
+                          type="button"
                         >
                           Cancelar
                         </button>

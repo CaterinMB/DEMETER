@@ -13,8 +13,8 @@ import CreateSupplier from "../Components/CreateSupplier.jsx";
 import DeleteSupplier from "../Components/DeleteSupplier.jsx";
 
 function SupplierPage() {
-  const { supplier, getSupplier, deleteSupplier, updateSupplier, getSupplie } =
-    useSupplier();
+  const { supplier, getSupplier, deleteSupplier, updateSupplier, getSupplie , toggleSupplyStatus } = useSupplier();
+
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
@@ -24,6 +24,8 @@ function SupplierPage() {
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
+
+  const status = supplier.State ? "" : "desactivado";
 
   const filteredSuppliers = supplier.filter((supplierItem) => {
     const {
@@ -114,10 +116,12 @@ function SupplierPage() {
                               <td>{supplierItem.Phone}</td>
                               <td>{supplierItem.City}</td>
                               <td>{supplierItem.Email}</td>
-                              <td>{supplierItem.State}</td>
-
-                              <td>
+                              <td className={`${status}`}>
+                                {supplierItem.State ? "Habilitado" : "Deshabilitado"}
+                                </td>
+                              <td className="flex items-center">
                                 <CreateSupplier
+                                  disabled={!supplierItem.State}
                                   key={supplierItem.ID_Supplier}
                                   onDefaultSubmit={(event, setOpen) =>
                                     onUpdate(
@@ -145,12 +149,17 @@ function SupplierPage() {
                                   currentSupplier={supplierItem}
                                 />
                                 <button
-                                  type="button"
-                                  className="btn  btn-icon btn-success"
-                                >
-                                  <i data-feather="check-circle">
-                                    <MdToggleOn />
-                                  </i>
+                                   type="button"
+                                   className={`btn  btn-icon btn-success ${status}`}
+                             
+                                   onClick={() => toggleSupplyStatus(supplierItem.ID_Supplier)}
+                                 >
+                                   {supplierItem.State ? (
+                                     <MdToggleOn className={`estado-icon active${status}`} />
+                                   ) : (
+                                     <MdToggleOff className={`estado-icon inactive${status}`} />
+ 
+                                   )}
                                 </button>
                               </td>
                             </tr>
