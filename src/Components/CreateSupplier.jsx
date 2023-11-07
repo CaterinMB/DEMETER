@@ -19,18 +19,20 @@ const style = {
   pb: 3
 };
 
-
 export default function CreateSupplier({
   onDefaultSubmit = null,
   buttonProps = {
     buttonClass: "btn btn-primary",
-    buttonText: "Registrar",
-  }
+    buttonText: "Registrar"
+  },
+  onOpen = () => null
 }) {
   const {
     register,
     handleSubmit,
     setError,
+    reset,
+    setValue,
     formState: { errors, isValid }
   } = useForm();
   const { createSupplier, supplier } = useSupplier();
@@ -41,8 +43,6 @@ export default function CreateSupplier({
   const handleEdit = (supply) => {
     setSupplyToEdit(supply);
   };
-
-
 
   const onSubmit = handleSubmit(async (values) => {
     const isDocumentoDuplicate = supplier.some(
@@ -80,7 +80,6 @@ export default function CreateSupplier({
         message: "La nombre de la empresa ya existe."
       });
       return;
-
     }
 
     if (isPhoneDuplicate) {
@@ -92,12 +91,12 @@ export default function CreateSupplier({
     }
 
     createSupplier(values);
-
+    reset();
     setOpen(false);
   });
 
-
   const handleOpen = () => {
+    onOpen({ reset, setValue });
     setOpen(true);
   };
   const handleClose = () => {
@@ -106,7 +105,11 @@ export default function CreateSupplier({
 
   return (
     <React.Fragment>
-      <button type="button" class={buttonProps.buttonClass} onClick={handleOpen}>
+      <button
+        type="button"
+        className={buttonProps.buttonClass}
+        onClick={handleOpen}
+      >
         {buttonProps.buttonText}
       </button>
 
@@ -118,12 +121,12 @@ export default function CreateSupplier({
       >
         <Box sx={{ ...style, width: 600 }}>
           <div>
-            <div class="col-md-12">
-              <div class="card">
-                <div class="card-header">
+            <div className="col-md-12">
+              <div className="card">
+                <div className="card-header">
                   <h5>Registro de proveedores</h5>
                 </div>
-                <div class="card-body">
+                <div className="card-body">
                   {/* <script>
                 // Example starter JavaScript for disabling form submissions if there are invalid fields
                 (function() {
@@ -145,7 +148,7 @@ export default function CreateSupplier({
                 })();
             </script> */}
                   <form
-                    class="was-validated"
+                    className="was-validated"
                     onSubmit={(event) =>
                       typeof onDefaultSubmit === "function"
                         ? onDefaultSubmit(event, setOpen)
@@ -153,7 +156,7 @@ export default function CreateSupplier({
                     }
                   >
                     <div className="control">
-                      <div class="form-group col-md-6">
+                      <div className="form-group col-md-6">
                         <div className="mb-3">
                           <label
                             htmlFor="Type_Document"
@@ -180,13 +183,13 @@ export default function CreateSupplier({
                               {errors.Type_Document.message}
                             </p>
                           )}
-                          <div class="invalid-feedback">
+                          <div className="invalid-feedback">
                             Ingrese el tipo de documento
                           </div>
                         </div>
                       </div>
 
-                      <div class="form-group col-md-6">
+                      <div className="form-group col-md-6">
                         <label htmlFor="Document" className="form-label">
                           Documento
                         </label>
@@ -216,7 +219,7 @@ export default function CreateSupplier({
                     </div>
 
                     <div className="control">
-                      <div class="form-group col-md-6">
+                      <div className="form-group col-md-6">
                         <label htmlFor="Name_Supplier" className="form-label">
                           Nombre
                         </label>
@@ -239,7 +242,7 @@ export default function CreateSupplier({
                         )}
                       </div>
 
-                      <div class="form-group col-md-6">
+                      <div className="form-group col-md-6">
                         <label htmlFor="Name_Business" className="form-label">
                           Empresa
                         </label>
@@ -264,7 +267,7 @@ export default function CreateSupplier({
                     </div>
 
                     <div className="control">
-                      <div class="form-group col-md-6">
+                      <div className="form-group col-md-6">
                         <label htmlFor="Phone" className="form-label">
                           Teléfono
                         </label>
@@ -281,8 +284,7 @@ export default function CreateSupplier({
                         )}
                       </div>
 
-
-                      <div class="form-group col-md-6">
+                      <div className="form-group col-md-6">
                         <label htmlFor="Email" className="form-label">
                           Email
                         </label>
@@ -305,7 +307,7 @@ export default function CreateSupplier({
                     </div>
 
                     <div className="city">
-                      <div class="form-group col-md-6">
+                      <div className="form-group col-md-6">
                         <label htmlFor="City" className="form-label">
                           Ciudad
                         </label>
@@ -324,16 +326,16 @@ export default function CreateSupplier({
                       </div>
                     </div>
                     <div className="buttonconfirm">
-                      <div class="mb-3">
+                      <div className="mb-3">
                         <button
-                          class="btn btn-primary mr-5"
+                          className="btn btn-primary mr-5"
                           type="submit"
                           disabled={!isValid}
                         >
                           Confirmar
                         </button>
                         <button
-                          class="btn btn-primary"
+                          className="btn btn-primary"
                           onClick={handleClose}
                           type="submit"
                         >

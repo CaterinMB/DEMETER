@@ -47,25 +47,25 @@ function SuppliesPage() {
   };
 
   return (
-    <section class="pc-container">
-      <div class="pcoded-content">
-        <div class="row w-100">
-          <div class="col-md-12">
-            <div class=" w-100 col-sm-12">
-              <div class="card">
-                <div class="card-header">
+    <section className="pc-container">
+      <div className="pcoded-content">
+        <div className="row w-100">
+          <div className="col-md-12">
+            <div className=" w-100 col-sm-12">
+              <div className="card">
+                <div className="card-header">
                   <h5>Visualización de insumos</h5>
                 </div>
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-md-6">
+                <div className="card-body">
+                  <div className="row">
+                    <div className="col-md-6">
                       <CreateSupplies />
                     </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
+                    <div className="col-md-6">
+                      <div className="form-group">
                         <input
                           type="search"
-                          class="form-control"
+                          className="form-control"
                           id="exampleInputEmail1"
                           aria-describedby="emailHelp"
                           placeholder="Buscador"
@@ -76,9 +76,9 @@ function SuppliesPage() {
                     </div>
                   </div>
 
-                  <div class="card-body table-border-style">
-                    <div class="table-responsive">
-                      <table class="table table-hover">
+                  <div className="card-body table-border-style">
+                    <div className="table-responsive">
+                      <table className="table table-hover">
                         <thead>
                           <tr>
                             <th>Nombre</th>

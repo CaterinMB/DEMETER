@@ -43,7 +43,7 @@ export default function DeleteSupplies({
     <div>
       <button
         type="button"
-        class="btn  btn-icon btn-secondary"
+        className="btn  btn-icon btn-secondary"
         onClick={() => handleOpen()}
       >
         <i data-feather="camera">
