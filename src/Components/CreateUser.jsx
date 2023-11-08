@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import Box from "@mui/material/Box";
 import { useForm } from 'react-hook-form';
@@ -23,7 +23,7 @@ function CreateUser({ onClose, onCreated }) {
     const { register, handleSubmit, formState: { errors, isValid }, setError } = useForm();
     const { createUser, user } = useUser();
     const [selectedType, setSelectedType] = useState({ label: 'Seleccione tipo', value: '', isDisabled: true });
-    const { role } = useRole();
+    const { role, getRoles } = useRole();
     const [selectRole, setSelectRol] = useState({ label: 'Seleccionar Rol', value: '', isDisable: true });
 
     const typeOptions = [
@@ -32,6 +32,12 @@ function CreateUser({ onClose, onCreated }) {
         { label: 'Cédula de extranjería', value: 'CE' },
         { label: 'Pasaporte', value: 'PB' },
     ];
+
+    useEffect(() => {
+        getRoles(); // Obtener roles cuando el componente se monta
+        console.log('Roles Usuarios: ', getRoles)
+        console.log('Role: ', role)
+    }, []);
 
     const rolOpcions = role.map(option => ({ label: option.Name_Role, value: option.ID_Role }));
 

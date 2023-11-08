@@ -9,7 +9,7 @@ const style = {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 400,
+    width: 600,
     bgcolor: "background.paper",
     border: "2px solid #000",
     boxShadow: 24,
@@ -101,7 +101,7 @@ function CreateRole({ onClose, onCreated }) {
     };
 
     return (
-        <Box sx={{ ...style, width: 600 }}>
+        <Box sx={{ ...style, width: 700, height: 500 }}>
             <div>
                 <div className="col-md-12">
                     <div className="card">
