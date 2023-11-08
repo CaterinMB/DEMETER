@@ -4,11 +4,10 @@ import '../css/style.css'
 import '../css/landing.css'
 
 import { useRole } from '../Context/Role.context.jsx';
-// import CreateRole from '../Components/CreateRole.jsx';
+import CreateRole from '../Components/CreateRole.jsx';
 
 function RolePage() {
     const { role, getRoles, toggleRoleStatus } = useRole();
-    const [searchTerm, setSearchTerm] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {

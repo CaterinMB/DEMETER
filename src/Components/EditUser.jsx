@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import Box from "@mui/material/Box";
 import { useForm } from 'react-hook-form';
@@ -19,15 +19,14 @@ const style = {
     pb: 3
 };
 
-function CreateUser({ onClose, onCreated }) {
-    const { register, handleSubmit, formState: { errors, isValid }, setError } = useForm();
-    const { createUser, user } = useUser();
-    const [selectedType, setSelectedType] = useState({ label: 'Seleccione tipo', value: '', isDisabled: true });
+function EditUser({ onClose, userToEdit }) {
+    const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: userToEdit });
+    const { updateUser, user } = useUser();
+    const [selectedType, setSelectedType] = useState(userToEdit.Type_Document);
     const { role } = useRole();
-    const [selectRole, setSelectRol] = useState({ label: 'Seleccionar Rol', value: '', isDisable: true });
+    const [selectedRole, setSelectedRole] = useState(userToEdit.Role_ID);
 
     const typeOptions = [
-        { label: 'Seleccione tipo', value: '', isDisabled: true },
         { label: 'Cédula de ciudadanía', value: 'CC' },
         { label: 'Cédula de extranjería', value: 'CE' },
         { label: 'Pasaporte', value: 'PB' },
@@ -55,53 +54,49 @@ function CreateUser({ onClose, onCreated }) {
         }),
     };
 
+    useEffect(() => {
+        register('Document', {
+            required: 'El documento es obligatorio',
+            validate: (value) => {
+                const duplicateUser = user.find(
+                    (users) =>
+                        users.Document === value &&
+                        users.ID_User !== userToEdit.ID_User
+                );
+
+                if (duplicateUser) {
+                    return 'Este número de documento ya existe.';
+                }
+                return true;
+            },
+        });
+        register('Email', {
+            required: 'El correo es obligatorio',
+            validate: (value) => {
+                const duplicateEmail = user.find(
+                    (users) =>
+                        users.Email === value &&
+                        users.ID_User !== userToEdit.ID_User
+                );
+
+                if (duplicateEmail) {
+                    return 'Este correo ya existe.';
+                }
+                return true;
+            },
+        });
+    }, [register, user, userToEdit.ID_USUARIO]);
+
     const onSubmit = handleSubmit(async (values) => {
-        const isDocumentouplicate = user.some(waiters => waiters.Document === values.Document);
-        const isEmailDuplicate = user.some(users => users.Email === values.Email);
+        values.Type_Document = selectedType;
+        values.Role_ID = selectedRole;
 
-        if (isDocumentouplicate) {
-            setError('Document', {
-                type: 'manual',
-                message: 'El documento del usuario ya existe.'
-            });
-            return;
-        }
-
-        if (isEmailDuplicate) {
-            setError('Email', {
-                type: 'manual',
-                message: 'El correo del usuario ya existe.'
-            });
-            return;
-        }
-
-        if (!selectedType || selectedType.value === '') {
-            setError('Type_Document', {
-                type: 'manual',
-                message: 'Debe seleccionar un tipo de documento.'
-            });
-            return;
-        }
-
-        if (!selectRole || selectRole.value === '') {
-            setError('Role_ID', {
-                type: 'manual',
-                message: 'Debe seleccionar un rol.'
-            });
-            return;
-        }
-
-        values.Type_Document = selectedType.value;
-        values.Role_ID = selectRole.value;
-
-        createUser(values);
-        onCreated();
+        updateUser(userToEdit.ID_User, values);
         onClose();
     });
 
     const onCancel = () => {
         onClose();
-        console.log('Create user', role)
     };
 
     return (
@@ -110,7 +105,7 @@ function CreateUser({ onClose, onCreated }) {
                 <div className="col-md-12">
                     <div className="card">
                         <div className="card-header">
-                            <h5>Registro de empleado</h5>
+                            <h5>Editar un empleado</h5>
                         </div>
                         <div className="card-body">
                             <form onSubmit={onSubmit}>
@@ -122,9 +117,11 @@ function CreateUser({ onClose, onCreated }) {
                                             </label>
                                             <Select
                                                 options={typeOptions}
-                                                {...register("Type_Document")}
-                                                value={selectedType}
-                                                onChange={(selectedOption) => setSelectedType(selectedOption)}
+                                                {...register("Type_Document", {
+                                                    required: 'El tipo es obligatorio,',
+                                                })}
+                                                value={typeOptions.find(option => option.value === selectedType)}
+                                                onChange={(selectedOption) => setSelectedType(selectedOption.value)}
                                                 menuPlacement="auto"
                                                 menuShouldScrollIntoView={false}
                                                 maxMenuHeight={132}
@@ -248,40 +245,7 @@ function CreateUser({ onClose, onCreated }) {
                                             </p>
                                         )}
                                     </div>
-                                
-                                    <div className="form-group col-md-6">
-                                        <label htmlFor="Password" className="form-label">
-                                            Contraseña: <strong>*</strong>
-                                        </label>
-                                        <input
-                                            {...register("Password", {
-                                                required: 'La contraseña es obligatorio',
-                                                pattern: {
-                                                    value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W)(?=.*\w).*$/,
-                                                    message: 'La contraseña debe contener al menos una mayúscula, una minúscula, un número y un carácter especial.'
-                                                },
-                                                minLength: {
-                                                    value: 5,
-                                                    message: 'La contraseña debe tener al menos 5 caracteres'
-                                                },
-                                                maxLength: {
-                                                    value: 35,
-                                                    message: 'La contraseña no puede tener más de 35 caracteres'
-                                                }
-                                            })}
-                                            type="password"
-                                            placeholder='Contraseña'
-                                            className="form-control"
-                                        />
-                                        {errors.Password && (
-                                            <p className="text-red-500">
-                                                {errors.Password.message}
-                                            </p>
-                                        )}
-                                    </div>
-                                </div>
 
-                                <div className="control">
                                     <div className="form-group col-md-6">
                                         <label htmlFor="Role_ID" className="form-label">
                                             Rol: <strong>*</strong>
@@ -292,8 +256,8 @@ function CreateUser({ onClose, onCreated }) {
                                                 ...rolOpcions
                                             ]}
                                             {...register("Role_ID")}
-                                            value={rolOpcions}
-                                            onChange={(selectedOption) => setSelectRol(selectedOption)}
+                                            value={rolOpcions.find(option => option.value === selectedRole)}
+                                            onChange={(selectedRole) => setSelectedRole(selectedRole)}
                                             menuPlacement="auto"
                                             menuShouldScrollIntoView={false}
                                             maxMenuHeight={132}
@@ -320,7 +284,7 @@ function CreateUser({ onClose, onCreated }) {
                                             className="btn btn-primary mr-5"
                                             type="submit"
                                         >
-                                            Confirmar
+                                            Guardar
                                         </button>
                                         <button
                                             className="btn btn-primary"
@@ -340,4 +304,4 @@ function CreateUser({ onClose, onCreated }) {
     )
 }
 
-export default CreateUser
+export default EditUser

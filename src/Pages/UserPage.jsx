@@ -8,7 +8,7 @@ import "../css/landing.css";
 import { useRole } from "../Context/Role.context";
 import { useUser } from "../Context/User.context.jsx";
 import CreateUser from "../Components/CreateUser";
-// import EditUser from '../Components/EditUser';
+import EditUser from '../Components/EditUser';
 import DeleteUser from "../Components/DeleteUser";
 
 function UserPage() {
