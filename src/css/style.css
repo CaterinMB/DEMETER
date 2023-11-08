@@ -2243,7 +2243,7 @@ progress {
 .form-control {
     display: block;
     width: 100%;
-    padding: 0.575rem 1rem;
+    padding: 5px 10px;
     font-size: 0.875rem;
     font-weight: 400;
     line-height: 1.5;
@@ -4796,7 +4796,7 @@ fieldset:disabled .btn {
 
 .card-body {
     flex: 1 1 auto;
-    padding: 25px 25px;
+    padding: 5px 5px;
 }
 
 .card-title {
@@ -14928,7 +14928,7 @@ pre[class*="language-"]>code {
 .control {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 1px;
 }
 
 .city {
@@ -15740,7 +15740,7 @@ body:not(.minimenu) .pc-sidebar .pc-submenu .pc-submenu .pc-submenu>.pc-item:bef
 }
 
 .upgrade-card .card-body {
-    padding-bottom: 100px;
+    padding-bottom: 70px;
     z-index: 1;
     position: relative;
 }

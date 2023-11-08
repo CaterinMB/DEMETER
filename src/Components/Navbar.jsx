@@ -80,7 +80,7 @@ const Navbar = () => {
                                     </i>
                                 </span>
                                 <span className="pc-mtext">
-                                    Roles y permisos
+                                    Configuración
                                 </span>
                             </button>
                         </li>
@@ -127,26 +127,45 @@ const Navbar = () => {
                                     <li
                                         className="pc-item"
                                     >
-                                        <button onClick={() => { navigate('/category_supplies') }} className="pc-link"
+                                        <button
+                                            onClick={() => {
+                                                navigate('/category_supplies')
+                                            }}
+                                            className="pc-link"
                                         >
                                             Categria insumos
                                         </button>
                                     </li>
                                     <li
                                         className="pc-item">
-                                        <button onClick={() => { navigate('/supplies') }} className="pc-link">
+                                        <button
+                                            onClick={() => {
+                                                navigate('/supplies')
+                                            }}
+                                            className="pc-link"
+                                        >
                                             Insumos
                                         </button>
                                     </li>
                                     <li
                                         className="pc-item">
-                                        <button onClick={() => { navigate('/supplier') }} className="pc-link">
+                                        <button
+                                            onClick={() => {
+                                                navigate('/supplier')
+                                            }}
+                                            className="pc-link"
+                                        >
                                             Proveedores
                                         </button>
                                     </li>
                                     <li
                                         className="pc-item">
-                                        <button onClick={() => { navigate('/shopping') }} className="pc-link">
+                                        <button
+                                            onClick={() => {
+                                                navigate('/shopping')
+                                            }}
+                                            className="pc-link"
+                                        >
                                             Compras
                                         </button>
                                     </li>
@@ -175,25 +194,45 @@ const Navbar = () => {
                                 <ul className="pc-submenu">
                                     <li
                                         className="pc-item">
-                                        <button onClick={() => { navigate('/category_product') }} className="pc-link">
+                                        <button
+                                            onClick={() => {
+                                                navigate('/category_product')
+                                            }}
+                                            className="pc-link"
+                                        >
                                             Categoria producto
                                         </button>
                                     </li>
                                     <li
                                         className="pc-item">
-                                        <button onClick={() => { navigate('/product') }} className="pc-link">
+                                        <button
+                                            onClick={() => {
+                                                navigate('/product')
+                                            }}
+                                            className="pc-link"
+                                        >
                                             Producto
                                         </button>
                                     </li>
                                     <li
                                         className="pc-item">
-                                        <button onClick={() => { navigate('/waiter') }} className="pc-link">
+                                        <button
+                                            onClick={() => {
+                                                navigate('/waiter')
+                                            }}
+                                            className="pc-link"
+                                        >
                                             Meseros
                                         </button>
                                     </li>
                                     <li
                                         className="pc-item">
-                                        <button onClick={() => { navigate('/sale') }} className="pc-link">
+                                        <button
+                                            onClick={() => {
+                                                navigate('/sale')
+                                            }}
+                                            className="pc-link"
+                                        >
                                             Venta
                                         </button>
                                     </li>

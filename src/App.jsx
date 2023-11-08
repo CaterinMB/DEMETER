@@ -11,6 +11,7 @@ import { CategoryProducts } from './Context/CategoryProducts.context.jsx'
 
 // Pages
 import UserPage from './Pages/UserPage.jsx'
+import RolePage from './Pages/RolePage.jsx'
 import SupplierPage from './Pages/SupplierPage.jsx'
 import SuppliesPage from './Pages/SuppliesPage.jsx'
 import WaiterPage from './Pages/WaiterPage.jsx'
@@ -33,7 +34,7 @@ function App() {
                   <Header />
                   <Routes>
                     <Route path='/' element={<h3>DashBoard</h3>} />
-                    <Route path='/setting' element={<h3>Roles y permisos</h3>} />
+                    <Route path='/setting' element={<RolePage />} />
                     <Route path='/user' element={<UserPage />} />
                     <Route path='/category_supplies' element={<h3>Cateria insumo</h3>} />
                     <Route path='/supplies' element={<SuppliesPage />} />
@@ -41,7 +42,7 @@ function App() {
                     <Route path='/shopping' element={<h3>Compras</h3>} />
                     <Route path='/category_product' element={<h3>Categoria producto</h3>} />
                     <Route path='/product' element={<h3>Producto</h3>} />
-                    <Route path='/waiter' element={<h3>Meseros</h3>} />
+                    <Route path='/waiter' element={<WaiterPage />} />
                     <Route path='/sale' element={<h3>Venta</h3>} />
                   </Routes>
                 </Supplies>
