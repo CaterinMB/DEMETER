@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { useSupplier } from "../Context/Supplier.context";
 import { useForm } from "react-hook-form";
-
+import Button from "@mui/material/Button";
 
 const style = {
   position: "absolute",
@@ -19,18 +19,20 @@ const style = {
   pb: 3
 };
 
-
 export default function CreateSupplier({
   onDefaultSubmit = null,
   buttonProps = {
     buttonClass: "btn btn-primary",
-    buttonText: "Registrar",
-  }
+    buttonText: "Registrar"
+  },
+  onOpen = () => null
 }) {
   const {
     register,
     handleSubmit,
     setError,
+    reset,
+    setValue,
     formState: { errors, isValid }
   } = useForm();
   const { createSupplier, supplier } = useSupplier();
@@ -42,65 +44,59 @@ export default function CreateSupplier({
     setSupplyToEdit(supply);
   };
 
-
-
   const onSubmit = handleSubmit(async (values) => {
-    try{
-      const isDocumentoDuplicate = supplier.some(
-        (supplier) => supplier.Document === values.Document
-      );
-      const isEmailDuplicate = supplier.some(
-        (supplier) => supplier.Email === values.Email
-      );
-      const isBusinessDuplicate = supplier.some(
-        (supplier) => supplier.Name_Business === values.Name_Business
-      );
-      const isPhoneDuplicate = supplier.some(
-        (supplier) => supplier.Phone === values.Phone
-      );
-  
-      if (isDocumentoDuplicate) {
-        setError("Document", {
-          type: "manual",
-          message: "El documento del proveedor ya existe."
-        });
-        return;
-      }
-  
-      if (isEmailDuplicate) {
-        setError("Email", {
-          type: "manual",
-          message: "El correo del proveedor ya existe."
-        });
-        return;
-      }
-  
-      if (isBusinessDuplicate) {
-        setError("Name_Business", {
-          type: "manual",
-          message: "La nombre de la empresa ya existe."
-        });
-        return;
-  
-      }
-  
-      if (isPhoneDuplicate) {
-        setError("Phone", {
-          type: "manual",
-          message: "La teléfono del proveedor ya existe."
-        });
-        return;
-      }
-      
-    await createSupplier(values);
+    const isDocumentoDuplicate = supplier.some(
+      (supplier) => supplier.Document === values.Document
+    );
+    const isEmailDuplicate = supplier.some(
+      (supplier) => supplier.Email === values.Email
+    );
+    const isBusinessDuplicate = supplier.some(
+      (supplier) => supplier.Name_Business === values.Name_Business
+    );
+    const isPhoneDuplicate = supplier.some(
+      (supplier) => supplier.Phone === values.Phone
+    );
+
+    if (isDocumentoDuplicate) {
+      setError("Document", {
+        type: "manual",
+        message: "El documento del proveedor ya existe."
+      });
+      return;
+    }
+
+    if (isEmailDuplicate) {
+      setError("Email", {
+        type: "manual",
+        message: "El correo del proveedor ya existe."
+      });
+      return;
+    }
+
+    if (isBusinessDuplicate) {
+      setError("Name_Business", {
+        type: "manual",
+        message: "La nombre de la empresa ya existe."
+      });
+      return;
+    }
+
+    if (isPhoneDuplicate) {
+      setError("Phone", {
+        type: "manual",
+        message: "La teléfono del proveedor ya existe."
+      });
+      return;
+    }
+
+    createSupplier(values);
+    reset();
     setOpen(false);
-  } catch (error) {
-    console.error(error);
-
-  }});
-
+  });
 
   const handleOpen = () => {
+    onOpen({ reset, setValue });
     setOpen(true);
   };
   const handleClose = () => {
@@ -109,7 +105,11 @@ export default function CreateSupplier({
 
   return (
     <React.Fragment>
-      <button type="button" className={buttonProps.buttonClass} onClick={handleOpen}>
+      <button
+        type="button"
+        className={buttonProps.buttonClass}
+        onClick={handleOpen}
+      >
         {buttonProps.buttonText}
       </button>
 
@@ -203,7 +203,7 @@ export default function CreateSupplier({
                                 parsedValue < 10000000 ||
                                 parsedValue > 9999999999
                               ) {
-                                return "El número no es valido, debe tener de 8 a 10 caracteres.";
+                                return "El número debe tener de 8 a 10 caracteres.";
                               }
                             }
                           })}
@@ -229,7 +229,7 @@ export default function CreateSupplier({
                             pattern: {
                               value: /^[A-ZÁÉÍÓÚÑ][a-záéíóúñ\s]*[a-záéíóúñ]$/,
                               message:
-                                "La primera letra en mayúscula y solo letras."
+                                "La primera letra debe ser mayúscula y solo letras."
                             }
                           })}
                           type="text"
@@ -252,7 +252,7 @@ export default function CreateSupplier({
                             pattern: {
                               value: /^[A-ZÁÉÍÓÚÑ][a-záéíóúñ\s]*[a-záéíóúñ]$/,
                               message:
-                                "La primera letra en mayúscula y solo letras."
+                                "La primera letra debe ser mayúscula y solo letras."
                             }
                           })}
                           type="text"
@@ -274,7 +274,6 @@ export default function CreateSupplier({
                         <input
                           {...register("Phone", {
                             required: "El teléfono es requerido"
-                            
                           })}
                           type="number"
                           className="form-control"
@@ -284,7 +283,6 @@ export default function CreateSupplier({
                           <p className="text-red-500">{errors.Phone.message}</p>
                         )}
                       </div>
-
 
                       <div className="form-group col-md-6">
                         <label htmlFor="Email" className="form-label">
@@ -319,15 +317,12 @@ export default function CreateSupplier({
                             pattern: {
                               value: /^[A-ZÁÉÍÓÚÑ][a-záéíóúñ\s]*[a-záéíóúñ]$/,
                               message:
-                                "La ciudad debe tener la primera letra en mayúscula y solo letras."
+                                "La primera letra debe ser mayúscula y solo letras."
                             }
                           })}
                           type="text"
                           className="form-control"
                         />
-                         {errors.City && (
-                          <p className="text-red-500">{errors.City.message}</p>
-                        )}
                       </div>
                     </div>
                     <div className="buttonconfirm">
@@ -335,7 +330,7 @@ export default function CreateSupplier({
                         <button
                           className="btn btn-primary mr-5"
                           type="submit"
-                       
+                          disabled={!isValid}
                         >
                           Confirmar
                         </button>

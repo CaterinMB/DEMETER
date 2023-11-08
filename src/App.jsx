@@ -10,6 +10,9 @@ import { Supplier } from './Context/Supplier.context.jsx'
 import UserPage from './Pages/UserPage.jsx'
 import SupplierPage from './Pages/SupplierPage.jsx'
 import ShoppingPage from './Pages/ShoppingPage.jsx' 
+import Login from './Pages/Login.jsx'
+import ResetPassword from './Pages/ResetPassword.jsx'
+import NewPassword from './Pages/NewPassword.jsx'
 
 // Menu & Header
 import Navbar from './Components/Navbar.jsx'
