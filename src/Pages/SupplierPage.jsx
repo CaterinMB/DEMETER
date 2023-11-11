@@ -45,6 +45,7 @@ function SupplierPage() {
 
   const onUpdate = (event, id, modalView) => {
     event.preventDefault();
+    
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
 
@@ -147,13 +148,14 @@ function SupplierPage() {
                                 />
                                 <DeleteSupplier
                                   currentSupplier={supplierItem}
+                                  disabled={!supplierItem.State}
                                 />
                                 <button
                                    type="button"
                                    className={`btn  btn-icon btn-success ${status}`}
-                             
                                    onClick={() => toggleSupplyStatus(supplierItem.ID_Supplier)}
-                                 >
+                                  
+                                >
                                    {supplierItem.State ? (
                                      <MdToggleOn className={`estado-icon active${status}`} />
                                    ) : (
