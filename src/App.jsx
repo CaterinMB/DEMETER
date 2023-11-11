@@ -5,6 +5,7 @@ import './App.css'
 import { Role } from './Context/Role.context.jsx'
 import { User } from './Context/User.context.jsx'
 import { Supplier } from './Context/Supplier.context.jsx'
+import { ShoppingProvider } from './Context/Shopping.context.jsx'
 
 // Pages
 import UserPage from './Pages/UserPage.jsx'
@@ -24,6 +25,7 @@ function App() {
     <BrowserRouter>
       <Role>
         <User>
+        <ShoppingProvider>
           <Supplier>
             <Navbar />
             <Header />
@@ -40,7 +42,9 @@ function App() {
               <Route path='/waiter' element={<h3>Meseros</h3>} />
               <Route path='/sale' element={<h3>Venta</h3>} />
             </Routes>
+  
           </Supplier>
+          </ShoppingProvider>
         </User>
       </Role>
     </BrowserRouter>
