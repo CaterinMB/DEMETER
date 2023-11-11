@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { MdToggleOn, MdToggleOff } from "react-icons/md";
 import '../css/style.css'
 import '../css/landing.css'
@@ -10,7 +10,7 @@ function RolePage() {
     const { role, getRoles, toggleRoleStatus } = useRole();
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         getRoles();
     }, []);
 

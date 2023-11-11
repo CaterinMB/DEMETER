@@ -17,8 +17,8 @@ export const Role = ({ children }) => {
     const getRoles = async () => {
         try {
             const res = await getRolesRequest();
-            setRole(res.data)
-            console.log('Roles obtenidos context: ', res.data);
+            // setRole(res.data)
+            return res
         } catch (error) {
             console.log(error)
         }

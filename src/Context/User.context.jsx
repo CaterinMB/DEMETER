@@ -36,9 +36,10 @@ export const User = ({ children }) => {
     const createUser = async (user) => {
         try {
             const res = await createUserRequest(user);
+            console.log('crear user context: ', res)
             getUsers();
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
     }
 
