@@ -14,6 +14,7 @@ export const useUser = () => {
 
 export const User = ({ children }) => {
     const [user, setUser] = useState([]);
+    const [isAuthenticated, setisAuthenticated] = useState(false);
 
     const getUsers = async () => {
         try {
@@ -37,6 +38,7 @@ export const User = ({ children }) => {
         try {
             const res = await createUserRequest(user);
             getUsers();
+            setisAuthenticated(true);
         } catch (error) {
             console.log(error);
         }
@@ -109,6 +111,8 @@ export const User = ({ children }) => {
                 // ---------- Mesero ---------- //
                 getWaiters,
                 createWaiter,
+                //-------------login------------//
+                isAuthenticated
             }}
         >
             {children}

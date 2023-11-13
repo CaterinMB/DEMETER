@@ -41,6 +41,8 @@ function App() {
               <Route path='/product' element={<h3>Producto</h3>} />
               <Route path='/waiter' element={<h3>Meseros</h3>} />
               <Route path='/sale' element={<h3>Venta</h3>} />
+              <Route path='/login' element={<Login/>} />
+
             </Routes>
   
           </Supplier>
