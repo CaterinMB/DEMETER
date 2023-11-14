@@ -135,6 +135,13 @@ function UserPage() {
                                                             <td>{user.LastName_User}</td>
                                                             <td>{user.Email}</td>
                                                             <td>
+                                                                {user.SuppliesCategory_ID
+                                                                    ? role.find(
+                                                                        (category) =>
+                                                                            category.ID_SuppliesCategory ===
+                                                                            user.SuppliesCategory_ID
+                                                                    )?.Name_SuppliesCategory || ''
+                                                                    : ''}
                                                                 {roles && roles.Name_Role}
                                                                 {/* {user.Role_ID ? role.find((rol) => rol.ID_Role === user.Role_ID)?.Name_Role || '' : ''} */}
 

@@ -4,6 +4,7 @@ import Modal from '@mui/material/Modal';
 import { useSupplies } from '../Context/Supplies.context';
 import { useCategorySupplies } from '../Context/CategorySupplies.context';
 import { useForm } from 'react-hook-form';
+import Select from 'react-select';
 
 const style = {
   position: 'absolute',
@@ -31,16 +32,48 @@ function CreateSupplies({
     handleSubmit,
     setError,
     formState: { errors, isValid },
+    reset,
   } = useForm();
 
   const { createSupplies, supplies } = useSupplies();
-  // const { Category_supplies } = useCategorySupplies();
+  const { Category_supplies } = useCategorySupplies();
 
   const [open, setOpen] = useState(false);
+  const [selectedMeasure, setSelectedMeasure] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
+  const handleMeasureChange = (selectedOption) => {
+    setSelectedMeasure(selectedOption);
+  };
+
+  const handleCategoryChange = (selectedOption) => {
+    setSelectedCategory(selectedOption);
+  };
 
   const onSubmit = handleSubmit(async (values) => {
+    if (!selectedMeasure) {
+      setError('Measure', {
+        type: 'manual',
+        message: 'Debes seleccionar una medida.',
+      });
+      return;
+    }
+
+    if (!selectedCategory) {
+      setError('SuppliesCategory_ID', {
+        type: 'manual',
+        message: 'Debes seleccionar una categoría.',
+      });
+      return;
+    }
+    const dataToSend = {
+      ...values,
+      Measure: selectedMeasure.value,
+      SuppliesCategory_ID: selectedCategory.value,
+    };
+
     const isNameDuplicate = supplies.some(
-      (supply) => supply.Name_Supplies === values.Name_Supplies
+      (supply) => supply.Name_Supplies === dataToSend.Name_Supplies
     );
 
     if (isNameDuplicate) {
@@ -51,23 +84,7 @@ function CreateSupplies({
       return;
     }
 
-    if (!values.Measure || values.Measure === '') {
-      setError('Measure', {
-        type: 'manual',
-        message: 'Debes seleccionar una medida.',
-      });
-      return;
-    }
-
-    // if (!values.SuppliesCategory_ID || values.SuppliesCategory_ID === '') {
-    //   setError('SuppliesCategory_ID', {
-    //     type: 'manual',
-    //     message: 'Debes seleccionar una categoría.',
-    //   });
-    //   return;
-    // }
-
-    if (!values.Unit || isNaN(parseInt(values.Unit))) {
+    if (!dataToSend.Unit || isNaN(parseInt(dataToSend.Unit))) {
       setError('Unit', {
         type: 'manual',
         message: 'La cantidad es requerida y debe ser un número válido.',
@@ -76,8 +93,8 @@ function CreateSupplies({
     }
 
     if (
-      parseInt(values.Unit) < 0 ||
-      parseInt(values.Unit) > 9999999999
+      parseInt(dataToSend.Unit) < 0 ||
+      parseInt(dataToSend.Unit) > 999999
     ) {
       setError('Unit', {
         type: 'manual',
@@ -86,7 +103,7 @@ function CreateSupplies({
       return;
     }
 
-    if (!values.Stock || isNaN(parseInt(values.Stock))) {
+    if (!dataToSend.Stock || isNaN(parseInt(dataToSend.Stock))) {
       setError('Stock', {
         type: 'manual',
         message: 'El stock mínimo es requerido y debe ser un número válido.',
@@ -94,7 +111,7 @@ function CreateSupplies({
       return;
     }
 
-    if (parseInt(values.Stock) < 0 || parseInt(values.Stock) > 999) {
+    if (parseInt(dataToSend.Stock) < 0 || parseInt(dataToSend.Stock) > 999) {
       setError('Stock', {
         type: 'manual',
         message: 'El stock mínimo debe ser un número entero entre 0 y 999.',
@@ -102,20 +119,25 @@ function CreateSupplies({
       return;
     }
 
-    if (parseInt(values.Stock) > parseInt(values.Unit)) {
+    if (parseInt(dataToSend.Stock) > parseInt(dataToSend.Unit)) {
       setError('Stock', {
         type: 'manual',
-        message: `El stock mínimo no puede ser mayor que la cantidad de insumo (${values.Unit}).`,
+        message: `El stock mínimo no puede ser mayor que la cantidad de insumo (${dataToSend.Unit}).`,
       });
       return;
     }
 
-    createSupplies(values);
+    createSupplies(dataToSend);
     setOpen(false);
+    reset();
+    setSelectedMeasure(null);
+    setSelectedCategory(null);
   });
 
   const onCancel = () => {
     setOpen(false);
+    setSelectedMeasure(null);
+    setSelectedCategory(null);
   };
 
   return (
@@ -123,7 +145,10 @@ function CreateSupplies({
       <button
         type="button"
         className={buttonProps.buttonClass}
-        onClick={() => setOpen(true)}
+        onClick={() => {
+          reset();
+          setOpen(true);
+        }}
       >
         {buttonProps.buttonText}
       </button>
@@ -201,22 +226,17 @@ function CreateSupplies({
                       <label htmlFor="Measure" className="form-label">
                         Medida
                       </label>
-                      <select
-                        {...register('Measure', {
-                          required: 'La medida es requerida',
-                        })}
-                        className="form-select"
-                        required
-                      >
-                        <option value="" disabled>
-                          Selecciona una medida
-                        </option>
-                        <option value="Unidad(es)">Unidad(es)</option>
-                        <option value="Kilogramos (kg)">Kilogramos (kg)</option>
-                        <option value="Gramos (g)">Gramos (g)</option>
-                        <option value="Litros (L)">Litros (L)</option>
-                        <option value="Mililitros (ml)">Mililitros (ml)</option>
-                      </select>
+                      <Select
+                        options={[
+                          { value: 'Unidad(es)', label: 'Unidad(es)' },
+                          { value: 'Kilogramos (kg)', label: 'Kilogramos (kg)' },
+                          { value: 'Gramos (g)', label: 'Gramos (g)' },
+                          { value: 'Litros (L)', label: 'Litros (L)' },
+                          { value: 'Mililitros (ml)', label: 'Mililitros (ml)' },
+                        ]}
+                        value={selectedMeasure}
+                        onChange={handleMeasureChange}
+                      />
                       {errors.Measure && (
                         <p className="text-red-500">{errors.Measure.message}</p>
                       )}
@@ -256,30 +276,19 @@ function CreateSupplies({
                     </div>
                   </div>
 
-                  {/* <div className="control">
+                  <div className="city">
                     <div className="form-group col-md-6">
                       <label htmlFor="SuppliesCategory_ID" className="form-label">
                         Categoría
                       </label>
-                      <select
-                        {...register('SuppliesCategory_ID', {
-                          required: 'La categoría es requerida',
-                        })}
-                        className="form-select"
-                        required
-                      >
-                        <option value="" disabled>
-                          Selecciona una categoría
-                        </option>
-                        {Category_supplies.map((category) => (
-                          <option
-                            key={category.ID_SuppliesCategory}
-                            value={category.ID_SuppliesCategory}
-                          >
-                            {category.Name_SuppliesCategory}
-                          </option>
-                        ))}
-                      </select>
+                      <Select
+                        options={Category_supplies.map((category) => ({
+                          value: category.ID_SuppliesCategory,
+                          label: category.Name_SuppliesCategory,
+                        }))}
+                        value={selectedCategory}
+                        onChange={handleCategoryChange}
+                      />
                       {errors.SuppliesCategory_ID && (
                         <p className="text-red-500">
                           {errors.SuppliesCategory_ID.message}
@@ -287,14 +296,14 @@ function CreateSupplies({
                       )}
                       <div className="invalid-feedback">Ingrese la categoría</div>
                     </div>
-                  </div> */}
+                  </div>
 
                   <div className="buttonconfirm">
                     <div className="mb-3">
                       <button
                         className="btn btn-primary mr-5"
                         type="submit"
-                        disabled={!isValid}
+                        disabled={!isValid || !selectedMeasure || !selectedCategory}
                       >
                         Confirmar
                       </button>
