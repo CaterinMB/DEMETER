@@ -1,7 +1,7 @@
 import React from 'react'
 import logo from '../img/logo.png'
 import {AiOutlineMail} from 'react-icons/ai'
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import '../css/style.css'
 import '../css/landing.css'
 import '../fonts/cryptofont.css'
@@ -25,8 +25,13 @@ function ResetPassword() {
 							<input type="email" className="form-control" placeholder="Correo electrónico *"/>
 						</div>
 						
-						<button className="btn btn-block btn-primary mt-3 mr-3 " onclick="location.href='index.html'">Enviar</button>
-                        <Link  to="/login" className="btn btn-block btn-primary mt-3" onclick="location.href='index.html'">Cancelar</Link>
+						<button className="btn btn-block btn-primary mt-3 mr-3 " >Enviar</button>
+						<Link to="/">
+                        <button className="btn btn-block btn-primary mt-3">
+							Cancelar
+
+                        </button>
+                      </Link>
 						
 					</div>
 				</div>

@@ -136,7 +136,7 @@ export const User = ({ children }) => {
                 Cookies.remove("token");
                 setisAuthenticated(false);
                 setUser(null);
-                navigate('/login'); 
+                navigate('/'); 
             }
            
 

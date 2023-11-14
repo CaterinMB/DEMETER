@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useShoppingContext } from '../Context/Shopping.context';
+import { useSupplier } from "../Context/Supplier.context";
 import '../css/style.css'; 
 import "../css/landing.css";
 import { AiOutlineEye, AiFillDelete } from 'react-icons/ai'
@@ -8,18 +9,12 @@ import { BiEdit } from 'react-icons/bi'
 import users from '../img/users.png'
 
 function ShoppingPage() {
-    const { getOneShopping, shopping: Shopping, fetchGain, selectAction, CancelDet, disableShopping, getShoppingList } = useShoppingContext();
-  const [pageNumber, setPageNumber] = useState(0);
-  const [idShopping, setID] = useState();
+    const {  getOneShopping, shopping: Shopping, fetchGain, selectAction, CancelDet, disableShopping, getShoppingList } = useShoppingContext();
   const [searchTerm, setSearchTerm] = useState("");
-  const shoppingPerPage = 6;
-  const pagesVisited = pageNumber * shoppingPerPage;
-  const displayShopping = Shopping.slice(pagesVisited, pagesVisited + shoppingPerPage);
   const handlePageClick = ({ selected }) => {
     setPageNumber(selected);
   };
 
-  const pageCount = Math.ceil(Shopping.length / shoppingPerPage);
 
   useEffect(() => {
     getShoppingList();
@@ -53,7 +48,7 @@ function ShoppingPage() {
             <div className=" w-100 col-sm-12">
               <div className="card">
                 <div className="card-header">
-                  <h5>Visualización de proveedores</h5>
+                  <h5>Visualización de compras</h5>
                 </div>
                 <div className="card-body">
                   <div className="row">
@@ -93,7 +88,7 @@ function ShoppingPage() {
                           </tr>
                         </thead>
                         <tbody>
-                          {displayShopping.map((shoppingItem) => (
+                          {filteredShopping.map((shoppingItem) => (
                             <tr key={shoppingItem.ID_Shopping}>
                               <td>{shoppingItem.Datetime}</td>
                               {/* <td>{ID de proveedor}</td> */}
@@ -103,6 +98,7 @@ function ShoppingPage() {
                                 </td>
 
                               <td className="flex items-center">
+                                
                                 <button
                                   type="button"
                                   className={`btn  btn-icon btn-success ${status}`}
