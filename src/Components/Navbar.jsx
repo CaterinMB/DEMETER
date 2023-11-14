@@ -129,7 +129,7 @@ const Navbar = () => {
                                     >
                                         <button onClick={() => { navigate('/category_supplies') }} className="pc-link"
                                         >
-                                            Categria insumos
+                                            Categoria insumos
                                         </button>
                                     </li>
                                     <li

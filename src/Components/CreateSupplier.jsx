@@ -85,7 +85,7 @@ export default function CreateSupplier({
     if (isPhoneDuplicate) {
       setError("Phone", {
         type: "manual",
-        message: "La teléfono del proveedor ya existe."
+        message: "El teléfono del proveedor ya existe."
       });
       return;
     }

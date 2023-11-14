@@ -1,6 +1,9 @@
-import { createContext, useContext, useState } from 'react';
-import { getUsersRequest, getUserRequest, createUserRequest, statusUserRequest, updateUserRequest, deleteUserRequest } from '../Api/User.request.js'
+import { createContext, useContext, useEffect, useState } from 'react';
+import { getUsersRequest, getUserRequest, createUserRequest, statusUserRequest, updateUserRequest, deleteUserRequest, loginRequest, verifyTokenRequest } from '../Api/User.request.js'
 import { getWaitersRequest, createWaiterRequest } from '../Api/User.request.js';
+import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom'; 
+
 
 export const UserContext = createContext();
 
@@ -15,6 +18,10 @@ export const useUser = () => {
 export const User = ({ children }) => {
     const [user, setUser] = useState([]);
     const [isAuthenticated, setisAuthenticated] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const navigate = useNavigate(); 
+
+   
 
     const getUsers = async () => {
         try {
@@ -33,6 +40,7 @@ export const User = ({ children }) => {
             console.error(error);
         }
     }
+   
 
     const createUser = async (user) => {
         try {
@@ -78,6 +86,60 @@ export const User = ({ children }) => {
         }
     }
 
+     //-------------------------------------login----------------------------------------------//
+     const signin = async (userData) => {
+        try {
+            const res = await loginRequest(userData);
+            if (res && res.data) {
+                setisAuthenticated(true); // Establecer autenticación como verdadero
+                setUser(res.data); // Actualizar el estado del usuario en el contexto
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    
+        useEffect(()=> {
+            async function checkLogin() {
+                const cookies = Cookies.get()
+    
+                //comprueba si hay un token, si no hay uno entonces la autenticación es false
+                if (!cookies.token){
+                    setisAuthenticated(false);
+                    setLoading(false);
+                    return setUser(null);
+                }
+                //si hay un token, envialo al backend, si no responde ningún dato entonces envialo a false
+                //pero si sí hay uno entonces el usuario está autenticado y me muestra el usuario
+                  try{
+                    const res = await verifyTokenRequest(cookies.token)
+                    if (!res.data){
+                        setisAuthenticated(false);
+                        setLoading(false);
+                        return;
+                    }
+    
+                    setisAuthenticated(true);
+                    setUser(res.data);
+                    setLoading(false);
+                  }catch (error) {
+                    console.log(error);
+                    setisAuthenticated(false);
+                    setUser(null);
+                    setLoading(false);
+                }
+            }
+            checkLogin();
+            }, []);
+                
+            const logout = () =>{
+                Cookies.remove("token");
+                setisAuthenticated(false);
+                setUser(null);
+                navigate('/login'); 
+            }
+           
+
     // --------------------------- Mesero --------------------------- //
 
     const getWaiters = async () => {
@@ -112,7 +174,10 @@ export const User = ({ children }) => {
                 getWaiters,
                 createWaiter,
                 //-------------login------------//
-                isAuthenticated
+                isAuthenticated,
+                signin, 
+                loading,
+                logout
             }}
         >
             {children}

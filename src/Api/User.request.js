@@ -10,3 +10,8 @@ export const deleteUserRequest = (ID_User) => axios.delete(`/user/${ID_User}`);
 // --------------------------- Mesero --------------------------- //
 export const getWaitersRequest = () => axios.get(`waiter`);
 export const createWaiterRequest = (waiter) => axios.post(`/add_waiter`, waiter);
+
+//----------------------Login------------------------------//
+
+export const loginRequest = user => axios.post(`/login`, user)
+export const verifyTokenRequest = () => axios.get('/verifyToken')

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useShoppingContext } from '../Context/Shopping.context';
-import ReactPaginate from 'react-paginate';
 import '../css/style.css'; 
 import "../css/landing.css";
 import { AiOutlineEye, AiFillDelete } from 'react-icons/ai'
