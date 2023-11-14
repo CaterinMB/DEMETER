@@ -15,7 +15,7 @@ import ShoppingPage from './Pages/ShoppingPage.jsx'
 import Login from './Pages/Login.jsx'
 import ResetPassword from './Pages/ResetPassword.jsx'
 import NewPassword from './Pages/NewPassword.jsx'
-import newPurchase from './Pages/newPurchase.jsx'
+import NewPurchase from './Pages/newPurchase.jsx'
 
 // Menu & Header
 import Navbar from './Components/Navbar.jsx'
@@ -45,7 +45,7 @@ function App() {
               <Route path='/supplies' element={<h3>Insumos</h3>} />
               <Route path='/supplier' element={<SupplierPage />} />
               <Route path='/shopping' element={<ShoppingPage/>} />
-              <Route path='/shop' element={<newPurchase/>} />
+              <Route path='/shop' element={<NewPurchase/>} />
               <Route path='/category_product' element={<h3>Categoria producto</h3>} />
               <Route path='/product' element={<h3>Producto</h3>} />
               <Route path='/waiter' element={<h3>Meseros</h3>} />
