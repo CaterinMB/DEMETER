@@ -13,7 +13,7 @@ import CreateSupplier from "../Components/CreateSupplier.jsx";
 import DeleteSupplier from "../Components/DeleteSupplier.jsx";
 
 function SupplierPage() {
-  const { supplier, getSupplier, deleteSupplier, updateSupplier, getSupplie , toggleSupplyStatus } = useSupplier();
+  const { supplier, getSupplier, updateSupplier, getSupplie , toggleSupplyStatus } = useSupplier();
 
   const [searchTerm, setSearchTerm] = useState("");
 

@@ -9,6 +9,8 @@ import { useUser } from '../Context/User.context';
 const Header = () => {
 	const [showDropdown, setShowDropdown] = useState(false);
 	const {isAuthenticated, logout, user, getUsers } = useUser();
+
+	
 	
 	const navigate = useNavigate(); 
 
@@ -31,7 +33,7 @@ const Header = () => {
 		<div className="ml-auto">
 			<ul className="list-unstyled">
 				<li className="dropdown pc-h-item">
-					{isAuthenticated ? (
+				
 						<>
 							<button
 								className="pc-head-link dropdown-toggle arrow-none mr-0"
@@ -41,7 +43,7 @@ const Header = () => {
 								onClick={toggleDropdown}
 							>
 								<span>
-									<span className="user-name">{user && user.Name_User}</span>
+									<p className="user-name">Samuel Rios</p>
 									<span className="user-desc">Administrador</span>
 								</span>
 							</button>
@@ -68,7 +70,7 @@ const Header = () => {
 								</ul>
 							)}
 						</>
-					) : null}
+					
 				</li>
 			</ul>
 		</div>
