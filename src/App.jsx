@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import './App.css'
+import './index.css'
 
 //Context
 import { Role } from './Context/Role.context.jsx'
@@ -11,6 +11,7 @@ import { CategoryProducts } from './Context/CategoryProducts.context.jsx'
 
 // Pages
 import UserPage from './Pages/UserPage.jsx'
+import RolePage from './Pages/RolePage.jsx'
 import SupplierPage from './Pages/SupplierPage.jsx'
 import SuppliesPage from './Pages/SuppliesPage.jsx'
 import SuppliesCategoryPage from './Pages/SuppliesCategoryPage.jsx'
@@ -35,7 +36,7 @@ function App() {
                   <Header />
                   <Routes>
                     <Route path='/' element={<h3>DashBoard</h3>} />
-                    <Route path='/setting' element={<h3>Roles y permisos</h3>} />
+                    <Route path='/setting' element={<RolePage />} />
                     <Route path='/user' element={<UserPage />} />
                     <Route path='/category_supplies' element={<SuppliesCategoryPage />} />
                     <Route path='/supplies' element={<SuppliesPage />} />
@@ -43,7 +44,7 @@ function App() {
                     <Route path='/shopping' element={<h3>Compras</h3>} />
                     <Route path='/category_product' element={<ProductCategoryPage />} />
                     <Route path='/product' element={<h3>Producto</h3>} />
-                    <Route path='/waiter' element={<h3>Meseros</h3>} />
+                    <Route path='/waiter' element={<WaiterPage />} />
                     <Route path='/sale' element={<h3>Venta</h3>} />
                   </Routes>
                 </Supplies>

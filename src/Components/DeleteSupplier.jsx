@@ -43,11 +43,11 @@ export default function DeleteSupplier({
     <div>
       <button
         type="button"
-        class="btn  btn-icon btn-secondary"
+        className="btn  btn-icon btn-danger"
         onClick={() => handleOpen()}
       >
         <i data-feather="camera">
-          <AiFillDelete />{" "}
+        <AiFillDelete />{" "}
         </i>
       </button>
       <Modal
@@ -58,23 +58,22 @@ export default function DeleteSupplier({
       >
         <Box sx={style}>
           <div className="fixed inset-0 flex items-center justify-center">
-            <div className="modal-overlay" onClick={handleClose}></div>
 
-            <div className="modal-container bg-white p-6 rounded shadow-md text-center ">
+            <div className=" p-6 rounded shadow-md text-end ">
               <h1 className="text-3xl font-semibold ">Confirmar eliminación</h1>
               <p className="deleteText">
                 ¿Estás seguro de que deseas eliminar este proveedor?
               </p>
-              <div className="flex justify-between">
+              <div >
                 <button
                   onClick={confirmDelete}
-                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-5 "
+                  className="bg-red-500 text-white font-bold py-2 px-4 rounded ml-5 mt-5  "
                 >
                   Eliminar
                 </button>
                 <button
                   onClick={handleClose}
-                  className="bg-gray-300 hover:bg-gray-400 text-gray-700 font-bold py-2 px-4 rounded"
+                  className="bg-gray-300 hover:bg-gray-400 text-gray-700 font-bold py-2 px-4 rounded m-3"
                 >
                   Cancelar
                 </button>
