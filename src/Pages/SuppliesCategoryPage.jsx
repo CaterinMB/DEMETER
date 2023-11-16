@@ -2,52 +2,67 @@ import React, { useState, useEffect } from "react";
 import { BiEdit } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
 import { MdToggleOn, MdToggleOff } from "react-icons/md";
-import { useSupplies } from "../Context/Supplies.context.jsx";
 import { useCategorySupplies } from '../Context/CategorySupplies.context.jsx';
-import CreateSupplies from "../Components/CreateSupplies.jsx";
-import UpdateSupplies from "../Components/UpdateSupplies.jsx";
-import DeleteSupplies from "../Components/DeleteSupplies.jsx";
+import { useSupplies } from "../Context/Supplies.context.jsx";
+import CreateSuppliesCategory from "../Components/CreateSuppliesCategory.jsx";
+import UpdateSuppliesCategory from "../Components/UpdateSuppliesCategory.jsx";
+import DeleteSuppliesCategory from "../Components/DeleteSupplies.jsx";
+import CannotDeleteCategory from "../Components/CannotDeleteSuppliesCategory.jsx";
 import "../css/style.css";
 import "../css/landing.css";
 
-function SuppliesPage() {
-  const { supplies, getSupplies, deleteSupplies, toggleSupplyStatus } = useSupplies();
-  const { Category_supplies } = useCategorySupplies();
+function SuppliesCategoryPage() {
+  const { Category_supplies, getCategory_supplies, deleteCategory_supplies, toggleCategorySupplyStatus } = useCategorySupplies();
+  const { supplies, getSupplies } = useSupplies();
   const [searchTerm, setSearchTerm] = useState("");
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [selectedSupplyToDelete, setSelectedSupplyToDelete] = useState(null);
-  const [selectedSupplyToUpdate, setSelectedSupplyToUpdate] = useState(null);
+  const [selectedSupplyCategoryToDelete, setSelectedSupplyCategoryToDelete] = useState(null);
+  const [selectedSupplyCategoryToUpdate, setSelectedSupplyCategoryToUpdate] = useState(null);
+  const [showWarning, setShowWarning] = useState(false);
 
   useEffect(() => {
+    getCategory_supplies();
     getSupplies();
   }, []);
+
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  const filteredSupplies = supplies.filter((supply) => {
+  const filteredSuppliesCategory = Category_supplies.filter((suppliesCategory) => {
     const {
-      Name_Supplies,
-    } = supply;
+      Name_SuppliesCategory,
+    } = suppliesCategory;
     const searchString =
-      `${Name_Supplies}`.toLowerCase();
+      `${Name_SuppliesCategory}`.toLowerCase();
     return searchString.includes(searchTerm.toLowerCase());
   });
 
-  const handleDelete = (supply) => {
-    setSelectedSupplyToDelete(supply);
-    setDeleteModalOpen(true);
-  };
+  const handleDelete = async (supplyCategory) => {
+    const categoryID = supplyCategory.ID_SuppliesCategory;
 
+    const suppliesInCategory = supplies.filter((supply) => supply.SuppliesCategory_ID === categoryID);
+
+    if (suppliesInCategory.length > 0) {
+      setShowWarning(true);
+      //setDeleteModalOpen(false);
+    } else {
+      setShowWarning(false);
+      setSelectedSupplyCategoryToDelete(supplyCategory);
+      setDeleteModalOpen(true);
+    }
+  };
   const closeDeleteModal = () => {
     setDeleteModalOpen(false);
-    setSelectedSupplyToDelete(null);
+    setSelectedSupplyCategoryToDelete(null);
+    setShowWarning(false);
   };
 
-  const handleUpdateSupply = (supply) => {
-    setSelectedSupplyToUpdate(supply);
+  const handleUpdateSupplyCategory = (supplyCategory) => {
+    setSelectedSupplyCategoryToUpdate(supplyCategory);
   };
+
 
   return (
     <section className="pc-container">
@@ -57,12 +72,12 @@ function SuppliesPage() {
             <div className=" w-100 col-sm-12">
               <div className="card">
                 <div className="card-header">
-                  <h5>Visualización de insumos</h5>
+                  <h5>Visualización de categoría de insumos</h5>
                 </div>
                 <div className="card-body">
                   <div className="row">
                     <div className="col-md-6">
-                      <CreateSupplies />
+                      <CreateSuppliesCategory />
                     </div>
                     <div className="col-md-6">
                       <div className="form-group">
@@ -85,55 +100,39 @@ function SuppliesPage() {
                         <thead>
                           <tr>
                             <th>Nombre</th>
-                            <th>Cantidad</th>
-                            <th>Medida</th>
-                            <th>Existencias</th>
-                            <th>Categoria</th>
                             <th>Estado</th>
                             <th>Acciones</th>
                           </tr>
                         </thead>
                         <tbody>
-                          {filteredSupplies.map((supply) => (
-                            <tr key={supply.ID_Supplies}>
-                              <td>{supply.Name_Supplies}</td>
-                              <td>{supply.Unit}</td>
-                              <td>{supply.Measure}</td>
-                              <td>{supply.Stock}</td>
-                              <td>
-                                {supply.SuppliesCategory_ID
-                                  ? Category_supplies.find(
-                                    (category) =>
-                                      category.ID_SuppliesCategory ===
-                                      supply.SuppliesCategory_ID
-                                  )?.Name_SuppliesCategory || ''
-                                  : ''}
-                              </td>
-                              <td>{supply.State ? 'Habilitado' : 'Deshabilitado'}</td>
+                          {filteredSuppliesCategory.map((suppliesCategory) => (
+                            <tr key={suppliesCategory.ID_SuppliesCategory}>
+                              <td>{suppliesCategory.Name_SuppliesCategory}</td>
+                              <td>{suppliesCategory.State ? 'Habilitado' : 'Deshabilitado'}</td>
                               <td>
                                 <div style={{ display: "flex", alignItems: "center" }}>
-                                  <UpdateSupplies
+                                  <UpdateSuppliesCategory
                                     buttonProps={{
-                                      buttonClass: `btn btn-icon btn-primary ${!supply.State ? "text-gray-400 cursor-not-allowed" : ""}`,
-                                      isDisabled: !supply.State,
+                                      buttonClass: `btn btn-icon btn-primary ${!suppliesCategory.State ? "text-gray-400 cursor-not-allowed" : ""}`,
+                                      isDisabled: !suppliesCategory.State,
                                       buttonText: <BiEdit />,
                                     }}
-                                    supplyToEdit={supply}
-                                    onUpdate={handleUpdateSupply}
+                                    supplyCategoryToEdit={suppliesCategory}
+                                    onUpdate={handleUpdateSupplyCategory}
                                   />
                                   <button
-                                    onClick={() => handleDelete(supply)}
-                                    className={`btn btn-icon btn-danger ${!supply.State ? "text-gray-400 cursor-not-allowed" : ""}`}
-                                    disabled={!supply.State}
+                                    onClick={() => handleDelete(suppliesCategory)}
+                                    className={`btn btn-icon btn-danger ${!suppliesCategory.State ? "text-gray-400 cursor-not-allowed" : ""}`}
+                                    disabled={!suppliesCategory.State}
                                   >
                                     <AiFillDelete />
                                   </button>
                                   <button
                                     type="button"
-                                    className={`btn btn-icon btn-success ${supply.State ? "active" : "inactive"}`}
-                                    onClick={() => toggleSupplyStatus(supply.ID_Supplies)}
+                                    className={`btn btn-icon btn-success ${suppliesCategory.State ? "active" : "inactive"}`}
+                                    onClick={() => toggleCategorySupplyStatus(suppliesCategory.ID_SuppliesCategory)}
                                   >
-                                    {supply.State ? (
+                                    {suppliesCategory.State ? (
                                       <MdToggleOn className={`estado-icon active`} />
                                     ) : (
                                       <MdToggleOff className={`estado-icon inactive`} />
@@ -155,22 +154,28 @@ function SuppliesPage() {
       </div>
 
       {isDeleteModalOpen && (
-        <DeleteSupplies
+        <DeleteSuppliesCategory
           onClose={closeDeleteModal}
           onDelete={() => {
-            if (selectedSupplyToDelete) {
-              deleteSupplies(selectedSupplyToDelete.ID_Supplies);
+            if (selectedSupplyCategoryToDelete) {
+              deleteCategory_supplies(selectedSupplyCategoryToDelete.ID_SuppliesCategory);
               closeDeleteModal();
             }
           }}
         />
       )}
 
-      {selectedSupplyToUpdate && (
-        <UpdateSupplies
-          supplyToEdit={selectedSupplyToUpdate}
+      {showWarning && (
+        <CannotDeleteCategory
+          onClose={closeDeleteModal}
+        />
+      )}
+
+      {selectedSupplyCategoryToUpdate && (
+        <UpdateSuppliesCategory
+          supplyCategoryToEdit={selectedSupplyCategoryToUpdate}
           onUpdate={() => {
-            setSelectedSupplyToUpdate(null);
+            setSelectedSupplyCategoryToUpdate(null);
           }}
         />
       )}
@@ -178,4 +183,4 @@ function SuppliesPage() {
   );
 }
 
-export default SuppliesPage;
+export default SuppliesCategoryPage;
