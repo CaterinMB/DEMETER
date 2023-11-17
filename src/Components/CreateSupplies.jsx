@@ -20,6 +20,25 @@ const style = {
   pb: 3,
 };
 
+const customStyles = {
+  control: (provided, state) => ({
+    ...provided,
+    '&:hover': {
+      border: state.isFocused ? '1px solid #e36209' : '1px solid #ced4da',
+    },
+  }),
+  option: (provided, state) => ({
+    ...provided,
+    backgroundColor: state.isSelected ? '#e36209' : state.isFocused ? '#e36209' : 'white',
+    color: state.isSelected ? 'white' : state.isFocused ? '#555' : '#201E1E',
+    '&:hover': {
+      backgroundColor: '#e36209',
+      color: 'white',
+    },
+    cursor: state.isDisabled ? 'not-allowed' : 'default',
+  }),
+};
+
 function CreateSupplies({
   onDefaultSubmit = null,
   buttonProps = {
@@ -167,7 +186,6 @@ function CreateSupplies({
               </div>
               <div className="card-body">
                 <form
-                  className="was-validated"
                   onSubmit={(event) =>
                     typeof onDefaultSubmit === 'function'
                       ? onDefaultSubmit(event, setOpen)
@@ -236,6 +254,15 @@ function CreateSupplies({
                         ]}
                         value={selectedMeasure}
                         onChange={handleMeasureChange}
+                        styles={customStyles}
+                        className="form-selects"
+                        theme={(theme) => ({
+                          ...theme,
+                          colors: {
+                            ...theme.colors,
+                            primary: '#e36209',
+                          },
+                        })}
                       />
                       {errors.Measure && (
                         <p className="text-red-500">{errors.Measure.message}</p>
@@ -288,6 +315,15 @@ function CreateSupplies({
                         }))}
                         value={selectedCategory}
                         onChange={handleCategoryChange}
+                        styles={customStyles}
+                        className="form-selects"
+                        theme={(theme) => ({
+                          ...theme,
+                          colors: {
+                            ...theme.colors,
+                            primary: '#e36209',
+                          },
+                        })}
                       />
                       {errors.SuppliesCategory_ID && (
                         <p className="text-red-500">

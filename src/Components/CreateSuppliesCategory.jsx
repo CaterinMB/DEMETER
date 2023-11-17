@@ -81,7 +81,6 @@ const {
                             </div>
                             <div className="card-body">
                                 <form
-                                    className="was-validated"
                                     onSubmit={(event) =>
                                         typeof onDefaultSubmit === 'function'
                                             ? onDefaultSubmit(event, setOpen)

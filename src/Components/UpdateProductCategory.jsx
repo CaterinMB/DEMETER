@@ -87,7 +87,6 @@ function UpdateProductCategory({
                             </div>
                             <div className="card-body">
                                 <form
-                                    className="was-validated"
                                     onSubmit={(event) => onSubmit(event)}
                                 >
                                     <div className="city">

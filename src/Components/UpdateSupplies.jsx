@@ -8,103 +8,122 @@ import { useForm } from 'react-hook-form';
 import Select from 'react-select';
 
 const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  pt: 2,
-  px: 4,
-  pb: 3,
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    pt: 2,
+    px: 4,
+    pb: 3,
+};
+
+const customStyles = {
+    control: (provided, state) => ({
+        ...provided,
+        '&:hover': {
+            border: state.isFocused ? '1px solid #e36209' : '1px solid #ced4da',
+        },
+    }),
+    option: (provided, state) => ({
+        ...provided,
+        backgroundColor: state.isSelected ? '#e36209' : state.isFocused ? '#e36209' : 'white',
+        color: state.isSelected ? 'white' : state.isFocused ? '#555' : '#201E1E',
+        '&:hover': {
+            backgroundColor: '#e36209',
+            color: 'white',
+        },
+        cursor: state.isDisabled ? 'not-allowed' : 'default',
+    }),
 };
 
 function UpdateSupplies({
-  buttonProps = {
-    buttonClass: 'btn btn-primary',
-    buttonText: <BiEdit />,
-    isDisabled: false,
-  },
-  supplyToEdit = null,
+    buttonProps = {
+        buttonClass: 'btn btn-primary',
+        buttonText: <BiEdit />,
+        isDisabled: false,
+    },
+    supplyToEdit = null,
 }) {
-  const { Category_supplies } = useCategorySupplies();
-  const { updateSupplies } = useSupplies(); 
-  const [open, setOpen] = useState(false);
-  const [selectedMeasure, setSelectedMeasure] = useState(null);
-  const [selectedCategory, setSelectedCategory] = useState(null);
+    const { Category_supplies } = useCategorySupplies();
+    const { updateSupplies } = useSupplies();
+    const [open, setOpen] = useState(false);
+    const [selectedMeasure, setSelectedMeasure] = useState(null);
+    const [selectedCategory, setSelectedCategory] = useState(null);
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors, isValid },
-  } = useForm();
+    const {
+        register,
+        handleSubmit,
+        setValue,
+        formState: { errors, isValid },
+    } = useForm();
 
-  useEffect(() => {
-    if (supplyToEdit) {
-      setValue('Name_Supplies', supplyToEdit.Name_Supplies);
-      setValue('Unit', supplyToEdit.Unit);
-      setValue('Stock', supplyToEdit.Stock);
+    useEffect(() => {
+        if (supplyToEdit) {
+            setValue('Name_Supplies', supplyToEdit.Name_Supplies);
+            setValue('Unit', supplyToEdit.Unit);
+            setValue('Stock', supplyToEdit.Stock);
 
-      setSelectedMeasure({
-        value: supplyToEdit.Measure,
-        label: supplyToEdit.Measure,
-      });
+            setSelectedMeasure({
+                value: supplyToEdit.Measure,
+                label: supplyToEdit.Measure,
+            });
 
-      const category = Category_supplies.find(
-        (cat) => cat.ID_SuppliesCategory === supplyToEdit.SuppliesCategory_ID
-      );
-      if (category) {
-        setSelectedCategory({
-          value: category.ID_SuppliesCategory,
-          label: category.Name_SuppliesCategory,
-        });
-      }
-    }
-  }, [supplyToEdit, Category_supplies]);
+            const category = Category_supplies.find(
+                (cat) => cat.ID_SuppliesCategory === supplyToEdit.SuppliesCategory_ID
+            );
+            if (category) {
+                setSelectedCategory({
+                    value: category.ID_SuppliesCategory,
+                    label: category.Name_SuppliesCategory,
+                });
+            }
+        }
+    }, [supplyToEdit, Category_supplies]);
 
-  const handleMeasureChange = (selectedOption) => {
-    setSelectedMeasure(selectedOption);
-  };
+    const handleMeasureChange = (selectedOption) => {
+        setSelectedMeasure(selectedOption);
+    };
 
-  const onSubmit = handleSubmit(async (values) => {
-    if (supplyToEdit) {
-      const supplie = { ...supplyToEdit, ...values };
-      supplie.Measure = selectedMeasure.value;
-      try {
-        await updateSupplies(supplie.ID_Supplies, supplie);
+    const onSubmit = handleSubmit(async (values) => {
+        if (supplyToEdit) {
+            const supplie = { ...supplyToEdit, ...values };
+            supplie.Measure = selectedMeasure.value;
+            try {
+                await updateSupplies(supplie.ID_Supplies, supplie);
+                setOpen(false);
+            } catch (error) {
+                console.error('Error al actualizar el suministro', error);
+            }
+        }
+    });
+
+    const onCancel = () => {
         setOpen(false);
-      } catch (error) {
-        console.error('Error al actualizar el suministro', error);
-      }
-    }
-  });
+    };
 
-  const onCancel = () => {
-    setOpen(false);
-  };
+    return (
+        <React.Fragment>
+            <button
+                type="button"
+                className={buttonProps.buttonClass}
+                onClick={() => {
+                    setOpen(true);
+                }}
+                disabled={buttonProps.isDisabled}
+            >
+                {buttonProps.buttonText}
+            </button>
 
-  return (
-    <React.Fragment>
-      <button
-        type="button"
-        className={buttonProps.buttonClass}
-        onClick={() => {
-          setOpen(true);
-        }}
-        disabled={buttonProps.isDisabled}
-      >
-        {buttonProps.buttonText}
-      </button>
-
-      <Modal
-        open={open}
-        onClose={onCancel}
-        aria-labelledby="child-modal-title"
-        aria-describedby="child-modal-description"
-      >
+            <Modal
+                open={open}
+                onClose={onCancel}
+                aria-labelledby="child-modal-title"
+                aria-describedby="child-modal-description"
+            >
                 <Box sx={{ ...style, width: 600 }}>
                     <div className="col-md-12">
                         <div className="card">
@@ -113,7 +132,6 @@ function UpdateSupplies({
                             </div>
                             <div className="card-body">
                                 <form
-                                    className="was-validated"
                                     onSubmit={(event) => onSubmit(event)}
                                 >
                                     <div className="control">
@@ -180,6 +198,15 @@ function UpdateSupplies({
                                                 ]}
                                                 value={selectedMeasure}
                                                 onChange={handleMeasureChange}
+                                                styles={customStyles}
+                                                className="form-selects"
+                                                theme={(theme) => ({
+                                                    ...theme,
+                                                    colors: {
+                                                        ...theme.colors,
+                                                        primary: '#e36209',
+                                                    },
+                                                })}
                                             />
                                             {errors.Measure && (
                                                 <p className="text-red-500">{errors.Measure.message}</p>
@@ -236,6 +263,15 @@ function UpdateSupplies({
                                                     setSelectedCategory(selectedOption);
                                                     setValue('SuppliesCategory_ID', selectedOption.value);
                                                 }}
+                                                styles={customStyles}
+                                                className="form-selects"
+                                                theme={(theme) => ({
+                                                    ...theme,
+                                                    colors: {
+                                                        ...theme.colors,
+                                                        primary: '#e36209',
+                                                    },  
+                                                })}
                                             />
                                             {errors.SuppliesCategory_ID && (
                                                 <p className="text-red-500">

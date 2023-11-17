@@ -2242,7 +2242,7 @@ progress {
 
 .form-control {
     display: block;
-    width: 100%;
+    width: 80%;
     padding: 5px 10px;
     font-size: 0.875rem;
     font-weight: 400;
@@ -2256,6 +2256,12 @@ progress {
     appearance: none;
     border-radius: 4px;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-selects {
+    width: 80%;
+    border: 1px solid #ced4da;
+    border-radius: 5px;   
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -14929,11 +14935,13 @@ pre[class*="language-"]>code {
     display: flex;
     align-items: center;
     gap: 1px;
+    margin-left: 40px;
 }
 
 .city {
     display: flex;
     justify-content: center;
+    margin-left: 40px;
 }
 
 .pc-sidebar .pc-caption span:not(.badge) {
