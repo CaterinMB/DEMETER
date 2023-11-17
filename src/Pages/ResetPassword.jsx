@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import logo from '../img/logo.png'
 import {AiOutlineMail} from 'react-icons/ai'
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { useUser } from '../Context/User.context';
 import '../css/style.css'
 import '../css/landing.css'
 import '../fonts/cryptofont.css'
@@ -12,6 +13,8 @@ import '../fonts//material.css'
 
 function ResetPassword() {
 	const {register, handleSubmit, formState:{errors}} = useForm();
+	const [Email, setEmail] = useUser();
+	
 
 	const onSubmit = handleSubmit(data=>{
 		signin(data)
@@ -33,7 +36,6 @@ function ResetPassword() {
 						<div className="input-group mb-3">
 							<span className="input-group-text"><i data-feather="mail"><AiOutlineMail/></i></span>
 							<input
-
 					 		type="email"
 					 		className="form-control"
 					  		placeholder="Correo electrónico *"

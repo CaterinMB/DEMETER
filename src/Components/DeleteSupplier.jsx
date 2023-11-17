@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { useSupplier } from "../Context/Supplier.context";
 import { AiFillDelete } from "react-icons/ai";

@@ -57,6 +57,11 @@ File: style.css
     }
 }
 
+.button{
+    display: flex;
+    justify-content: center;
+}
+
 body {
     margin: 0;
     font-family: "Inter", sans-serif;

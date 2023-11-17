@@ -4,9 +4,8 @@ import { useShoppingContext } from '../Context/Shopping.context';
 import { useSupplier } from "../Context/Supplier.context";
 import '../css/style.css'; 
 import "../css/landing.css";
-import { AiOutlineEye, AiFillDelete } from 'react-icons/ai'
-import { BiEdit } from 'react-icons/bi'
-import users from '../img/users.png'
+
+
 
 function ShoppingPage() {
     const {  getOneShopping, shopping: Shopping, fetchGain, selectAction, CancelDet, disableShopping, getShoppingList } = useShoppingContext();
