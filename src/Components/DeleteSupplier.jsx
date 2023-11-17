@@ -22,7 +22,8 @@ const style = {
 export default function DeleteSupplier({
   currentSupplier = {
     ID_Supplier: null
-  }
+  },
+  ...buttonParams
 }) {
   const [open, setOpen] = React.useState(false);
   const { deleteSupplier } = useSupplier();
@@ -66,6 +67,7 @@ export default function DeleteSupplier({
                 <button
                   onClick={confirmDelete}
                   className="bg-red-500 text-white font-bold py-2 px-4 rounded ml-5 mt-5  "
+                  {...buttonParams}
                 >
                   Eliminar
                 </button>

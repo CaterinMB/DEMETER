@@ -148,7 +148,6 @@ function SupplierPage() {
                                 />
                                 <DeleteSupplier
                                   currentSupplier={supplierItem}
-                                  disabled={!supplierItem.State}
                                 />
                                 <button
                                    type="button"

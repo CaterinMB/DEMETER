@@ -13,9 +13,6 @@ import '../fonts//material.css'
 
 function ResetPassword() {
 	const {register, handleSubmit, formState:{errors}} = useForm();
-	const [Email, setEmail] = useUser();
-	
-
 	const onSubmit = handleSubmit(data=>{
 		signin(data)
 	})
