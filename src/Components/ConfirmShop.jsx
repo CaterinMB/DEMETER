@@ -17,14 +17,15 @@ const style = {
   p: 4,
 };
 
-function CancelShop() {
+
+function ConfirmShop() {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-  
+
   return (
-    <div>
-    <button className="btn btn-primary" onClick={handleOpen}>Cancelar</button>
+   <div>
+    <button className="btn btn-primary" onClick={handleOpen}>Confirmar</button>
     <Modal
       open={open}
       onClose={handleClose}
@@ -33,18 +34,15 @@ function CancelShop() {
     >
       <Box sx={style}>
         <Typography className="text-center" id="modal-modal-title" variant="h6" component="h2">
-           ¿Estas seguro de cancelar la compra? 
+           ¿Estas seguro de confirmar la compra? 
          
-        </Typography>
-        <Typography className="text-center" id="modal-modal-description" sx={{ mt: 2 }}>
-        Perderas todo el progreso
-       
         </Typography>
         	<Link to="/shopping">
             <button className="bg-red-500 text-white font-bold py-2 px-4 rounded ml-5 mt-3 ">
              Confirmar
             </button>
              </Link>
+      
 
                 <button onClick={handleClose} className="bg-gray-300 hover:bg-gray-400 text-gray-700 font-bold py-2 px-4 rounded m-3 j">
                   Cancelar
@@ -55,4 +53,4 @@ function CancelShop() {
   )
 }
 
-export default CancelShop
+export default ConfirmShop

@@ -74,6 +74,53 @@ body {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
+.contentshop {
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+    top: 120px;
+    right: 20px;
+  }
+  
+  .contentshopp {
+    width: 330px;
+    height: 600px;
+    background-color: #f0f2f8;
+    /* Ajusta otros estilos según sea necesario */
+  }
+
+  .selectProvider{
+    position: relative;
+    top: 20px;
+    width: 180px;
+    height: 40px;
+    right: 17px;
+  }
+ 
+.organited{
+    position: relative;
+    right: 650px;
+    top: 200px;
+}
+
+.table-container{
+    position: relative;
+    left: 370px;
+    bottom: 340px;
+    width: 50%;
+}
+
+.button-cancel{
+   position: relative;
+   left: 1050px;
+   bottom: 50px;
+}
+
+.button-confirm{
+    position: relative;
+    left: 650px;
+    bottom: 92px;
+ }
 
 .flex{
     display: flex;

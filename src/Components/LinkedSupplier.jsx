@@ -36,9 +36,6 @@ function LinkedSupplier() {
           ¡No se puede eliminar ni inhabillitar este proveedor porque está asociado a una compra!
          
         </Typography>
-      
-          
-
       </Box>
     </Modal>
   </div>

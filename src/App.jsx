@@ -35,8 +35,9 @@ function App() {
         <User>
           <ShoppingProvider>
             <Supplier>
-                    <Navbar />
-                    <Header />
+            <Navbar/>
+            <Header/>
+                
               <Routes>
 
                 <Route path='/' element={<Login setMenu={setMenu} />} />

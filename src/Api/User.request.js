@@ -15,3 +15,4 @@ export const createWaiterRequest = (waiter) => axios.post(`/add_waiter`, waiter)
 
 export const loginRequest = user => axios.post(`/login`, user)
 export const verifyTokenRequest = () => axios.get('/verifyToken')
+export const forgotPasswordRequest = (emailData) => axios.post(`/resetPassword`, emailData);

@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { getUsersRequest, getUserRequest, createUserRequest, statusUserRequest, updateUserRequest, deleteUserRequest, loginRequest, verifyTokenRequest } from '../Api/User.request.js'
+import { getUsersRequest, getUserRequest, createUserRequest, statusUserRequest, updateUserRequest, deleteUserRequest, loginRequest, verifyTokenRequest, forgotPasswordRequest } from '../Api/User.request.js'
 import { getWaitersRequest, createWaiterRequest } from '../Api/User.request.js';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom'; 
@@ -98,6 +98,21 @@ export const User = ({ children }) => {
             console.log(error);
         }
     }
+
+
+
+    const forgotPassword = async (email) => {
+         try {
+           await forgotPasswordRequest({ Email: email });
+          console.log('Correo para restablecer contraseña enviado exitosamente.');            
+        } catch (error) {
+            console.log('Error al enviar el correo:', error);
+         }
+    }; 
+
+
+    
+    
     
         useEffect(()=> {
             async function checkLogin() {
@@ -177,7 +192,8 @@ export const User = ({ children }) => {
                 isAuthenticated,
                 signin, 
                 loading,
-                logout
+                logout,
+                forgotPassword
             }}
         >
             {children}
