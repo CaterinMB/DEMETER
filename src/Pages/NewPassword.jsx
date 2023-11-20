@@ -29,7 +29,7 @@ function NewPassword() {
 							<span className="input-group-text"><i data-feather="lock"><AiOutlineLock/></i></span>
 							<input type="password" className="form-control" placeholder="Confirmar contraseña "/>
 						</div>
-						<button className="btn btn-block btn-primary mb-4" >Enviar</button>
+						<button className="btn btn-block btn-primary mb-4" >Confirmar</button>
 						
 					</div>
 				</div>

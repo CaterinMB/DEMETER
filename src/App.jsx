@@ -25,7 +25,7 @@ import { useEffect, useState } from 'react'
 
 function App() {
 
-  const [menu, setMenu] = useState(true)
+  
 
 
 
@@ -35,12 +35,12 @@ function App() {
         <User>
           <ShoppingProvider>
             <Supplier>
-            <Navbar/>
-            <Header/>
+             <Navbar/>
+            <Header/> 
                 
               <Routes>
 
-                <Route path='/' element={<Login setMenu={setMenu} />} />
+                <Route path='/' element={<Login />} />
                 <Route path='/resetPassword' element={<ResetPassword />} />
                 <Route path='/NewPassword' element={<NewPassword />} />
 

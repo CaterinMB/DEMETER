@@ -177,6 +177,7 @@ export default function CreateSupplier({
                             <option value="CC">Cédula de ciudadanía</option>
                             <option value="CE">Cédula de extranjería</option>
                             <option value="PB">Pasaporte</option>
+                            <option value="NIT">Nit</option>
                           </select>
                           {errors.Type_Document && (
                             <p className="text-red-500">

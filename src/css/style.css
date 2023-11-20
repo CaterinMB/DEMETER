@@ -74,60 +74,53 @@ body {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
-.contentshop {
-    display: flex;
-    justify-content: flex-end;
-    position: relative;
-    top: 120px;
-    right: 20px;
+
+.contentshopp {
+
+    width: 370px;
+    height: 600px;
+    background-color: #fff;
+    border-radius: 10px;
+    border: 1px solid #000;
+  }
+
+  .contentshop {
+    padding-top: 160px;
+    padding-right: 50px;
   }
   
   .contentshopp {
-    width: 330px;
+    width: 370px;
     height: 600px;
-    background-color: #f0f2f8;
-    /* Ajusta otros estilos según sea necesario */
+    background-color: #fff;
+    border-radius: 10px;
+    border: 1px solid #000;
   }
 
-  .selectProvider{
+.line{
     position: relative;
-    top: 20px;
-    width: 180px;
-    height: 40px;
-    right: 17px;
-  }
- 
-.organited{
-    position: relative;
-    right: 650px;
-    top: 200px;
+    top: 15em; 
+}
+
+.position-but{
+    padding-left: 100px;
+}
+
+.table-shop {
+    width: 58%;
 }
 
 .table-container{
+ position: relative;
+ left: 30em;
+ top: 90px;
+}
+
+.btn-sup{
     position: relative;
-    left: 370px;
-    bottom: 340px;
-    width: 50%;
+    bottom: 10px;
 }
 
-.button-cancel{
-   position: relative;
-   left: 1050px;
-   bottom: 50px;
-}
-
-.button-confirm{
-    position: relative;
-    left: 650px;
-    bottom: 92px;
- }
-
-.flex{
-    display: flex;
-    justify-content: end;
-    margin-right: 50px;
-  
-}
 
 .div-gris {
     width: 300px;
