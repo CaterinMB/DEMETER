@@ -24,9 +24,9 @@ function UserPage() {
 
     useEffect(() => {
         getUsers();
-        
+
         return async () => {
-            const {data} = await getRoles()
+            const { data } = await getRoles()
             setRole(data)
         }
     }, []);
@@ -128,55 +128,57 @@ function UserPage() {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {filteredUsers.map((user) => {
-                                                        const roles = role.find(
-                                                            (rol) => rol?.ID_Role === user.Role_ID
-                                                        ) ?? {};
-                                                        return (
-                                                            <tr key={user.ID_User}>
-                                                                <td>{user.Type_Document}</td>
-                                                                <td>{user.Document}</td>
-                                                                <td>{user.Name_User}</td>
-                                                                <td>{user.LastName_User}</td>
-                                                                <td>{user.Email}</td>
-                                                                <td>
-                                                                    {roles !== null && "Name_Role" in roles && roles.Name_Role}
-                                                                </td>
-                                                                <td className={`${barraClass}`}>
-                                                                    {user.State ? "Habilitado" : "Deshabilitado"}
-                                                                </td>
-                                                                <td>
-                                                                    <div style={{ display: "flex", alignItems: "center" }}>
-                                                                        <button
-                                                                            onClick={() => handleEdit(user)}
-                                                                            className={`btn btn-icon btn-primary ${!user.State ? "text-gray-400 cursor-not-allowed" : ""}`}
-                                                                            disabled={!user.State}
-                                                                        >
-                                                                            <BiEdit />
-                                                                        </button>
-                                                                        <button
-                                                                            onClick={() => handleDelete(user)}
-                                                                            className={`btn btn-icon btn-danger ${!user.State ? "text-gray-400 cursor-not-allowed" : ""}`}
-                                                                            disabled={!user.State}
-                                                                        >
-                                                                            <AiFillDelete />
-                                                                        </button>
-                                                                        <button
-                                                                            type="button"
-                                                                            className={`btn btn-icon btn-success ${barraClass}`}
-                                                                            onClick={() => toggleUserStatus(user.ID_User)}
-                                                                        >
-                                                                            {user.State ? (
-                                                                                <MdToggleOn className={`estado-icon active ${barraClass}`} />
-                                                                            ) : (
-                                                                                <MdToggleOff className={`estado-icon inactive ${barraClass}`} />
-                                                                            )}
-                                                                        </button>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                        )
-                                                    })}
+                                                    {filteredUsers.map((user) => (
+                                                        <tr key={user.ID_User}>
+                                                            <td>{user.Type_Document}</td>
+                                                            <td>{user.Document}</td>
+                                                            <td>{user.Name_User}</td>
+                                                            <td>{user.LastName_User}</td>
+                                                            <td>{user.Email}</td>
+                                                            <td>
+                                                                {user.SuppliesCategory_ID
+                                                                    ? role.find(
+                                                                        (category) =>
+                                                                            category.ID_SuppliesCategory ===
+                                                                            user.SuppliesCategory_ID
+                                                                    )?.Name_SuppliesCategory || ''
+                                                                    : ''}
+                                                                {roles && roles.Name_Role}
+                                                            </td>
+                                                            <td className={`${barraClass}`}>
+                                                                {user.State ? "Habilitado" : "Deshabilitado"}
+                                                            </td>
+                                                            <td>
+                                                                <div style={{ display: "flex", alignItems: "center" }}>
+                                                                    <button
+                                                                        onClick={() => handleEdit(user)}
+                                                                        className={`btn btn-icon btn-primary ${!user.State ? "text-gray-400 cursor-not-allowed" : ""}`}
+                                                                        disabled={!user.State}
+                                                                    >
+                                                                        <BiEdit />
+                                                                    </button>
+                                                                    <button
+                                                                        onClick={() => handleDelete(user)}
+                                                                        className={`btn btn-icon btn-danger ${!user.State ? "text-gray-400 cursor-not-allowed" : ""}`}
+                                                                        disabled={!user.State}
+                                                                    >
+                                                                        <AiFillDelete />
+                                                                    </button>
+                                                                    <button
+                                                                        type="button"
+                                                                        className={`btn btn-icon btn-success ${barraClass}`}
+                                                                        onClick={() => toggleUserStatus(user.ID_User)}
+                                                                    >
+                                                                        {user.State ? (
+                                                                            <MdToggleOn className={`estado-icon active ${barraClass}`} />
+                                                                        ) : (
+                                                                            <MdToggleOff className={`estado-icon inactive ${barraClass}`} />
+                                                                        )}
+                                                                    </button>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    ))}
                                                 </tbody>
                                             </table>
 

@@ -1,88 +1,63 @@
-import React, { useState } from "react";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
-import { useSupplies } from "../Context/Supplies.context";
-import { AiFillDelete } from "react-icons/ai";
+import React from 'react';
+import '../css/style.css';
 
-import "../css/style.css";
-
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  height: 200,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4
+const modalStyles = {
+  position: 'fixed',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  height: '250px',
+  width: '400px',
+  padding: '20px',
+  backgroundColor: 'white',
+  boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+  borderRadius: '4px',
+  textAlign: 'center',
 };
 
-export default function DeleteSupplies({
-  currentSupplies = {
-    ID_Supplies: null
-  }
-}) {
-  const [open, setOpen] = React.useState(false);
-  const { deleteSupplies } = useSupplies();
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+const overlayStyles = {
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  width: '100%',
+  height: '100%',
+  backgroundColor: 'rgba(0, 0, 0, 0.6)',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+};
 
-  const confirmDelete = () => {
-    if (currentSupplies.ID_Supplies) {
-      console.log(currentSupplies);
-      deleteSupplies(currentSupplies.ID_Supplies);
-      handleClose(false);
-    }
-  };
+const buttonStyles = {
+  marginTop: '80px', 
+  marginRight: '-10%', 
+  marginLeft: '17%',
+};
 
-  return (
-    <div>
-      <button
-        type="button"
-        className="btn  btn-icon btn-secondary"
-        onClick={() => handleOpen()}
-      >
-        <i data-feather="camera">
-          <AiFillDelete />{" "}
-        </i>
-      </button>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <div className="fixed inset-0 flex items-center justify-center">
-            <div className="modal-overlay" onClick={handleClose}></div>
-
-            <div className="modal-container bg-white p-6 rounded shadow-md text-center ">
-              <h1 className="text-3xl font-semibold ">Confirmar eliminación</h1>
-              <p className="deleteText">
-                ¿Estás seguro de que deseas eliminar este insumo?
-              </p>
-              <div className="flex justify-between">
-                <button
-                  onClick={confirmDelete}
-                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-5 "
-                >
-                  Eliminar
-                </button>
-                <button
-                  onClick={handleClose}
-                  className="bg-gray-300 hover:bg-gray-400 text-gray-700 font-bold py-2 px-4 rounded"
-                >
-                  Cancelar
-                </button>
-              </div>
+function DeleteSupplies({ onClose, onDelete }) {
+    return (
+        <div style={overlayStyles} onClick={onClose}>
+            <div style={modalStyles}>
+                <h1 className="text-3xl font-semibold">Eliminar insumo</h1>
+                <p className="deleteText">¿Está seguro de que desea eliminar este insumo?</p>
+                <div className="flex justify-between ">
+                    <button
+                        onClick={onDelete}
+                        style={buttonStyles}
+                        className="btn btn-icon btn-danger"
+                    >
+                        Eliminar
+                    </button>
+                    <button
+                        onClick={onClose}
+                        style={buttonStyles} 
+                        className="btn btn-icon btn-primary"
+                    >
+                        Cancelar
+                    </button>
+                </div>
             </div>
-          </div>
-        </Box>
-      </Modal>
-    </div>
-  );
+        </div>
+    );
 }
+
+export default DeleteSupplies;
