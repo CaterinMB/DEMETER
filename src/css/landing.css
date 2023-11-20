@@ -586,6 +586,10 @@ footer .b-footer .bottom-tag {
 
 /* Codigo de css propio para las modal */
 
+strong {
+    color: #ff0000;
+}
+
 .modal-overlay {
     position: fixed;
     top: 0;

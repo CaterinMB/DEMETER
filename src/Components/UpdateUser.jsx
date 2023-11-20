@@ -3,7 +3,7 @@ import Select from 'react-select';
 import Box from "@mui/material/Box";
 import { useForm } from 'react-hook-form';
 import { useUser } from '../Context/User.context.jsx';
-import { useRole } from '../Context/Role.context';
+import { useRole } from '../Context/Role.context.jsx';
 
 const style = {
     position: "fixed",
@@ -19,7 +19,7 @@ const style = {
     pb: 3
 };
 
-function EditUser({ onClose, userToEdit }) {
+function UpdateUser({ onClose, userToEdit }) {
     const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: userToEdit });
     const { updateUser, user } = useUser();
     const [selectedType, setSelectedType] = useState(userToEdit.Type_Document);
@@ -85,7 +85,7 @@ function EditUser({ onClose, userToEdit }) {
                 return true;
             },
         });
-    }, [register, user, userToEdit.ID_USUARIO]);
+    }, [register, user, userToEdit.ID_User]);
 
     const onSubmit = handleSubmit(async (values) => {
         values.Type_Document = selectedType;
@@ -304,4 +304,4 @@ function EditUser({ onClose, userToEdit }) {
     )
 }
 
-export default EditUser
+export default UpdateUser

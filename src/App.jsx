@@ -18,9 +18,11 @@ import SuppliesCategoryPage from './Pages/SuppliesCategoryPage.jsx'
 import ProductCategoryPage from './Pages/ProductCategoryPage.jsx'
 import WaiterPage from './Pages/WaiterPage.jsx'
 
+import EditProfile from './Pages/EditProfilePage.jsx'
+
 // Menu & Header
 import Navbar from './Components/Navbar.jsx'
-import Header from './components/Header.jsx'
+import Header from './Components/Header.jsx'
 
 
 function App() {
@@ -46,6 +48,10 @@ function App() {
                     <Route path='/product' element={<h3>Producto</h3>} />
                     <Route path='/waiter' element={<WaiterPage />} />
                     <Route path='/sale' element={<h3>Venta</h3>} />
+
+                    <Route path='/alert' element={<h3>Aletas</h3>} />
+                    <Route path='/edit_profile' element={<EditProfile />} />
+                    <Route path='/instructions' element={<h3>Manuales de los modulos</h3>} />
                   </Routes>
                 </Supplies>
               </Supplier>

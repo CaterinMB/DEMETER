@@ -8,7 +8,7 @@ import "../css/landing.css";
 import { useRole } from "../Context/Role.context";
 import { useUser } from "../Context/User.context.jsx";
 import CreateUser from "../Components/CreateUser";
-import EditUser from '../Components/EditUser';
+import UpdateUser from '../Components/UpdateUser';
 import DeleteUser from "../Components/DeleteUser";
 
 function UserPage() {
@@ -143,7 +143,7 @@ function UserPage() {
                                                                             user.SuppliesCategory_ID
                                                                     )?.Name_SuppliesCategory || ''
                                                                     : ''}
-                                                                {roles && roles.Name_Role}
+                                                                {/* {roles && roles.Name_Role} */}
                                                             </td>
                                                             <td className={`${barraClass}`}>
                                                                 {user.State ? "Habilitado" : "Deshabilitado"}
@@ -202,7 +202,7 @@ function UserPage() {
                                                 <div className="fixed inset-0 flex items-center justify-center z-50">
                                                     <div className="modal-overlay" onClick={() => setIsEditModalOpen(false)}></div>
                                                     <div className="modal-container">
-                                                        <EditUser onClose={() => setIsEditModalOpen(false)} userToEdit={userToEdit} />
+                                                        <UpdateUser onClose={() => setIsEditModalOpen(false)} userToEdit={userToEdit} />
                                                     </div>
                                                 </div>
                                             )}
