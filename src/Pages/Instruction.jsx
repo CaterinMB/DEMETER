@@ -1,6 +1,9 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 
 function Instruction() {
+
+    const navigate = useNavigate();
     return (
         <section className="pc-container">
             <div className="pcoded-content">

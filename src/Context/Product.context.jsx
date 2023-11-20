@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from "react";
-import { getProductsRequest, getProductRequest, createProductsRequest, statusProductsRequest, updateProductsRequest, deleteProductsRequest } from "../Api/Product.request.js"
+import { getProductsRequest, getProductByCategoryRequest, createProductsRequest, statusProductsRequest, updateProductsRequest, deleteProductsRequest } from "../Api/Product.request.js"
+import { getDetailProductRequest, createDetailPRequest, deleteDetailProductRequest } from "../Api/Product.request.js" //Detalles
 
 const ProductContext = createContext();
 
@@ -14,19 +15,20 @@ export const useProduct = () => {
 
 export function Product({ children }) {
     const [product, setProduct] = useState([]);
+    const [detailP, setDetailP] = useState([]);
 
     const getProduct = async () => {
         try {
             const res = await getProductsRequest();
-            setProduct(res.data);
+            setProduct(res);
         } catch (error) {
             console.error(error);
         }
     }
 
-    const getProductDetails = async (id) => {
+    const getProductByCategory = async (id) => {
         try {
-            const res = await getProductRequest(id);
+            const res = await getProductByCategoryRequest(id);
             return res.data;
         } catch (error) {
             console.error(error);
@@ -70,22 +72,56 @@ export function Product({ children }) {
     const deleteProduct = async (id) => {
         try {
             const res = await deleteProductsRequest(id)
-            if (res.status === 204) setProduct(product.filter(product => product.ID_Product !== id))
+            if (res.status === 204)
+            setProduct(product.filter(product => product.ID_Product !== id))
         } catch (error) {
             console.log(error);
         }
+    }
 
+    // Detalles
+
+    const getDetailProduct = async (id) => {
+        try {
+            const res = await getDetailProductRequest(id);
+            setDetailP(res);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const createDetailP = async (id, datilsP) => {
+        try {
+            await createDetailPRequest(id, datilsP);
+            getDetailProduct();
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const deleteDetailProduct = async (id) => {
+        try {
+            const res = await deleteDetailProductRequest(id)
+            if (res.status === 204)
+            setDetailP(detailP.filter(detail => detail.ID_ProductDetail !== id))
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return (
         <ProductContext.Provider value={{
             product,
             getProduct,
-            getProductDetails,
+            getProductByCategory,
             createProduct,
             toggleSupplyStatus,
             updateProduct,
-            deleteProduct
+            deleteProduct,
+            // Datalles
+            getDetailProduct,
+            createDetailP,
+            deleteDetailProduct
         }}>
             {children}
         </ProductContext.Provider>

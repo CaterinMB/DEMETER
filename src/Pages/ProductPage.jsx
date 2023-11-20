@@ -1,53 +1,31 @@
 import React, { useState, useEffect } from "react";
-import { BiEdit } from "react-icons/bi";
-import { AiFillDelete } from "react-icons/ai";
 import { MdToggleOn, MdToggleOff } from "react-icons/md";
-import { useSupplies } from "../Context/Supplies.context.jsx";
-import { useCategorySupplies } from '../Context/CategorySupplies.context.jsx';
-import CreateSupplies from "../Components/CreateSupplies.jsx";
-import UpdateSupplies from "../Components/UpdateSupplies.jsx";
-import DeleteSupplies from "../Components/DeleteSupplies.jsx";
 import "../css/style.css";
 import "../css/landing.css";
 
-function SuppliesPage() {
-    const { supplies, getSupplies, deleteSupplies, toggleSupplyStatus } = useSupplies();
-    const { Category_supplies } = useCategorySupplies();
-    const [searchTerm, setSearchTerm] = useState("");
-    const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
-    const [selectedSupplyToDelete, setSelectedSupplyToDelete] = useState(null);
-    const [selectedSupplyToUpdate, setSelectedSupplyToUpdate] = useState(null);
+import {useProduct} from '../Context/Product.context.jsx'
+import { useNavigate } from "react-router-dom";
+
+function ProductPage() {
+    const {product, getProduct, toggleSupplyStatus} = useProduct();
+    const [searchTerm, setSearchTerm] = useState('');
+    const navigate = useNavigate();
 
     useEffect(() => {
-        getSupplies();
+        getProduct();
     }, []);
 
-    const handleSearchChange = (event) => {
-        setSearchTerm(event.target.value);
-    };
+    // const handleSearchChange = (event) => {
+    //     setSearchTerm(event.target.value);
+    // };
 
-    const filteredSupplies = supplies.filter((supply) => {
-        const {
-            Name_Supplies,
-        } = supply;
-        const searchString =
-            `${Name_Supplies}`.toLowerCase();
-        return searchString.includes(searchTerm.toLowerCase());
-    });
-
-    const handleDelete = (supply) => {
-        setSelectedSupplyToDelete(supply);
-        setDeleteModalOpen(true);
-    };
-
-    const closeDeleteModal = () => {
-        setDeleteModalOpen(false);
-        setSelectedSupplyToDelete(null);
-    };
-
-    const handleUpdateSupply = (supply) => {
-        setSelectedSupplyToUpdate(supply);
-    };
+    // const filteredProduct = user.filter((produc) => {
+    //     const { Type_Document, Document, Name_User, LastName_User, Restaurant, State } = produc;
+    //     const searchString = `${Type_Document} ${Document} ${Name_User} ${LastName_User} ${Restaurant} ${State}`.toLowerCase();
+    //     return searchString.includes(searchTerm.toLowerCase());
+    // });
+    
+    // const status = user.State ? "" : "desactivado";
 
     return (
         <section className="pc-container">
@@ -57,16 +35,24 @@ function SuppliesPage() {
                         <div className=" w-100 col-sm-12">
                             <div className="card">
                                 <div className="card-header">
-                                    <h5>Visualización de insumos</h5>
+                                    <h5>Visualización de productos</h5>
                                 </div>
                                 <div className="card-body">
                                     <div className="row">
                                         <div className="col-md-6">
-                                            <CreateSupplies />
+                                        <button
+                                            className="btn btn-primary mr-5"
+                                            onClick={() => {
+                                                navigate('/create_product');
+                                            }}
+                                            type="button"
+                                        >
+                                            Registrar
+                                        </button>
                                         </div>
                                         <div className="col-md-6">
                                             <div className="form-group">
-                                                <input
+                                                {/* <input
                                                     type="search"
                                                     className="form-control"
                                                     id="exampleInputEmail1"
@@ -74,7 +60,7 @@ function SuppliesPage() {
                                                     placeholder="Buscador"
                                                     value={searchTerm}
                                                     onChange={handleSearchChange}
-                                                />
+                                                /> */}
                                             </div>
                                         </div>
                                     </div>
@@ -85,55 +71,38 @@ function SuppliesPage() {
                                                 <thead>
                                                     <tr>
                                                         <th>Nombre</th>
-                                                        <th>Cantidad</th>
-                                                        <th>Medida</th>
-                                                        <th>Existencias</th>
                                                         <th>Categoria</th>
+                                                        <th>Precio</th>
                                                         <th>Estado</th>
                                                         <th>Acciones</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {filteredSupplies.map((supply) => (
-                                                        <tr key={supply.ID_Supplies}>
-                                                            <td>{supply.Name_Supplies}</td>
-                                                            <td>{supply.Unit}</td>
-                                                            <td>{supply.Measure}</td>
-                                                            <td>{supply.Stock}</td>
+                                                    {/* {filteredProduct.map((produc) => (
+                                                        <tr key={produc.ID_Product}>
+                                                            <td>{produc.Name_Supplies}</td>
+                                                            <td>{produc.Unit}</td>
+                                                            <td>{produc.Measure}</td>
+                                                            <td>{produc.Stock}</td>
                                                             <td>
-                                                                {supply.SuppliesCategory_ID
+                                                                {produc.SuppliesCategory_ID
                                                                     ? Category_supplies.find(
                                                                         (category) =>
                                                                             category.ID_SuppliesCategory ===
-                                                                            supply.SuppliesCategory_ID
+                                                                            produc.SuppliesCategory_ID
                                                                     )?.Name_SuppliesCategory || ''
                                                                     : ''}
                                                             </td>
-                                                            <td>{supply.State ? 'Habilitado' : 'Deshabilitado'}</td>
+                                                            <td>{produc.State ? 'Habilitado' : 'Deshabilitado'}</td>
                                                             <td>
                                                                 <div style={{ display: "flex", alignItems: "center" }}>
-                                                                    <UpdateSupplies
-                                                                        buttonProps={{
-                                                                            buttonClass: `btn btn-icon btn-primary ${!supply.State ? "text-gray-400 cursor-not-allowed" : ""}`,
-                                                                            isDisabled: !supply.State,
-                                                                            buttonText: <BiEdit />,
-                                                                        }}
-                                                                        supplyToEdit={supply}
-                                                                        onUpdate={handleUpdateSupply}
-                                                                    />
-                                                                    <button
-                                                                        onClick={() => handleDelete(supply)}
-                                                                        className={`btn btn-icon btn-danger ${!supply.State ? "text-gray-400 cursor-not-allowed" : ""}`}
-                                                                        disabled={!supply.State}
-                                                                    >
-                                                                        <AiFillDelete />
-                                                                    </button>
+                                                                    
                                                                     <button
                                                                         type="button"
-                                                                        className={`btn btn-icon btn-success ${supply.State ? "active" : "inactive"}`}
-                                                                        onClick={() => toggleSupplyStatus(supply.ID_Supplies)}
+                                                                        className={`btn btn-icon btn-success ${produc.State ? "active" : "inactive"}`}
+                                                                        onClick={() => toggleSupplyStatus(produc.ID_Product)}
                                                                     >
-                                                                        {supply.State ? (
+                                                                        {produc.State ? (
                                                                             <MdToggleOn className={`estado-icon active`} />
                                                                         ) : (
                                                                             <MdToggleOff className={`estado-icon inactive`} />
@@ -142,7 +111,7 @@ function SuppliesPage() {
                                                                 </div>
                                                             </td>
                                                         </tr>
-                                                    ))}
+                                                    ))} */}
                                                 </tbody>
                                             </table>
                                         </div>
@@ -153,29 +122,8 @@ function SuppliesPage() {
                     </div>
                 </div>
             </div>
-
-            {isDeleteModalOpen && (
-                <DeleteSupplies
-                    onClose={closeDeleteModal}
-                    onDelete={() => {
-                        if (selectedSupplyToDelete) {
-                            deleteSupplies(selectedSupplyToDelete.ID_Supplies);
-                            closeDeleteModal();
-                        }
-                    }}
-                />
-            )}
-
-            {selectedSupplyToUpdate && (
-                <UpdateSupplies
-                    supplyToEdit={selectedSupplyToUpdate}
-                    onUpdate={() => {
-                        setSelectedSupplyToUpdate(null);
-                    }}
-                />
-            )}
         </section>
     );
 }
 
-export default SuppliesPage;
+export default ProductPage;

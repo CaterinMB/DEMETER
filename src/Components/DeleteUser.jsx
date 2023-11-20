@@ -32,10 +32,10 @@ function DeleteUser({ onClose, onDelete }) {
                         <p className="deleteText">
                             ¿Estás seguro de que deseas eliminar este usuario?
                         </p>
-                        <div className="flex justify-between">
+                        <div className="justify-between">
                             <button
                                 onClick={onDelete}
-                                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-5 "
+                                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-5"
                             >
                                 Eliminar
                             </button>

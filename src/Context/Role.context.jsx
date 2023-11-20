@@ -17,8 +17,7 @@ export const Role = ({ children }) => {
     const getRoles = async () => {
         try {
             const res = await getRolesRequest();
-            // setRole(res.data)
-            return res
+            setRole(res.data)
         } catch (error) {
             console.log(error)
         }
@@ -35,7 +34,7 @@ export const Role = ({ children }) => {
 
     const createRole = async (Role) => {
         try {
-            const res = await createRoleRequest(Role);
+            await createRoleRequest(Role);
             getRoles();
         } catch (error) {
             console.log(error);

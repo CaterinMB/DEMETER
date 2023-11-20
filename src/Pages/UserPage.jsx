@@ -24,11 +24,6 @@ function UserPage() {
 
     useEffect(() => {
         getUsers();
-
-        return async () => {
-            const { data } = await getRoles()
-            setRole(data)
-        }
     }, []);
 
     const navigateToCreateUser = () => {
@@ -141,9 +136,8 @@ function UserPage() {
                                                                         (category) =>
                                                                             category.ID_SuppliesCategory ===
                                                                             user.SuppliesCategory_ID
-                                                                    )?.Name_SuppliesCategory || ''
-                                                                    : ''}
-                                                                {/* {roles && roles.Name_Role} */}
+                                                                    )?.Name_SuppliesCategory || '' : ''
+                                                                }
                                                             </td>
                                                             <td className={`${barraClass}`}>
                                                                 {user.State ? "Habilitado" : "Deshabilitado"}

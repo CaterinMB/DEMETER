@@ -34,9 +34,7 @@ function CreateUser({ onClose, onCreated }) {
     ];
 
     useEffect(() => {
-        getRoles(); // Obtener roles cuando el componente se monta
-        console.log('Roles Usuarios: ', getRoles)
-        console.log('Role: ', role)
+        getRoles();
     }, []);
 
     const rolOpcions = role.map(option => ({ label: option.Name_Role, value: option.ID_Role }));
@@ -107,7 +105,6 @@ function CreateUser({ onClose, onCreated }) {
 
     const onCancel = () => {
         onClose();
-        console.log('Create user', role)
     };
 
     return (

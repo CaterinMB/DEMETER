@@ -7,7 +7,7 @@ const EditUser = () => {
 
     return (
         <form className='text-center col-md-10'>
-            <div className="form-group px-3">
+            <div className="form-group p-3">
                 <label htmlFor="Name_User" className="form-label">
                     Nombres: <strong>*</strong>
                 </label>
