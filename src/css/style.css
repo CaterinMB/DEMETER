@@ -75,7 +75,7 @@ body {
 }
 
 
-.contentshopp {
+ .contentshopp {
 
     width: 370px;
     height: 600px;
@@ -89,13 +89,7 @@ body {
     padding-right: 50px;
   }
   
-  .contentshopp {
-    width: 370px;
-    height: 600px;
-    background-color: #fff;
-    border-radius: 10px;
-    border: 1px solid #000;
-  }
+
 
 .line{
     position: relative;
@@ -114,6 +108,16 @@ body {
  position: relative;
  left: 30em;
  top: 90px;
+} 
+
+
+.facture {
+    width: 19%;
+    height: 42em;
+    background-color: #fff;
+    border-radius: 10px;
+    border: 1px solid #000;
+   margin-left: 10px;
 }
 
 .btn-sup{
