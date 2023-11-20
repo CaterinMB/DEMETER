@@ -2,7 +2,7 @@ import React from 'react'
 import EditUser from '../Components/EditProfile';
 import ChangePassword from '../Components/ChangePassword';
 
-const EditProfile = () => {
+function EditProfile() {
 
     return (
         <section className="pc-container">

@@ -19,6 +19,8 @@ import ProductCategoryPage from './Pages/ProductCategoryPage.jsx'
 import WaiterPage from './Pages/WaiterPage.jsx'
 
 import EditProfile from './Pages/EditProfilePage.jsx'
+import Alert from './Pages/Alert.jsx'
+import Instruction from './Pages/Instruction.jsx'
 
 // Menu & Header
 import Navbar from './Components/Navbar.jsx'
@@ -49,9 +51,9 @@ function App() {
                     <Route path='/waiter' element={<WaiterPage />} />
                     <Route path='/sale' element={<h3>Venta</h3>} />
 
-                    <Route path='/alert' element={<h3>Aletas</h3>} />
+                    <Route path='/alert' element={<Alert />} />
                     <Route path='/edit_profile' element={<EditProfile />} />
-                    <Route path='/instructions' element={<h3>Manuales de los modulos</h3>} />
+                    <Route path='/instructions' element={<Instruction />} />
                   </Routes>
                 </Supplies>
               </Supplier>
