@@ -8,9 +8,7 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { useUser } from '../Context/User.context';
 const Header = () => {
 	const [showDropdown, setShowDropdown] = useState(false);
-	const {isAuthenticated, logout, user, getUsers } = useUser();
-
-	
+	const {isAuthenticated, logout } = useUser()
 	
 	const navigate = useNavigate(); 
 
@@ -19,6 +17,10 @@ const Header = () => {
 
 		setTimeout(() => setShowDropdown(false), 5000);
 	};
+
+	if(!isAuthenticated){
+        return ''
+    }
 
 	
 	return (

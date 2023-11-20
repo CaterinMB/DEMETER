@@ -4,7 +4,7 @@ import ProtectedRoute from './ProtectedRoute.jsx'
 
 //Context
 import { Role } from './Context/Role.context.jsx'
-import { User } from './Context/User.context.jsx'
+import { User, useUser } from './Context/User.context.jsx'
 import { Supplier } from './Context/Supplier.context.jsx'
 import { ShoppingProvider } from './Context/Shopping.context.jsx'
 
@@ -24,25 +24,20 @@ import { useEffect, useState } from 'react'
 
 
 function App() {
-
-  
-
-
-
   return (
     <BrowserRouter>
       <Role>
         <User>
           <ShoppingProvider>
             <Supplier>
-             <Navbar/>
+                <Navbar/>
             <Header/> 
                 
               <Routes>
 
                 <Route path='/' element={<Login />} />
                 <Route path='/resetPassword' element={<ResetPassword />} />
-                <Route path='/NewPassword' element={<NewPassword />} />
+                <Route path='/NewPassword/:idUser/:token' element={<NewPassword />} />
 
                 <Route element={<ProtectedRoute />}>
                   <Route path='/dashboard' element={<h3>DashBoard</h3>} />

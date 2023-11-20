@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { getUsersRequest, getUserRequest, createUserRequest, statusUserRequest, updateUserRequest, deleteUserRequest, loginRequest, verifyTokenRequest, forgotPasswordRequest } from '../Api/User.request.js'
+import { getUsersRequest, getUserRequest, createUserRequest, statusUserRequest, updateUserRequest, deleteUserRequest, loginRequest, verifyTokenRequest, forgotPasswordRequest, NewPassword } from '../Api/User.request.js'
 import { getWaitersRequest, createWaiterRequest } from '../Api/User.request.js';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom'; 
@@ -110,7 +110,14 @@ export const User = ({ children }) => {
          }
     }; 
 
-
+    
+    const NewPasswordd = async (token) => {
+        try{
+            await NewPassword(token)
+        }catch(e){
+            console.log(e)
+        }
+    }
     
     
     
@@ -193,7 +200,8 @@ export const User = ({ children }) => {
                 signin, 
                 loading,
                 logout,
-                forgotPassword
+                forgotPassword,
+                NewPasswordd
             }}
         >
             {children}
