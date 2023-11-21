@@ -25,7 +25,7 @@ function ConfirmShop() {
 
   return (
    <div>
-    <button className="btn btn-primary" onClick={handleOpen}>Confirmar</button>
+    <button className="btn btn-primary ml-2" onClick={handleOpen}>Confirmar compra</button>
     <Modal
       open={open}
       onClose={handleClose}
