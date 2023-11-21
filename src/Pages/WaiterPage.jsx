@@ -66,7 +66,6 @@ function WaiterPage() {
                                                     placeholder="Buscador"
                                                     value={searchTerm}
                                                     onChange={handleSearchChange}
-
                                                 />
                                             </div>
                                         </div>

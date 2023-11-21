@@ -11,7 +11,7 @@ export default function ProductDetails() {
                                 <div className="card-header">
                                     <div className="row">
                                         <div className="col-md-6">
-                                            <h5>Crear producto</h5>
+                                            <h5>producto</h5>
                                         </div>
                                     </div>
                                 </div>

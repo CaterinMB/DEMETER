@@ -17,7 +17,7 @@ export function Product({ children }) {
     const [product, setProduct] = useState([]);
     const [detailP, setDetailP] = useState([]);
 
-    const getProduct = async () => {
+    const getProducts = async () => {
         try {
             const res = await getProductsRequest();
             setProduct(res);
@@ -38,7 +38,7 @@ export function Product({ children }) {
     const createProduct = async (products) => {
         try {
             const res = await createProductsRequest(products);
-            getProduct(res);
+            getProducts(res);
         } catch (error) {
             console.error(error);
         }
@@ -63,7 +63,7 @@ export function Product({ children }) {
     const updateProduct = async (id, product) => {
         try {
             await updateProductsRequest(id, product);
-            getProduct(); 
+            getProducts();
         } catch (error) {
             console.error(error);
         }
@@ -73,7 +73,7 @@ export function Product({ children }) {
         try {
             const res = await deleteProductsRequest(id)
             if (res.status === 204)
-            setProduct(product.filter(product => product.ID_Product !== id))
+                setProduct(product.filter(product => product.ID_Product !== id))
         } catch (error) {
             console.log(error);
         }
@@ -103,7 +103,7 @@ export function Product({ children }) {
         try {
             const res = await deleteDetailProductRequest(id)
             if (res.status === 204)
-            setDetailP(detailP.filter(detail => detail.ID_ProductDetail !== id))
+                setDetailP(detailP.filter(detail => detail.ID_ProductDetail !== id))
         } catch (error) {
             console.log(error);
         }
@@ -112,7 +112,7 @@ export function Product({ children }) {
     return (
         <ProductContext.Provider value={{
             product,
-            getProduct,
+            getProducts,
             getProductByCategory,
             createProduct,
             toggleSupplyStatus,

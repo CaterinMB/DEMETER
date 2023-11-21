@@ -1,31 +1,43 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { MdToggleOn, MdToggleOff } from "react-icons/md";
 import "../css/style.css";
 import "../css/landing.css";
 
-import {useProduct} from '../Context/Product.context.jsx'
-import { useNavigate } from "react-router-dom";
+import { useProduct } from '../Context/Product.context.jsx'
+import { useCategoryProducts } from '../Context/CategoryProducts.context.jsx'
+import CreateProduct from '../Components/CreateProduct.jsx'
 
 function ProductPage() {
-    const {product, getProduct, toggleSupplyStatus} = useProduct();
+    const { product, getProducts, toggleSupplyStatus } = useProduct();
+    const { Category_products } = useCategoryProducts();
     const [searchTerm, setSearchTerm] = useState('');
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
-        getProduct();
+        getProducts();
     }, []);
 
-    // const handleSearchChange = (event) => {
-    //     setSearchTerm(event.target.value);
-    // };
+    const navigateToCreateProduct = () => {
+        setIsModalOpen(true);
+    };
 
-    // const filteredProduct = user.filter((produc) => {
-    //     const { Type_Document, Document, Name_User, LastName_User, Restaurant, State } = produc;
-    //     const searchString = `${Type_Document} ${Document} ${Name_User} ${LastName_User} ${Restaurant} ${State}`.toLowerCase();
-    //     return searchString.includes(searchTerm.toLowerCase());
-    // });
-    
-    // const status = user.State ? "" : "desactivado";
+    const handleCreated = () => {
+        getProducts();
+    };
+
+    const handleSearchChange = (event) => {
+        setSearchTerm(event.target.value);
+    };
+
+    const filteredProduct = product.filter((produc) => {
+        const { Name_Products, Price_Product, ProductCategory_ID, State } = produc;
+        const searchString = `${Name_Products} ${Price_Product} ${ProductCategory_ID} ${State}`.toLowerCase();
+        return searchString.includes(searchTerm.toLowerCase());
+    });
+
+    const status = product.State ? "" : "desactivado";
 
     return (
         <section className="pc-container">
@@ -33,6 +45,7 @@ function ProductPage() {
                 <div className="row w-100">
                     <div className="col-md-12">
                         <div className=" w-100 col-sm-12">
+
                             <div className="card">
                                 <div className="card-header">
                                     <h5>Visualización de productos</h5>
@@ -40,19 +53,17 @@ function ProductPage() {
                                 <div className="card-body">
                                     <div className="row">
                                         <div className="col-md-6">
-                                        <button
-                                            className="btn btn-primary mr-5"
-                                            onClick={() => {
-                                                navigate('/create_product');
-                                            }}
-                                            type="button"
-                                        >
-                                            Registrar
-                                        </button>
+                                            <button
+                                                className="btn btn-primary"
+                                                onClick={navigateToCreateProduct}
+                                                type="button"
+                                            >
+                                                Registrar
+                                            </button>
                                         </div>
                                         <div className="col-md-6">
                                             <div className="form-group">
-                                                {/* <input
+                                                <input
                                                     type="search"
                                                     className="form-control"
                                                     id="exampleInputEmail1"
@@ -60,7 +71,7 @@ function ProductPage() {
                                                     placeholder="Buscador"
                                                     value={searchTerm}
                                                     onChange={handleSearchChange}
-                                                /> */}
+                                                />
                                             </div>
                                         </div>
                                     </div>
@@ -78,25 +89,23 @@ function ProductPage() {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {/* {filteredProduct.map((produc) => (
+                                                    {filteredProduct.map((produc) => (
                                                         <tr key={produc.ID_Product}>
-                                                            <td>{produc.Name_Supplies}</td>
-                                                            <td>{produc.Unit}</td>
-                                                            <td>{produc.Measure}</td>
-                                                            <td>{produc.Stock}</td>
+                                                            <td>{produc.Name_Products}</td>
                                                             <td>
-                                                                {produc.SuppliesCategory_ID
-                                                                    ? Category_supplies.find(
+                                                                {produc.ProductCategory_ID
+                                                                    ? Category_products.find(
                                                                         (category) =>
-                                                                            category.ID_SuppliesCategory ===
-                                                                            produc.SuppliesCategory_ID
-                                                                    )?.Name_SuppliesCategory || ''
+                                                                            category.ID_ProductCategory ===
+                                                                            produc.ProductCategory_ID
+                                                                    )?.Name_ProductCategory || ''
                                                                     : ''}
                                                             </td>
+                                                            <td>{produc.Price_Product}</td>
                                                             <td>{produc.State ? 'Habilitado' : 'Deshabilitado'}</td>
                                                             <td>
                                                                 <div style={{ display: "flex", alignItems: "center" }}>
-                                                                    
+
                                                                     <button
                                                                         type="button"
                                                                         className={`btn btn-icon btn-success ${produc.State ? "active" : "inactive"}`}
@@ -111,9 +120,17 @@ function ProductPage() {
                                                                 </div>
                                                             </td>
                                                         </tr>
-                                                    ))} */}
+                                                    ))}
                                                 </tbody>
                                             </table>
+                                            {isModalOpen && (
+                                                <div className="fixed inset-0 flex items-center justify-center z-50">
+                                                    <div className="modal-overlay" onClick={() => setIsModalOpen(false)}></div>
+                                                    <div className="modal-container">
+                                                        <CreateProduct onClose={() => setIsModalOpen(false)} onCreated={handleCreated} />
+                                                    </div>
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
                                 </div>
