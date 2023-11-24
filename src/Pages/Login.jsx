@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import logo from '../img/logo.png'
 import {AiOutlineMail, AiOutlineLock} from 'react-icons/ai'
 import { useUser } from "../Context/User.context.jsx";
@@ -14,11 +14,23 @@ import '../fonts//material.css'
 function Login() {
 	const {signin, isAuthenticated} = useUser();
 	const {register, handleSubmit, formState:{errors}} = useForm();
-
-	const onSubmit = handleSubmit(data=>{
-		signin(data)
-	})
 	const navigate = useNavigate();
+	const [loginError, setLoginError] = useState(null);
+
+
+	const onSubmit = handleSubmit(async (data) => {
+		try {
+		  await signin(data);
+		  setLoginError(null); // Limpiar el mensaje de error si el inicio de sesión es exitoso
+		} catch (error) {
+		  if (error.response.status === 400) {
+			setLoginError('Correo electrónico o contraseña incorrectos.');
+		  } else {
+			setLoginError('El correo no está registrado.');
+		  }
+		}
+	  });
+
 
 	useEffect (()=>{
 		if (isAuthenticated) navigate('/dashboard')
@@ -71,6 +83,9 @@ function Login() {
 					  })}
 					/>
 				  </div>
+				  {loginError && (
+                      <p className="text-red-500">{loginError}</p>
+                    )}
 				  <button type="submit" className="btn btn-block btn-primary mb-4">Iniciar sesión</button>
 				</form>
 				<p className="mb-0 text-muted">
