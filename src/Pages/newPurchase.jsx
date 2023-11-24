@@ -5,9 +5,11 @@ import ConfirmShop from '../Components/confirmShop';
 import { AiFillDelete } from "react-icons/ai";
 import ShoppingBill from '../Components/ShoppingBill';
 import '../css/style.css'
+import '../css/general.css'
 
 function NewPurchase() {
   const { register, handleSubmit } = useForm();
+
 
   const onSubmit = (data) => {
     console.log(data);
