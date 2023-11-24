@@ -90,7 +90,7 @@ const {
                                     <div className="city">
                                         <div className="form-group col-md-6">
                                             <label htmlFor="Name_productCategory" className="form-label">
-                                                Nombre
+                                                Nombre<strong>*</strong>
                                             </label>
                                             <input
                                                 {...register('Name_ProductCategory', {

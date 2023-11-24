@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useShopping } from '.';
-import { useSupplies } from '.';
-import { Bar } from 'react-chartjs-2';
+import { useShoppingContext } from '../Context/Shopping.context';
+import { useSupplies } from '../Context/Supplies.context';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 const Dashboard = () => {
-  const { shoppingDetails, shopping, Count, fetchGain } = useShopping();
+  const { shoppingDetails, shopping, Count, fetchGain } = useShoppingContext();
   const { supplies } = useSupplies();
 
   const [mostSoldProducts, setMostSoldProducts] = useState([]);
@@ -52,19 +52,6 @@ const Dashboard = () => {
     fetchGain(totalMoney);
   }, [shopping, fetchGain]);
 
-  const dataForChart = {
-    labels: mostSoldProducts.map((product) => `Producto ${product.ID_Product}`),
-    datasets: [
-      {
-        label: 'Unidades Vendidas',
-        data: mostSoldProducts.map((product) => product.Lot_ProductDetail),
-        backgroundColor: 'rgba(75,192,192,0.2)',
-        borderColor: 'rgba(75,192,192,1)',
-        borderWidth: 1,
-      },
-    ],
-  };
-
   return (
     <div>
       <h2>Productos Más Vendidos</h2>
@@ -89,8 +76,15 @@ const Dashboard = () => {
       <p>Ganancias Totales: {total}</p>
 
       <h2>Gráfico de Barras</h2>
-      <Bar data={dataForChart} />
-
+      <ResponsiveContainer width="100%" height={300}>
+        <BarChart data={mostSoldProducts} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+          <XAxis dataKey="ID_Product" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="Lot_ProductDetail" fill="rgba(75,192,192,0.2)" />
+        </BarChart>
+      </ResponsiveContainer>
     </div>
   );
 };

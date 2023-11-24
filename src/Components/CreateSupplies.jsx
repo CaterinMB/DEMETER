@@ -195,7 +195,7 @@ function CreateSupplies({
                   <div className="control">
                     <div className="form-group col-md-6">
                       <label htmlFor="Name_Supplies" className="form-label">
-                        Nombre
+                        Nombre<strong>*</strong>
                       </label>
                       <input
                         {...register('Name_Supplies', {
@@ -218,7 +218,7 @@ function CreateSupplies({
 
                     <div className="form-group col-md-6">
                       <label htmlFor="Unit" className="form-label">
-                        Cantidad
+                        Cantidad<strong>*</strong>
                       </label>
                       <input
                         {...register('Unit', {
@@ -242,7 +242,7 @@ function CreateSupplies({
                   <div className="control">
                     <div className="form-group col-md-6">
                       <label htmlFor="Measure" className="form-label">
-                        Medida
+                        Medida<strong>*</strong>
                       </label>
                       <Select
                         options={[
@@ -272,7 +272,7 @@ function CreateSupplies({
 
                     <div className="form-group col-md-6">
                       <label htmlFor="Stock" className="form-label">
-                        Stock mínimo
+                        Stock mínimo<strong>*</strong>
                       </label>
                       <input
                         {...register('Stock', {
@@ -306,7 +306,7 @@ function CreateSupplies({
                   <div className="city">
                     <div className="form-group col-md-6">
                       <label htmlFor="SuppliesCategory_ID" className="form-label">
-                        Categoría
+                        Categoría<strong>*</strong>
                       </label>
                       <Select
                         options={Category_supplies.map((category) => ({
