@@ -19,3 +19,10 @@
     align-items: center;
     padding-top: 55px;
 }
+
+.select-measure {
+    padding: 10px; /* Cambia este valor para ajustar el tamaño del padding */
+    font-size: 14px;
+    width: 80px; /* Tamaño de la fuente */
+    /* Otros estilos que desees agregar */
+  }

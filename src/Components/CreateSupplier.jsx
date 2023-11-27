@@ -25,6 +25,7 @@ export default function CreateSupplier({
     buttonClass: "btn btn-primary",
     buttonText: "Registrar"
   },
+  isDisabled = false,
   onOpen = () => null
 }) {
   const {
@@ -109,6 +110,7 @@ export default function CreateSupplier({
         type="button"
         className={buttonProps.buttonClass}
         onClick={handleOpen}
+        disabled={isDisabled}
       >
         {buttonProps.buttonText}
       </button>

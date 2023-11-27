@@ -5,14 +5,18 @@ import { useSupplier } from "../Context/Supplier.context";
 import '../css/style.css'; 
 import "../css/landing.css";
 
-
-
 function ShoppingPage() {
-    const {  getOneShopping, shopping: Shopping, fetchGain, selectAction, CancelDet, disableShopping, getShoppingList } = useShoppingContext();
-  const [searchTerm, setSearchTerm] = useState("");
-  const handlePageClick = ({ selected }) => {
+    const {  getOneShopping, shopping: Shopping, selectAction, disableShopping, getShoppingList } = useShoppingContext();
+    const {getSupplier} = useSupplier();
+    const [searchTerm, setSearchTerm] = useState("");
+    const handlePageClick = ({ selected }) => {
     setPageNumber(selected);
   };
+
+
+  useEffect(()=>{
+    getSupplier
+  })
 
 
   useEffect(() => {
@@ -90,7 +94,7 @@ function ShoppingPage() {
                           {filteredShopping.map((shoppingItem) => (
                             <tr key={shoppingItem.ID_Shopping}>
                               <td>{shoppingItem.Datetime}</td>
-                              {/* <td>{ID de proveedor}</td> */}
+                               <td>{ID_Supplier}</td> 
                               <td>{shoppingItem.Total}</td>
                               <td className={`${status}`}>
                                 {shoppingItem.State ? "Habilitado" : "Deshabilitado"}

@@ -17,10 +17,13 @@ export function Supplies({ children }) {
 
     const getSupplies = async () => {
         try {
-            const res = await getSuppliesRequest();
-            setSupplies(res.data);
+            const { data } = await getSuppliesRequest() || {
+                data: []
+            };
+            return data
+            // setSupplies(res.data);
         } catch (error) {
-            console.error(error);
+            return []
         }
     }
 
@@ -61,7 +64,7 @@ export function Supplies({ children }) {
     const updateSupplies = async (id, supplie) => {
         try {
             await updateSuppliesRequest(id, supplie);
-            getSupplies(); 
+            getSupplies();
         } catch (error) {
             console.error(error);
         }

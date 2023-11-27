@@ -23,7 +23,8 @@
     "react-hook-form": "7.45.4",
     "react-icons": "4.11.0",
     "react-router-dom": "6.15.0",
-    "react-select": "5.7.7"
+    "react-select": "^5.7.7",
+    "react-select-search": "^4.1.7"
   },
   "devDependencies": {
     "@types/react": "18.2.15",

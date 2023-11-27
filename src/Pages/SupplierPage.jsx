@@ -13,12 +13,12 @@ import CreateSupplier from "../Components/CreateSupplier.jsx";
 import DeleteSupplier from "../Components/DeleteSupplier.jsx";
 
 function SupplierPage() {
-  const { supplier, getSupplier, updateSupplier, getSupplie , toggleSupplyStatus } = useSupplier();
+  const { supplier, getSupplierByState, updateSupplier, getSupplie , toggleSupplyStatus } = useSupplier();
 
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    getSupplier().then(console.log(supplier));
+    getSupplierByState().then(console.log(supplier));
   }, []);
 
   const handleSearchChange = (event) => {
@@ -122,7 +122,7 @@ function SupplierPage() {
                                 </td>
                               <td className="flex items-center">
                                 <CreateSupplier
-                                  disabled={!supplierItem.State}
+                                  isDisabled={!supplierItem.State}
                                   key={supplierItem.ID_Supplier}
                                   onDefaultSubmit={(event, setOpen) =>
                                     onUpdate(
@@ -148,6 +148,8 @@ function SupplierPage() {
                                 />
                                 <DeleteSupplier
                                   currentSupplier={supplierItem}
+                                  isDisabled={!supplierItem.State}
+                                  
                                 />
                                 <button
                                    type="button"

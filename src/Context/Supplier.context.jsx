@@ -26,12 +26,38 @@ export function Supplier({ children }) {
 
   const getSupplier = async () => {
     try {
-      const res = await getSupplierRequest();
+      const { data } = await getSupplierRequest() || {
+        data: []
+      };
+      // setSupplier(res.data);
+      return data
+    } catch (error) {
+      return []
+    }
+
+  };
+
+  const getSupplierByState = async () => {
+    try {
+      const res = await getSupplierRequest()
       setSupplier(res.data);
     } catch (error) {
-      console.error(error);
+      console.log(error)
     }
+
   };
+
+  // export function Supplier({ children }) {
+  //   const [supplier, setSupplier] = useState([]);
+
+  //   const getSupplier = async () => {
+  //     try {
+  //       const res = await getSupplierRequest();
+  //       setSupplier(res.data);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
 
   const getSupplie = async (id) => {
     try {
@@ -98,7 +124,8 @@ export function Supplier({ children }) {
         createSupplier,
         toggleSupplyStatus,
         updateSupplier,
-        deleteSupplier
+        deleteSupplier,
+        getSupplierByState
       }}
     >
       {children}

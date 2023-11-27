@@ -23,6 +23,7 @@ export default function DeleteSupplier({
   currentSupplier = {
     ID_Supplier: null
   },
+  isDisabled = false,
   ...buttonParams
 }) {
   const [open, setOpen] = React.useState(false);
@@ -44,6 +45,7 @@ export default function DeleteSupplier({
         type="button"
         className="btn  btn-icon btn-danger"
         onClick={() => handleOpen()}
+        disabled={isDisabled}
       >
         <i data-feather="camera">
           <AiFillDelete />{" "}

@@ -36,9 +36,7 @@ function Login() {
 		if (isAuthenticated) navigate('/dashboard')
 	}, [isAuthenticated])
 
-	if (isAuthenticated) {
-		return null; // No renderizar el componente de login si el usuario ya está autenticado
-	  }
+	
 
   return (
 	<div className="">
