@@ -12,7 +12,8 @@ function ShoppingBill({ total = 0 }) {
   const { getSupplier } = useSupplier()
   const [supplierState, setSupplierState] = useState([{
     Name_Supplier: "",
-    ID_Supplier: ""
+    ID_Supplier: "", 
+    Name_Business: "",
   }])
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedSupplier, setSelectedSupplier] = useState(null);
@@ -20,9 +21,9 @@ function ShoppingBill({ total = 0 }) {
   const customStyles = {
     control: (provided) => ({
       ...provided,
-      width: '180px', // Ajusta el ancho del control
-      minHeight: '30px', // Ajusta la altura mínima del control
-      fontSize: '14px', // Ajusta el tamaño de fuente
+      width: '180px', 
+      minHeight: '30px', 
+      fontSize: '14px', 
     }),
   };
 
@@ -35,10 +36,11 @@ function ShoppingBill({ total = 0 }) {
     // console.log(getSupplies())
   }, [])
 
+  //para enviar los datos con useform
   const onSubmit = handleSubmit(data => {
     signin(data)
   })
-
+  //se utilizará para actualizar la fecha cada segundo o en intervalos regulares, llamando ka función tick  
   useEffect(() => {
     const timerID = setInterval(() => tick(), 1000);
     return () => {
@@ -46,6 +48,7 @@ function ShoppingBill({ total = 0 }) {
     };
   }, []);
 
+  //La fecha se muestra dinámicamente en el componente usando currenteDate
   const tick = () => {
     setCurrentDate(new Date());
   };
@@ -54,10 +57,14 @@ function ShoppingBill({ total = 0 }) {
     setSelectedSupplier(value);
   };
 
-  const options = supplierState.map(({ ID_Supplier, Name_Supplier }) => ({
+  const options = supplierState.map(({ ID_Supplier, Name_Supplier,Name_Business }) => ({
     value: ID_Supplier,
     label: Name_Supplier,
   }));
+
+
+
+  
   
   return (
 

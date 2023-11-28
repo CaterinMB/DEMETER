@@ -16,6 +16,7 @@ function NewPassword() {
 	const {register,handleSubmit, formState:{errors}} = useForm();
 
 	const onSubmit = handleSubmit(data=>{
+		console.log('Datos del formulario:', data);
 		signin(data)
 	})
 
@@ -33,38 +34,53 @@ function NewPassword() {
 			  <div className="row align-items-center text-center">
 				<div className="col-md-12">
 				  <div className="card-body">
-					<img src={logo} alt="" className="img-fluid mb-4"/>
+					<img src={logo} alt="" className="img-fluid mb-4" />
 					<p>Restablecer contraseña</p>
 					<form onSubmit={handleSubmit(onSubmit)}>
 					  <div className="input-group mb-3">
-						<span className="input-group-text"><i data-feather="mail"><AiOutlineLock/></i></span>
+						<span className="input-group-text"><i data-feather="mail"><AiOutlineLock /></i></span>
 						<input
 						  type="password"
 						  className="form-control"
 						  placeholder="Contraseña *"
 						  {...register('Password', {
+							require: "Debe llenar el campo para cambiar la contraseña",
 							pattern: {
-								value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W)(?=.*\w).*$/,
-								message: 'La contraseña debe contener al menos una mayúscula, una minúscula, un número y un carácter especial.'
+							  value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W)(?=.*\w).*$/,
+							  message: 'La contraseña debe contener al menos una mayúscula, una minúscula, un número y un carácter especial.'
 							},
 							minLength: {
-								value: 5,
-								message: 'La contraseña debe tener al menos 5 caracteres'
+							  value: 5,
+							  message: 'La contraseña debe tener al menos 5 caracteres'
 							},
 							maxLength: {
-								value: 20,
-								message: 'La contraseña no puede tener más de 20 caracteres'
+							  value: 20,
+							  message: 'La contraseña no puede tener más de 20 caracteres'
 							}
-						})}
+						  })}
 						/>
-						{errors.Passsword && (
+						{errors.Password && (
 						  <p className="text-red-500">{errors.Password.message}</p>
 						)}
 					  </div>
-
-					  
-
-
+  
+					  <div className="input-group mb-3">
+						<span className="input-group-text"><i data-feather="mail"><AiOutlineLock /></i></span>
+						<input
+						  type="password"
+						  className="form-control"
+						  placeholder="Confirmar Contraseña *"
+						  {...register('ConfirmPassword', {
+							require: "Debe llenar la confirmación de la contraseña",
+							validate: (value) =>
+							  value === getValues('Password') || 'Las contraseñas no coinciden',
+						  })}
+						/>
+						{errors.ConfirmPassword && (
+						  <p className="text-red-500">{errors.ConfirmPassword.message}</p>
+						)}
+					  </div>
+  
 					  <button type="submit" className="btn btn-block btn-primary mt-3 mr-3" onClick={handleNewPassword}>Confirmar</button>
 					  <Link to="/">
 						<button className="btn btn-block btn-primary mt-3">
@@ -79,8 +95,7 @@ function NewPassword() {
 		  </div>
 		</div>
 	  </div>
-
 	)
-}
-
+  }
+  
 export default NewPassword;

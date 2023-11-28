@@ -136,7 +136,7 @@ function NewPurchase() {
               <div>
                 <label className='ml-5'>
                   Precio:
-                  <input className="border border-gray-300 rounded-md p-1 ml-2" type="number" {...register("Price_Supplier")} />
+                  <input className="border border-gray-300 rounded-md p-1 ml-4" type="number" {...register("Price_Supplier")} />
                 </label>
               </div>
               <button type="submit" className="btn btn-icon btn-primary ml-4 mb-3">Agregar insumo</button>
