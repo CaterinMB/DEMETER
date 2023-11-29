@@ -15,7 +15,17 @@ export const useSupplies = () => {
 export function Supplies({ children }) {
     const [supplies, setSupplies] = useState([]);
 
-    const getSupplies = async () => {
+    
+        const getSupplies = async () => {
+            try {
+                const res = await getSuppliesRequest();
+                setSupplies(res.data);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+    const getShopSupplies = async () => {
         try {
             const { data } = await getSuppliesRequest() || {
                 data: []
@@ -88,7 +98,8 @@ export function Supplies({ children }) {
             createSupplies,
             toggleSupplyStatus,
             updateSupplies,
-            deleteSupplies
+            deleteSupplies, 
+            getShopSupplies
         }}>
             {children}
         </SuppliesContext.Provider>

@@ -12,13 +12,12 @@ import '../fonts/fontawesome.css'
 import '../fonts//material.css'
 
 function NewPassword() {
-	const { NewPasswordd } = useUser()
+	const { NewPasswordd, changePasswordError, changePasswordSuccess} = useUser()
 	const {register,handleSubmit, formState:{errors}} = useForm();
 
-	const onSubmit = handleSubmit(data=>{
-		console.log('Datos del formulario:', data);
-		signin(data)
-	})
+	const onSubmit = handleSubmit(data => {
+		NewPasswordd(token, data.Password, data.ConfirmPassword);
+	  });
 
 	const { token } = useParams()
 
@@ -80,7 +79,13 @@ function NewPassword() {
 						  <p className="text-red-500">{errors.ConfirmPassword.message}</p>
 						)}
 					  </div>
-  
+					  {changePasswordError && (
+  					<p className="text-red-500">{changePasswordError}</p>
+						)}
+					{changePasswordSuccess && (
+ 					 <p className="text-green-500">{changePasswordSuccess}</p>
+					)}
+
 					  <button type="submit" className="btn btn-block btn-primary mt-3 mr-3" onClick={handleNewPassword}>Confirmar</button>
 					  <Link to="/">
 						<button className="btn btn-block btn-primary mt-3">

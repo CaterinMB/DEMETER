@@ -12,24 +12,14 @@ import '../fonts/fontawesome.css'
 import '../fonts//material.css'
 
 function Login() {
-	const {signin, isAuthenticated} = useUser();
+	const {signin, isAuthenticated, loginError } = useUser();
 	const {register, handleSubmit, formState:{errors}} = useForm();
 	const navigate = useNavigate();
-	const [loginError, setLoginError] = useState(null);
 
 
-	const onSubmit = handleSubmit(async (data) => {
-		try {
-		  await signin(data);
-		  setLoginError(null); // Limpiar el mensaje de error si el inicio de sesión es exitoso
-		} catch (error) {
-		  if (error.response.status === 400) {
-			setLoginError('Correo electrónico o contraseña incorrectos.');
-		  } else {
-			setLoginError('El correo no está registrado.');
-		  }
-		}
-	  });
+	const onSubmit = async (data) => {
+		  await signin(data);		
+	}
 
 
 	useEffect (()=>{
@@ -47,7 +37,7 @@ function Login() {
 			<div className="col-md-12">
 			  <div className="card-body">
 				<img src={logo} alt="" className="img-fluid mb-4" />
-				<form onSubmit={onSubmit}>
+				<form onSubmit={handleSubmit(onSubmit)}>
 				  <div className="input-group mb-3">
 					<span className="input-group-text">
 					  <i data-feather="mail"><AiOutlineMail /></i>
@@ -80,6 +70,7 @@ function Login() {
 						required: true
 					  })}
 					/>
+					
 				  </div>
 				  {loginError && (
                       <p className="text-red-500">{loginError}</p>

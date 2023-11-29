@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { getUsersRequest, getUserRequest, createUserRequest, statusUserRequest, updateUserRequest, deleteUserRequest, loginRequest, verifyTokenRequest, forgotPasswordRequest, NewPassword } from '../Api/User.request.js'
+import { getUsersRequest, getUserRequest, createUserRequest, statusUserRequest, updateUserRequest, deleteUserRequest, loginRequest, verifyTokenRequest, forgotPasswordRequest, NewPasswordRequest } from '../Api/User.request.js'
 import { getWaitersRequest, createWaiterRequest } from '../Api/User.request.js';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom'; 
@@ -19,6 +19,12 @@ export const User = ({ children }) => {
     const [user, setUser] = useState([]);
     const [isAuthenticated, setisAuthenticated] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [loginError, setLoginError] = useState(null);
+    const [forgotPasswordSuccess, setForgotPasswordSuccess] = useState('');
+    const [forgotPasswordError, setForgotPasswordError] = useState('');
+    const [changePasswordError, setChangePasswordError] = useState('');
+    const [changePasswordSuccess, setChangePasswordSuccess] = useState('');
+   
     const navigate = useNavigate(); 
 
    
@@ -89,35 +95,108 @@ export const User = ({ children }) => {
      //-------------------------------------login----------------------------------------------//
      const signin = async (userData) => {
         try {
-            const res = await loginRequest(userData);
-            if (res && res.data) {
-                setisAuthenticated(true); // Establecer autenticación como verdadero
-                setUser(res.data); // Actualizar el estado del usuario en el contexto
+          const res = await loginRequest(userData);
+          if (res && res.data) {
+            setisAuthenticated(true);
+            setUser(res.data);
+          }
+        } catch (error) {
+          console.log(error);
+          if (error.response && error.response.status === 400) {
+            if (error.response.data.message === 'Email invalido') {
+              setLoginError('El email no está registrado.');
+            } else if (error.response.data.message === 'Contraseña incorrecta') {
+              setLoginError('contraseña incorrecta.');
+            } else {
+              setLoginError('Error desconocido.');
             }
-        } catch (error) {
-            console.log(error);
+            setTimeout(() => {
+              setLoginError(null);
+            }, 5000);
+          }
         }
-    }
+      };
 
 
-
-    const forgotPassword = async (email) => {
-         try {
-           await forgotPasswordRequest({ Email: email });
-          console.log('Correo para restablecer contraseña enviado exitosamente.');            
+      const forgotPassword = async (email) => {
+        try {
+          const res = await forgotPasswordRequest({ Email: email });
+          if (res.message === 'Usuario no encontrado') {
+            setForgotPasswordError('El correo electrónico no está registrado.');
+            setTimeout(() => {
+              setForgotPasswordError('');
+            }, 5000);
+          } else {
+            setForgotPasswordSuccess('Se ha enviado un correo para restablecer la contraseña.');
+            setTimeout(() => {
+              setForgotPasswordSuccess('');
+            }, 5000);
+          }
         } catch (error) {
-            console.log('Error al enviar el correo:', error);
-         }
-    }; 
+          console.log('Error:', error);
+          setForgotPasswordError('Email inválido');
+          setTimeout(() => {
+            setForgotPasswordError('');
+          }, 5000);
+          setForgotPasswordSuccess('');
+        }
+      };
 
+
+
+      
+    //cambiar la contraseña NewPasswordd
     
-    const NewPasswordd = async (token) => {
-        try{
-            await NewPassword(token)
-        }catch(e){
-            console.log(e)
+    // const NewPasswordd = async (token, password, confirmPassword) => {
+    //     try {
+    //       if (password !== confirmPassword) {
+    //         setChangePasswordError('Las contraseñas no coinciden.');
+    //         setTimeout(() => {
+    //           setChangePasswordError('');
+    //         }, 5000);
+    //       } else {
+    //         const res = await NewPasswordRequest({ token, Password: password });
+    //         if (res.msg === 'Se actualizó correctamente') {
+    //           setChangePasswordSuccess('Contraseña cambiada exitosamente.');
+    //           setTimeout(() => {
+    //             setChangePasswordSuccess('');
+    //           }, 5000);
+    //         }
+    //       }
+    //     } catch (error) {
+    //       console.error('Error:', error);
+    //       setChangePasswordError('Hubo un problema al cambiar la contraseña.');
+    //       setTimeout(() => {
+    //         setChangePasswordError('');
+    //       }, 5000);
+    //     }
+    //   };
+
+    const NewPasswordd = async (token, password, confirmPassword) => {
+        try {
+          if (password !== confirmPassword) {
+            console.log('Las contraseñas no coinciden:', password, confirmPassword);
+            setChangePasswordError('Las contraseñas no coinciden.');
+            setTimeout(() => {
+              setChangePasswordError('');
+            }, 5000);
+          } else {
+            const res = await NewPasswordRequest({ token, Password: password });
+            if (res.msg === 'Se actualizó correctamente') {
+              setChangePasswordSuccess('Contraseña cambiada exitosamente.');
+              setTimeout(() => {
+                setChangePasswordSuccess('');
+              }, 5000);
+            }
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          setChangePasswordError('Hubo un problema al cambiar la contraseña.');
+          setTimeout(() => {
+            setChangePasswordError('');
+          }, 5000);
         }
-    }
+      };
     
     
     
@@ -201,7 +280,14 @@ export const User = ({ children }) => {
                 loading,
                 logout,
                 forgotPassword,
-                NewPasswordd
+                NewPasswordd,
+                loginError, 
+                forgotPasswordError,
+                forgotPasswordSuccess,
+                changePasswordError,
+                setChangePasswordError,
+                changePasswordSuccess,
+                setChangePasswordSuccess,
             }}
         >
             {children}

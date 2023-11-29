@@ -9,26 +9,12 @@ import '../css/landing.css';
 
 function ResetPassword() {
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const { forgotPassword } = useUser();
-  const [errorMessage, setErrorMessage] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
+  const { forgotPassword,  forgotPasswordError, forgotPasswordSuccess, } = useUser();
 
-  const onSubmit = async (data) => {
-    try {
-      const res = await forgotPassword(data.Email);
-      if (res.success) {
-        setSuccessMessage(res.message);
-        setErrorMessage('');
-      } else {
-        setErrorMessage(res.message);
-        setSuccessMessage('');
-      }
-    } catch (error) {
-      console.log('Error:', error);
-      setErrorMessage('Hubo un problema al enviar el correo.');
-      setSuccessMessage('');
-    }
-  };
+  
+	const onSubmit = async (data) => {
+    await forgotPassword(data.Email);
+}
   
   return (
     <div className="">
@@ -58,8 +44,14 @@ function ResetPassword() {
                         <p className="text-red-500">{errors.Email.message}</p>
                       )}
                     </div>
-                    {errorMessage && <p className="error-message">{errorMessage}</p>}
-                    {successMessage && <p className="success-message">{successMessage}</p>}
+                 
+
+                  {forgotPasswordError && (
+                  <p className="error-message">{forgotPasswordError}</p>
+                   )}
+                 {forgotPasswordSuccess && (
+                 <p className="success-message">{forgotPasswordSuccess}</p>
+                  )}
                     <button type="submit" className="btn btn-block btn-primary mt-3 mr-3 ">Enviar</button>
                     <Link to="/">
                       <button className="btn btn-block btn-primary mt-3">
