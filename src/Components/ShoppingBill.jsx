@@ -7,7 +7,7 @@ import { useSupplier } from '../Context/Supplier.context';
 import Select from 'react-select';
 
 
-function ShoppingBill({ total = 0 }) {
+function ShoppingBill({ total = 0, ...confirmValues }) {
   const { register, handleSubmit } = useForm();
   const { getSupplier } = useSupplier()
   const [supplierState, setSupplierState] = useState([{
@@ -96,7 +96,7 @@ function ShoppingBill({ total = 0 }) {
         <div className="mt-auto ">
           <hr className="ml-2 mt-5 " />
           <div className="flex justify-between pt-4">
-            <ConfirmShop />
+            <ConfirmShop {...confirmValues}/>
             <CancelShop />
           </div>
         </div>

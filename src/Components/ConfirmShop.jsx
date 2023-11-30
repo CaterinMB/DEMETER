@@ -18,7 +18,7 @@ const style = {
 };
 
 
-function ConfirmShop({ onConfirmValues = {} }) {
+function ConfirmShop({ onConfirm, ...onConfirmValues }) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -38,7 +38,7 @@ function ConfirmShop({ onConfirmValues = {} }) {
 
           </Typography>
           <Link to="/shopping">
-            <button className="bg-red-500 text-white font-bold py-2 px-4 rounded ml-5 mt-3 " {...onConfirmValues}>
+            <button className="bg-red-500 text-white font-bold py-2 px-4 rounded ml-5 mt-3 " {...onConfirmValues} onClick={onConfirm}>
               Confirmar
             </button>
           </Link>

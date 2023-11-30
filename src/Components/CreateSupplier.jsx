@@ -230,7 +230,7 @@ export default function CreateSupplier({
                           {...register("Name_Supplier", {
                             required: "El nombre es obligatorio",
                             pattern: {
-                              value: /^[A-ZÁÉÍÓÚÑ][a-záéíóúñ\s]*[a-záéíóúñ]$/,
+                              value:/^[A-ZÁÉÍÓÚÑ][a-zA-Z\sáéíóúñ]*$/,
                               message:
                                 "La primera letra debe ser mayúscula y solo letras."
                             }

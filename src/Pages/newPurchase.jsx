@@ -22,8 +22,10 @@ function NewPurchase() {
   //   ID_Supplies: ""
   // }])
 
-  
-
+  const onConfirm = () => {
+    console.log("selectedSupplies")
+    console.log(selectedSupplies)
+  }
   const [suppliesState, setSuppliesState] = useState([{
     ID_Supplies: "",
     Name_Supplies: "",
@@ -69,7 +71,6 @@ function NewPurchase() {
       ...prev,
       total: array.reduce((acc, curr) => acc + (curr.Price_Supplier * curr.Lot), 0)
     }))
-
   }
   useEffect(() => {
     // setSuppliesState(getSupplies())
@@ -179,7 +180,7 @@ function NewPurchase() {
       </div>
       <div className='position-facture ml-5'>
 
-        <ShoppingBill {...shoppingBillState} />
+        <ShoppingBill {...shoppingBillState} onConfirm={onConfirm}/>
       </div>
 
     </div>
