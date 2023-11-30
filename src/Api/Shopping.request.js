@@ -1,6 +1,8 @@
 import axios from "./Axios.js";
 
 export const CreateShopping = (data) => axios.post('/shopping', data);
+export const CreateMultipleShopping = (data) => axios.post('/multpleShopping', data);
+export const GetShopingAndShopingDetails = () => axios.get('/getShopingAndShopingDetails');
 export const GetOneShopping = (ID_Shopping) => axios.get(`/shopping/${ID_Shopping}`);
 export const GetShopping = () => axios.get('/shopping');
 export const DisableShopping = (id) => axios.put(`/shopping/disable/${id}`);

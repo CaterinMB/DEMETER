@@ -5,15 +5,17 @@ import ShoppingBill from '../Components/ShoppingBill';
 import { useSupplies } from '../Context/Supplies.context'
 import '../css/style.css'
 import '../css/general.css'
+import { useShoppingContext } from '../Context/Shopping.context';
 
 function NewPurchase() {
   const { register, handleSubmit, reset } = useForm();
+  const { createMultipleShopping } = useShoppingContext()
   const [error, setError] = useState("")
   const [selectedSupplies, setSelectedSupplies] = useState([])
   const [shoppingBillState, setShoppingBillState] = useState({
     total: 0
   })
-  
+
   // const [selectedSupplies, setSelectedSupplies] = useState([{
   //   Lot: "",
   //   medida1: "",
@@ -22,9 +24,33 @@ function NewPurchase() {
   //   ID_Supplies: ""
   // }])
 
-  const onConfirm = () => {
-    console.log("selectedSupplies")
-    console.log(selectedSupplies)
+  //   [
+  //     {
+  //         "Lot": "12",
+  //         "medida1": "kg",
+  //         "Price_Supplier": "5000",
+  //         "supplieName": "Panes",
+  //         "ID_Supplies": "1"
+  //     }
+  // ]
+
+  // {
+  //   "value": 2,
+  //   "label": "Jorge"
+  // }
+  const onConfirm = async ({ value }) => {
+    const data = selectedSupplies.map(({ ID_Supplies, ...data }) => ({
+      shoppingDetails: {
+        ...data,
+        Supplies_ID: ID_Supplies
+      },
+      Total: shoppingBillState.total,
+      Datetime: new Date().getDate(),
+      State: 1,
+      Supplier_ID: value,
+      User_ID: 7
+    }))
+    await createMultipleShopping(data)
   }
   const [suppliesState, setSuppliesState] = useState([{
     ID_Supplies: "",
@@ -78,6 +104,7 @@ function NewPurchase() {
     return async () => {
       const newSupplies = await Promise.resolve(getShopSupplies())
       setSuppliesState(newSupplies)
+      console.log("newSupplies")
       console.log(newSupplies)
     }
     // console.log(getSupplies())
@@ -141,7 +168,7 @@ function NewPurchase() {
                 </label>
               </div>
               <button type="submit" className="btn btn-icon btn-primary ml-4 mb-3">Agregar insumo</button>
-             
+
             </div>
             {error && <p className='ml-5'>{error}</p>}
           </form>
@@ -180,7 +207,7 @@ function NewPurchase() {
       </div>
       <div className='position-facture ml-5'>
 
-        <ShoppingBill {...shoppingBillState} onConfirm={onConfirm}/>
+        <ShoppingBill {...shoppingBillState} onConfirm={onConfirm} />
       </div>
 
     </div>

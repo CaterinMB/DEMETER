@@ -19,7 +19,7 @@ export function Supplies({ children }) {
         const getSupplies = async () => {
             try {
                 const res = await getSuppliesRequest();
-                setSupplies(res.data);
+                setSupplies(res?.data || []);
             } catch (error) {
                 console.error(error);
             }

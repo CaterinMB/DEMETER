@@ -12,7 +12,7 @@ function ShoppingBill({ total = 0, ...confirmValues }) {
   const { getSupplier } = useSupplier()
   const [supplierState, setSupplierState] = useState([{
     Name_Supplier: "",
-    ID_Supplier: "", 
+    ID_Supplier: "",
     Name_Business: "",
   }])
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -21,9 +21,9 @@ function ShoppingBill({ total = 0, ...confirmValues }) {
   const customStyles = {
     control: (provided) => ({
       ...provided,
-      width: '180px', 
-      minHeight: '30px', 
-      fontSize: '14px', 
+      width: '180px',
+      minHeight: '30px',
+      fontSize: '14px',
     }),
   };
 
@@ -57,15 +57,15 @@ function ShoppingBill({ total = 0, ...confirmValues }) {
     setSelectedSupplier(value);
   };
 
-  const options = supplierState.map(({ ID_Supplier, Name_Supplier,Name_Business }) => ({
+  const options = supplierState.map(({ ID_Supplier, Name_Supplier, Name_Business }) => ({
     value: ID_Supplier,
     label: Name_Supplier,
   }));
 
 
 
-  
-  
+
+
   return (
 
     <div className="facture flex justify-between gap-20 w-full h-full ">
@@ -78,16 +78,17 @@ function ShoppingBill({ total = 0, ...confirmValues }) {
         <div className="flex mb-2 ">
           <h4 className='ml-4 mt-2'>Proveedor:</h4>
           <Select
-          className='ml-3'
+            required
+            className='ml-3'
             options={options}
             value={selectedSupplier}
             onChange={handleChange}
             placeholder=""
             styles={customStyles}
           />
-        
+
         </div>
-        <hr className='ml-2 mt-4'/>
+        <hr className='ml-2 mt-4' />
         <div>
           <h1 className='text-center mt-5'>$ {total}</h1>
           <p className='text-center mt-1'>Total</p>
@@ -96,7 +97,7 @@ function ShoppingBill({ total = 0, ...confirmValues }) {
         <div className="mt-auto ">
           <hr className="ml-2 mt-5 " />
           <div className="flex justify-between pt-4">
-            <ConfirmShop {...confirmValues}/>
+            <ConfirmShop {...confirmValues} data={selectedSupplier} />
             <CancelShop />
           </div>
         </div>

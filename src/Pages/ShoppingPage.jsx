@@ -2,25 +2,26 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useShoppingContext } from '../Context/Shopping.context';
 import { useSupplier } from "../Context/Supplier.context";
-import '../css/style.css'; 
+import '../css/style.css';
 import "../css/landing.css";
 
 function ShoppingPage() {
-    const {  getOneShopping, shopping: Shopping, selectAction, disableShopping, getShoppingList } = useShoppingContext();
-    const {getSupplier} = useSupplier();
-    const [searchTerm, setSearchTerm] = useState("");
-    const handlePageClick = ({ selected }) => {
+  const { getOneShopping, shopping: Shopping, selectAction, disableShopping, getShoppingList, getShopingAndShopingDetails } = useShoppingContext();
+  const { getSupplier } = useSupplier();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [shoppingData, setShoppingData] = useState([])
+  const handlePageClick = ({ selected }) => {
     setPageNumber(selected);
   };
 
-
-  useEffect(()=>{
-    getSupplier
-  })
-
-
   useEffect(() => {
-    getShoppingList();
+    return async () => {
+      const data = await getShopingAndShopingDetails();
+      setShoppingData(data)
+      console.log("data")
+      console.log(shoppingData)
+      console.log(data)
+    }
   }, []);
 
   const status = Shopping.State ? "" : "desactivado";
@@ -56,15 +57,15 @@ function ShoppingPage() {
                 <div className="card-body">
                   <div className="row">
                     <div className="col-md-6">
-                    <Link to="/shop">
-                        <button type="button" className="btn btn-primary" onClick={() =>{selectAction(1) }}>
+                      <Link to="/shop">
+                        <button type="button" className="btn btn-primary" onClick={() => { selectAction(1) }}>
                           Registrar compra
                         </button>
                       </Link>
                     </div>
                     <div className="col-md-6">
                       <div className="form-group">
-                         <input
+                        <input
                           type="search"
                           className="form-control"
                           id="exampleInputEmail1"
@@ -72,7 +73,7 @@ function ShoppingPage() {
                           placeholder="Buscador"
                           value={searchTerm}
                           onChange={handleSearchChange}
-                        /> 
+                        />
                       </div>
                     </div>
                   </div>
@@ -91,25 +92,54 @@ function ShoppingPage() {
                           </tr>
                         </thead>
                         <tbody>
-                          {filteredShopping.map((shoppingItem) => (
-                            <tr key={shoppingItem.ID_Shopping}>
-                              <td>{shoppingItem.Datetime}</td>
-                               <td>{ID_Supplier}</td> 
-                              <td>{shoppingItem.Total}</td>
-                              <td className={`${status}`}>
-                                {shoppingItem.State ? "Habilitado" : "Deshabilitado"}
-                                </td>
+                          {shoppingData.map((
+                            {
+                              ID_ShoppingDetail,
+                              Lot,
+                              Price_Supplier,
+                              Supplies_ID,
+                              Shopping_ID,
+                              Shopping: {
+                                  ID_Shopping,
+                                  Datetime,
+                                  Total,
+                                  State,
+                                  User_ID,
+                                  Supplier_ID,
+                                  Supplier: {
+                                      ID_Supplier,
+                                      Type_Document,
+                                      Document,
+                                      Name_Supplier,
+                                      Name_Business,
+                                      Phone,
+                                      Email,
+                                      City: Medellin,
+                                      State: SupplierState
+                                  }
+                              }
+                          }
+                          ) => (
+                            <tr key={ID_ShoppingDetail}>
+                              <td>{Datetime}</td>
+                              <td>{Name_Supplier}</td>
+                              <td>{Total}</td>
+                              <td className={`${State ? "" : "desactivado"}`}>
+                                {State ? "Habilitado" : "Deshabilitado"}
+                              </td>
 
                               <td className="flex items-center">
-                                
+
                                 <button
                                   type="button"
                                   className={`btn  btn-icon btn-success ${status}`}
-                            
+
                                   onClick={() => toggleSupplyStatus(shoppingItem.ID_Shopping)}
                                 >
                                 </button>
+                                
                               </td>
+                              
                             </tr>
                           ))}
                         </tbody>
@@ -123,7 +153,7 @@ function ShoppingPage() {
         </div>
       </div>
     </section>
-);
+  );
 }
-  
+
 export default ShoppingPage
