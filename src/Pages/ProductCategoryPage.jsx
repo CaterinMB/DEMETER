@@ -8,6 +8,8 @@ import CreateProductCategory from "../Components/CreateProductCategory.jsx";
 import UpdateProductCategory from "../Components/UpdateProductCategory.jsx";
 import DeleteProductCategory from "../Components/DeleteProductCategory.jsx";
 import CannotDeleteCategory from "../Components/CannotDeleteProductsCategory.jsx";
+import CannotDisableCategoryProduct from '../Components/CannotDisableCategoryProduct.jsx';
+
 import "../css/style.css";
 import "../css/landing.css";
 
@@ -19,6 +21,7 @@ function ProductCategoryPage() {
   const [selectedProductCategoryToDelete, setSelectedProductCategoryToDelete] = useState(null);
   const [selectedProductCategoryToUpdate, setSelectedProductCategoryToUpdate] = useState(null);
   const [showWarning, setShowWarning] = useState(false);
+  const [showWarningDisable, setShowWarningDisable] = useState(false);
 
   useEffect(() => {
     getCategory_products();
@@ -61,6 +64,19 @@ function ProductCategoryPage() {
 
   const handleUpdateProductCategory = (productCategory) => {
     setSelectedProductCategoryToUpdate(productCategory);
+  };
+
+  const handleToggleStatus = async (productCategory) => {
+    const categoryID = productCategory.ID_ProductCategory;
+
+    const productInCategory = product.filter((product) => supply.ProductCategory_ID === categoryID);
+
+    if (productInCategory.length > 0) {
+      setShowWarningDisable(true);
+    } else {
+      setShowWarningDisable(false);
+      toggleCategoryProductStatus(categoryID);
+    }
   };
 
 
@@ -130,7 +146,7 @@ function ProductCategoryPage() {
                                   <button
                                     type="button"
                                     className={`btn btn-icon btn-success ${productCategory.State ? "active" : "inactive"}`}
-                                    onClick={() => toggleCategoryProductStatus(productCategory.ID_ProductCategory)}
+                                    onClick={() => handleToggleStatus(productCategory)}
                                   >
                                     {productCategory.State ? (
                                       <MdToggleOn className={`estado-icon active`} />
@@ -177,6 +193,12 @@ function ProductCategoryPage() {
           onUpdate={() => {
             setSelectedProductCategoryToUpdate(null);
           }}
+        />
+      )}
+
+      {showWarningDisable && (
+        <CannotDisableCategoryProduct
+          onClose={() => setShowWarningDisable(false)}
         />
       )}
     </section>

@@ -87,7 +87,7 @@ function SuppliesPage() {
                             <th>Nombre</th>
                             <th>Cantidad</th>
                             <th>Medida</th>
-                            <th>Existencias</th>
+                            <th>Existencia mínima</th>
                             <th>Categoria</th>
                             <th>Estado</th>
                             <th>Acciones</th>

@@ -105,6 +105,13 @@ function UpdateSupplies({
         setOpen(false);
     };
 
+    const options = Category_supplies
+  .filter(category => category.State)
+  .map(category => ({
+    value: category.ID_SuppliesCategory,
+    label: category.Name_SuppliesCategory,
+  }));
+
     return (
         <React.Fragment>
             <button
@@ -254,10 +261,7 @@ function UpdateSupplies({
                                                 Categoría
                                             </label>
                                             <Select
-                                                options={Category_supplies.map((category) => ({
-                                                    value: category.ID_SuppliesCategory,
-                                                    label: category.Name_SuppliesCategory,
-                                                }))}
+                                                options={options}
                                                 value={selectedCategory}
                                                 onChange={(selectedOption) => {
                                                     setSelectedCategory(selectedOption);

@@ -1,64 +1,49 @@
-import React, { useEffect, useState } from 'react';
-import { useShoppingContext } from '../Context/Shopping.context';
-import { useSupplies } from '../Context/Supplies.context';
+import React, { useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { useDashboard } from '../Context/Dashboard.context';
 
 const Dashboard = () => {
-  const { shoppingDetails, shopping, Count, fetchGain } = useShoppingContext();
-  const { supplies } = useSupplies();
-
-  const [mostSoldProducts, setMostSoldProducts] = useState([]);
-  const [mostPurchasedSupplies, setMostPurchasedSupplies] = useState([]);
-  const [total, setTotal] = useState(0);
-
-  useEffect(() => {
-    const productsSold = {};
-    const suppliesPurchased = {};
-
-    shoppingDetails.forEach((detail) => {
-      // Para obtener productos más vendidos
-      if (productsSold[detail.Product_ID]) {
-        productsSold[detail.Product_ID].Lot_ProductDetail += detail.Lot_ProductDetail;
-      } else {
-        productsSold[detail.Product_ID] = {
-          ID_Product: detail.Product_ID,
-          Lot_ProductDetail: detail.Lot_ProductDetail,
-        };
-      }
-
-      // Para obtener insumos más comprados
-      if (suppliesPurchased[detail.Supplies_ID]) {
-        suppliesPurchased[detail.Supplies_ID].Lot_ProductDetail += detail.Lot_ProductDetail;
-      } else {
-        suppliesPurchased[detail.Supplies_ID] = {
-          ID_Supplies: detail.Supplies_ID,
-          Lot_ProductDetail: detail.Lot_ProductDetail,
-        };
-      }
-    });
-
-    // Ordenar productos más vendidos e insumos más comprados
-    const sortedProducts = Object.values(productsSold).sort((a, b) => b.Lot_ProductDetail - a.Lot_ProductDetail);
-    const sortedSupplies = Object.values(suppliesPurchased).sort((a, b) => b.Lot_ProductDetail - a.Lot_ProductDetail);
-
-    setMostSoldProducts(sortedProducts.slice(0, 5)); // Tomar los primeros 5 productos
-    setMostPurchasedSupplies(sortedSupplies.slice(0, 5)); // Tomar los primeros 5 insumos
-  }, [shoppingDetails]);
+  const {
+    getMostPurchasedSupplies,
+    getMostSoldProducts,
+    getTotalProfitAndExpenses,
+    getOrganizeByDay,
+    getOrganizeByWeek,
+    getOrganizeByMonth,
+    getTotalProfitAndExpensesByPaymentMethod,
+    getTotalUnitsPurchasedBySupply,
+    getTotalUnitsSoldByProduct,
+    getAverageUnitsPerPurchase,
+    getAverageUnitsPerSale,
+    getNetIncomeByProduct,
+    getNetIncomeBySupply,
+  } = useDashboard();
 
   useEffect(() => {
-    // Calcular las ganancias totales
-    const totalMoney = shopping.reduce((total, sale) => total + sale.Total, 0);
-    setTotal(totalMoney);
-    fetchGain(totalMoney);
-  }, [shopping, fetchGain]);
+    // Realizar la solicitud de datos si es necesario
+  }, []); // Agrega dependencias si es necesario
+
+  const mostSoldProducts = getMostSoldProducts();
+  const mostPurchasedSupplies = getMostPurchasedSupplies();
+  const totalProfitAndExpenses = getTotalProfitAndExpenses();
+  const organizeByDay = getOrganizeByDay();
+  const organizeByWeek = getOrganizeByWeek();
+  const organizeByMonth = getOrganizeByMonth();
+  const totalProfitAndExpensesByPaymentMethod = getTotalProfitAndExpensesByPaymentMethod();
+  const totalUnitsPurchasedBySupply = getTotalUnitsPurchasedBySupply();
+  const totalUnitsSoldByProduct = getTotalUnitsSoldByProduct();
+  const averageUnitsPerPurchase = getAverageUnitsPerPurchase();
+  const averageUnitsPerSale = getAverageUnitsPerSale();
+  const netIncomeByProduct = getNetIncomeByProduct();
+  const netIncomeBySupply = getNetIncomeBySupply();
 
   return (
     <div>
       <h2>Productos Más Vendidos</h2>
       <ul>
         {mostSoldProducts.map((product) => (
-          <li key={product.ID_Product}>
-            Producto ID: {product.ID_Product}, Unidades Vendidas: {product.Lot_ProductDetail}
+          <li key={product.Product_ID}>
+            Producto ID: {product.Product_ID}, Unidades Vendidas: {product.totalLot}
           </li>
         ))}
       </ul>
@@ -66,25 +51,161 @@ const Dashboard = () => {
       <h2>Insumos Más Comprados</h2>
       <ul>
         {mostPurchasedSupplies.map((supply) => (
-          <li key={supply.ID_Supplies}>
-            Insumo ID: {supply.ID_Supplies}, Unidades Compradas: {supply.Lot_ProductDetail}
+          <li key={supply.Supplies_ID}>
+            Insumo ID: {supply.Supplies_ID}, Unidades Compradas: {supply.totalLot}
           </li>
         ))}
       </ul>
 
       <h2>Ganancias Totales</h2>
-      <p>Ganancias Totales: {total}</p>
+      <p>Ganancias Totales: {totalProfitAndExpenses.totalProfit}</p>
 
-      <h2>Gráfico de Barras</h2>
+      <h2>Gráfico de Barras - Ventas y Gastos Diarios</h2>
       <ResponsiveContainer width="100%" height={300}>
-        <BarChart data={mostSoldProducts} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-          <XAxis dataKey="ID_Product" />
+        <BarChart
+          data={organizeByDay.salesByDay}
+          margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+        >
+          <XAxis dataKey="day" />
           <YAxis />
           <Tooltip />
           <Legend />
-          <Bar dataKey="Lot_ProductDetail" fill="rgba(75,192,192,0.2)" />
+          <Bar dataKey="totalSales" fill="rgba(75,192,192,0.2)" name="Ventas" />
+          <Bar dataKey="totalExpenses" fill="rgba(255,99,132,0.2)" name="Gastos" />
         </BarChart>
       </ResponsiveContainer>
+      <p>Total Ventas: {totalProfitAndExpenses.totalProfit}</p>
+      <p>Total Gastos: {totalProfitAndExpenses.totalExpenses}</p>
+
+      <h2>Gráfico de Barras - Ventas y Gastos Semanales</h2>
+      <ResponsiveContainer width="100%" height={300}>
+        <BarChart
+          data={organizeByWeek.salesByWeek}
+          margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+        >
+          <XAxis dataKey="week" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="totalSales" fill="rgba(75,192,192,0.2)" name="Ventas" />
+          <Bar dataKey="totalExpenses" fill="rgba(255,99,132,0.2)" name="Gastos" />
+        </BarChart>
+      </ResponsiveContainer>
+      <p>Total Ventas: {totalProfitAndExpenses.totalProfit}</p>
+      <p>Total Gastos: {totalProfitAndExpenses.totalExpenses}</p>
+
+      <h2>Gráfico de Barras - Ventas y Gastos Mensuales</h2>
+      <ResponsiveContainer width="100%" height={300}>
+        <BarChart
+          data={organizeByMonth.salesByMonth}
+          margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+        >
+          <XAxis dataKey="month" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="totalSales" fill="rgba(75,192,192,0.2)" name="Ventas" />
+          <Bar dataKey="totalExpenses" fill="rgba(255,99,132,0.2)" name="Gastos" />
+        </BarChart>
+      </ResponsiveContainer>
+      <p>Total Ventas: {totalProfitAndExpenses.totalProfit}</p>
+      <p>Total Gastos: {totalProfitAndExpenses.totalExpenses}</p>
+
+      <h2>Gráfico de Barras - Métodos de Pago</h2>
+      <ResponsiveContainer width="100%" height={300}>
+        <BarChart
+          data={totalProfitAndExpensesByPaymentMethod}
+          margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+        >
+          <XAxis dataKey="Payment" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="usageCount" fill="rgba(75,192,192,0.2)" name="Usos" />
+        </BarChart>
+      </ResponsiveContainer>
+
+      <h2>Tabla - Unidades Compradas y Vendidas</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Unidades Compradas</th>
+            <th>Unidades Vendidas</th>
+          </tr>
+        </thead>
+        <tbody>
+          {totalUnitsPurchasedBySupply.map((entry, index) => (
+            <tr key={index}>
+              <td>{entry.totalUnitsPurchased}</td>
+              <td>{totalUnitsSoldByProduct[index]?.totalUnitsSold || 0}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <h2>Gráfico de Barras - Promedio de Unidades por Compra</h2>
+      <ResponsiveContainer width="100%" height={300}>
+        <BarChart
+          data={averageUnitsPerPurchase}
+          margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+        >
+          <XAxis dataKey="averageUnitsPerPurchase" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="averageUnitsPerPurchase" fill="rgba(75,192,192,0.2)" name="Promedio" />
+        </BarChart>
+      </ResponsiveContainer>
+
+      <h2>Gráfico de Barras - Promedio de Unidades por Venta</h2>
+      <ResponsiveContainer width="100%" height={300}>
+        <BarChart
+          data={averageUnitsPerSale}
+          margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+        >
+          <XAxis dataKey="averageUnitsPerSale" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="averageUnitsPerSale" fill="rgba(255,99,132,0.2)" name="Promedio" />
+        </BarChart>
+      </ResponsiveContainer>
+
+      <h2>Gráfico de Barras - Ingresos Netos por Producto</h2>
+      <ResponsiveContainer width="100%" height={300}>
+        <BarChart
+          data={netIncomeByProduct}
+          margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+        >
+          <XAxis dataKey="Product_ID" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="netIncome" fill="rgba(75,192,192,0.2)" name="Ingresos Netos" />
+        </BarChart>
+      </ResponsiveContainer>
+
+      <h2>Gráfico de Barras - Ingresos Netos por Suministro</h2>
+      <ResponsiveContainer width="100%" height={300}>
+        <BarChart
+          data={netIncomeBySupply}
+          margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+        >
+          <XAxis dataKey="Supplies_ID" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="netIncome" fill="rgba(255,99,132,0.2)" name="Ingresos Netos" />
+        </BarChart>
+      </ResponsiveContainer>
+
+      {/* Descripción - Ingresos Netos por Producto y Suministro */}
+      <h2>Descripción - Ingresos Netos por Producto y Suministro</h2>
+      <p>
+        La función <strong>getNetIncomeByProduct</strong> proporciona información sobre el ingreso neto por producto,
+        teniendo en cuenta los costos asociados. Mientras tanto, la función <strong>getNetIncomeBySupply</strong> ofrece
+        datos sobre el ingreso neto por insumo, teniendo en cuenta los costos asociados.
+      </p>
     </div>
   );
 };

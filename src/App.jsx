@@ -10,6 +10,7 @@ import { ShoppingProvider } from './Context/Shopping.context.jsx'
 import { CategorySupplies } from './Context/CategorySupplies.context.jsx'
 import { CategoryProducts } from './Context/CategoryProducts.context.jsx'
 import { SaleProvider } from './Context/SaleContext.jsx'
+import { DashboardProvider } from './Context/Dashboard.context.jsx'
 
 // Pages
 import UserPage from './Pages/UserPage.jsx'
@@ -31,33 +32,35 @@ function App() {
     <BrowserRouter>
       <Role>
         <User>
-          <CategorySupplies>
-            <CategoryProducts>
-              <Supplier>
-                <Supplies>
-                  <ShoppingProvider>
-                    <SaleProvider>
-                      <Navbar />
-                      <Header />
-                      <Routes>
-                        <Route path='/' element={<DashBoard />} />
-                        <Route path='/setting' element={<RolePage />} />
-                        <Route path='/user' element={<UserPage />} />
-                        <Route path='/category_supplies' element={<SuppliesCategoryPage />} />
-                        <Route path='/supplies' element={<SuppliesPage />} />
-                        <Route path='/supplier' element={<SupplierPage />} />
-                        <Route path='/shopping' element={<h3>Compras</h3>} />
-                        <Route path='/category_product' element={<ProductCategoryPage />} />
-                        <Route path='/product' element={<h3>Producto</h3>} />
-                        <Route path='/waiter' element={<WaiterPage />} />
-                        <Route path='/sale' element={<h3>Venta</h3>} />
-                      </Routes>
-                    </SaleProvider>
-                  </ShoppingProvider>
-                </Supplies>
-              </Supplier>
-            </CategoryProducts>
-          </CategorySupplies>
+          <DashboardProvider>
+            <CategorySupplies>
+              <CategoryProducts>
+                <Supplier>
+                  <Supplies>
+                    <ShoppingProvider>
+                      <SaleProvider>
+                        <Navbar />
+                        <Header />
+                        <Routes>
+                          <Route path='/' element={<DashBoard />} />
+                          <Route path='/setting' element={<RolePage />} />
+                          <Route path='/user' element={<UserPage />} />
+                          <Route path='/category_supplies' element={<SuppliesCategoryPage />} />
+                          <Route path='/supplies' element={<SuppliesPage />} />
+                          <Route path='/supplier' element={<SupplierPage />} />
+                          <Route path='/shopping' element={<h3>Compras</h3>} />
+                          <Route path='/category_product' element={<ProductCategoryPage />} />
+                          <Route path='/product' element={<h3>Producto</h3>} />
+                          <Route path='/waiter' element={<WaiterPage />} />
+                          <Route path='/sale' element={<h3>Venta</h3>} />
+                        </Routes>
+                      </SaleProvider>
+                    </ShoppingProvider>
+                  </Supplies>
+                </Supplier>
+              </CategoryProducts>
+            </CategorySupplies>
+          </DashboardProvider>
         </User>
       </Role>
     </BrowserRouter>

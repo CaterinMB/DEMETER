@@ -159,6 +159,13 @@ function CreateSupplies({
     setSelectedCategory(null);
   };
 
+  const options = Category_supplies
+  .filter(category => category.State)
+  .map(category => ({
+    value: category.ID_SuppliesCategory,
+    label: category.Name_SuppliesCategory,
+  }));
+
   return (
     <React.Fragment>
       <button
@@ -272,7 +279,7 @@ function CreateSupplies({
 
                     <div className="form-group col-md-6">
                       <label htmlFor="Stock" className="form-label">
-                        Stock mínimo<strong>*</strong>
+                        Existencia mínima<strong>*</strong>
                       </label>
                       <input
                         {...register('Stock', {
@@ -282,15 +289,15 @@ function CreateSupplies({
                             const parsedUnit = parseInt(Unit);
 
                             if (isNaN(parsedValue)) {
-                              return 'El stock mínimo debe ser un número válido.';
+                              return 'La existencia mínima debe ser un número válido.';
                             }
 
                             if (parsedValue < 0 || parsedValue > 999) {
-                              return 'El stock mínimo debe ser un número entero entre 0 y 999.';
+                              return 'La existencia mínima debe ser un número entero entre 0 y 999.';
                             }
 
                             if (parsedValue > parsedUnit) {
-                              return `El stock mínimo no puede ser mayor que la cantidad de insumo (${parsedUnit}).`;
+                              return `La existencia mínima no puede ser mayor que la cantidad de insumo (${parsedUnit}).`;
                             }
                           },
                         })}
@@ -309,10 +316,7 @@ function CreateSupplies({
                         Categoría<strong>*</strong>
                       </label>
                       <Select
-                        options={Category_supplies.map((category) => ({
-                          value: category.ID_SuppliesCategory,
-                          label: category.Name_SuppliesCategory,
-                        }))}
+                        options={options}
                         value={selectedCategory}
                         onChange={handleCategoryChange}
                         styles={customStyles}

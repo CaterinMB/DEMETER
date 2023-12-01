@@ -8,6 +8,7 @@ import CreateSuppliesCategory from "../Components/CreateSuppliesCategory.jsx";
 import UpdateSuppliesCategory from "../Components/UpdateSuppliesCategory.jsx";
 import DeleteSuppliesCategory from "../Components/DeleteSupplies.jsx";
 import CannotDeleteCategory from "../Components/CannotDeleteSuppliesCategory.jsx";
+import CannotDisableCategorySupplies from '../Components/CannotDisableCategorySupplies.jsx';
 import "../css/style.css";
 import "../css/landing.css";
 
@@ -19,6 +20,7 @@ function SuppliesCategoryPage() {
   const [selectedSupplyCategoryToDelete, setSelectedSupplyCategoryToDelete] = useState(null);
   const [selectedSupplyCategoryToUpdate, setSelectedSupplyCategoryToUpdate] = useState(null);
   const [showWarning, setShowWarning] = useState(false);
+  const [showWarningDisable, setShowWarningDisable] = useState(false);
 
   useEffect(() => {
     getCategory_supplies();
@@ -61,6 +63,19 @@ function SuppliesCategoryPage() {
 
   const handleUpdateSupplyCategory = (supplyCategory) => {
     setSelectedSupplyCategoryToUpdate(supplyCategory);
+  };
+
+  const handleToggleStatus = async (supplyCategory) => {
+    const categoryID = supplyCategory.ID_SuppliesCategory;
+
+    const suppliesInCategory = supplies.filter((supply) => supply.SuppliesCategory_ID === categoryID);
+
+    if (suppliesInCategory.length > 0) {
+      setShowWarningDisable(true);
+    } else {
+      setShowWarningDisable(false);
+      toggleCategorySupplyStatus(categoryID);
+    }
   };
 
 
@@ -129,8 +144,8 @@ function SuppliesCategoryPage() {
                                   </button>
                                   <button
                                     type="button"
-                                    className={`btn btn-icon btn-success ${suppliesCategory.State ? "active" : "inactive"}`}
-                                    onClick={() => toggleCategorySupplyStatus(suppliesCategory.ID_SuppliesCategory)}
+                                    className={`btn btn-icon btn-success ${suppliesCategory.State ? 'active' : 'inactive'}`}
+                                    onClick={() => handleToggleStatus(suppliesCategory)}
                                   >
                                     {suppliesCategory.State ? (
                                       <MdToggleOn className={`estado-icon active`} />
@@ -177,6 +192,12 @@ function SuppliesCategoryPage() {
           onUpdate={() => {
             setSelectedSupplyCategoryToUpdate(null);
           }}
+        />
+      )}
+
+      {showWarningDisable && (
+        <CannotDisableCategorySupplies
+          onClose={() => setShowWarningDisable(false)}
         />
       )}
     </section>
