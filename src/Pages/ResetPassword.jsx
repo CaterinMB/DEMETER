@@ -36,7 +36,7 @@ function ResetPassword() {
                         {...register('Email', {
                           pattern: {
                             value: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}$/,
-                            message: "El correo electrónico no es válido"
+                            message: "El correo electrónico no es válido "
                           }
                         })}
                       />

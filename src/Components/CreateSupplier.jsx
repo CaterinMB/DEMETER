@@ -212,6 +212,7 @@ export default function CreateSupplier({
                           })}
                           type="text"
                           className="form-control"
+                          required
                         />
                         {errors.Document && (
                           <p className="text-red-500">
@@ -237,6 +238,7 @@ export default function CreateSupplier({
                           })}
                           type="text"
                           className="form-control"
+                          required
                         />
                         {errors.Name_Supplier && (
                           <p className="text-red-500">
@@ -260,6 +262,7 @@ export default function CreateSupplier({
                           })}
                           type="text"
                           className="form-control"
+                          required
                         />
                         {errors.Name_Business && (
                           <p className="text-red-500">
@@ -302,6 +305,7 @@ export default function CreateSupplier({
                           })}
                           type="email"
                           className="form-control"
+                          required
                         />
                         {errors.Email && (
                           <p className="text-red-500">{errors.Email.message}</p>
@@ -325,6 +329,7 @@ export default function CreateSupplier({
                           })}
                           type="text"
                           className="form-control"
+                          required
                         />
                       </div>
                     </div>

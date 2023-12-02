@@ -143,7 +143,7 @@ function SupplierPage() {
                                         <BiEdit />
                                       </i>
                                     ),
-                                    buttonClass: "btn btn-icon btn-primary"
+                                    buttonClass: "btn btn-icon btn-primary mr-1"
                                   }}
                                 />
                                 <DeleteSupplier
@@ -153,7 +153,7 @@ function SupplierPage() {
                                 />
                                 <button
                                    type="button"
-                                   className={`btn  btn-icon btn-success ${status}`}
+                                   className={`btn  btn-icon btn-success ml-1 ${status}`}
                                    onClick={() => toggleSupplyStatus(supplierItem.ID_Supplier)}
                                   
                                 >

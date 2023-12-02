@@ -15,14 +15,20 @@
 
 .position-shop{
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
-    padding-top: 55px;
+    padding-top: 70px;
+    padding-right: 9%;
 }
 
 .select-measure {
-    padding: 10px; /* Cambia este valor para ajustar el tamaño del padding */
+    padding: 10px;
     font-size: 14px;
-    width: 80px; /* Tamaño de la fuente */
-    /* Otros estilos que desees agregar */
+    width: 80px; 
   }
+
+.deleteText {
+
+    font-size: 20px;
+
+}

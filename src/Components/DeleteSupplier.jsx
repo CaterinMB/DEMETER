@@ -60,15 +60,15 @@ export default function DeleteSupplier({
         <Box sx={style}>
           <div className="fixed inset-0 flex items-center justify-center">
 
-            <div className=" p-6 rounded shadow-md text-end ">
-              <h1 className="text-3xl font-semibold ">Confirmar eliminación</h1>
-              <p className="deleteText">
+            <div className=" p-6 rounded shadow-md  ">
+              <h1 className="text-2xl font-semibold text-center pr-4 ">Confirmar eliminación</h1>
+              <p className="text-lg text-center mb-2 pr-4">
                 ¿Estás seguro de que deseas eliminar este proveedor?
               </p>
-              <div >
+              <div className="mt-2 ml-1" >
                 <button
                   onClick={confirmDelete}
-                  className="bg-red-500 text-white font-bold py-2 px-4 rounded ml-5 mt-5  "
+                  className="bg-red-500 text-white font-bold py-2 px-4 rounded ml-5   "
                   {...buttonParams}
                 >
                   Eliminar

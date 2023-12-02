@@ -6,6 +6,9 @@ import { useSupplies } from '../Context/Supplies.context'
 import '../css/style.css'
 import '../css/general.css'
 import { useShoppingContext } from '../Context/Shopping.context';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
+
 
 function NewPurchase() {
   const { register, handleSubmit, reset } = useForm();
@@ -15,6 +18,15 @@ function NewPurchase() {
   const [shoppingBillState, setShoppingBillState] = useState({
     total: 0
   })
+  const [page, setPage] = useState(1);
+  const itemsPerPage = 2;
+
+  const handleChangePage = (event, value) => {
+    setPage(value);
+  };
+
+  const startIndex = (page - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
 
   // const [selectedSupplies, setSelectedSupplies] = useState([{
   //   Lot: "",
@@ -127,7 +139,7 @@ function NewPurchase() {
   return (
 
     <div className='position-shop'>
-      <div className="flex justify-between mt-20 mx-10 ">
+      <div className="flex justify-between mb-5 mx-10 mr-5 ">
 
         <div className=" card-body table-border-style mt-4">
           <form onSubmit={handleSubmit(onSubmit)} >
@@ -174,7 +186,7 @@ function NewPurchase() {
           </form>
 
           <div className=" ">
-            <table className="table table-sm ml-5">
+            <table className="table table-sm ml-5 mt-3">
               <thead>
                 <tr>
                   <th>Insumo</th>
@@ -186,7 +198,7 @@ function NewPurchase() {
               </thead>
               <tbody>
                 {
-                  selectedSupplies.map(({ Lot, Price_Supplier, supplieName, medida1, ID_Supplies }) => (
+                   selectedSupplies.slice(startIndex, endIndex).map(({ Lot, Price_Supplier, supplieName, medida1, ID_Supplies }) => (
                     <tr>
                       <td>{supplieName}</td>
                       <td>{Lot}</td>
@@ -202,10 +214,20 @@ function NewPurchase() {
                 }
               </tbody>
             </table>
+            <div className="pagination-container">
+          <Stack spacing={2} direction="row" justifyContent="center">
+            <Pagination
+              count={Math.ceil(selectedSupplies.length / itemsPerPage)}
+              color="secondary"
+              page={page}
+              onChange={handleChangePage}
+            />
+          </Stack>
+        </div>
           </div>
         </div>
       </div>
-      <div className='position-facture ml-5'>
+      <div className='position-facture ml-5 '>
 
         <ShoppingBill {...shoppingBillState} onConfirm={onConfirm} />
       </div>
