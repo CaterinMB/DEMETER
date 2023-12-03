@@ -69,9 +69,9 @@ body {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
-.pagination{
+.pagination {
     display: flex;
-    justify-content:flex-end;
+    justify-content: flex-end;
 }
 
 [tabindex="-1"]:focus:not(:focus-visible) {
@@ -2234,6 +2234,16 @@ progress {
     font-size: 0.76563rem;
 }
 
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination {
+    margin-top: 10px;
+}
+
 .form-text {
     margin-top: 0.25rem;
     font-size: 80%;
@@ -2261,7 +2271,7 @@ progress {
 .form-selects {
     width: 80%;
     border: 1px solid #ced4da;
-    border-radius: 5px;   
+    border-radius: 5px;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -25246,7 +25256,7 @@ new-task label input[type=checkbox] {
     visibility: visible;
 }
 
-.buttonconfirm{
+.buttonconfirm {
     display: flex;
     justify-content: center;
 }

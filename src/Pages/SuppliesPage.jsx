@@ -7,6 +7,8 @@ import { useCategorySupplies } from '../Context/CategorySupplies.context.jsx';
 import CreateSupplies from "../Components/CreateSupplies.jsx";
 import UpdateSupplies from "../Components/UpdateSupplies.jsx";
 import DeleteSupplies from "../Components/DeleteSupplies.jsx";
+import PaginationItem from '@mui/material/PaginationItem';
+import Pagination from '@mui/material/Pagination';
 import "../css/style.css";
 import "../css/landing.css";
 
@@ -20,6 +22,8 @@ function SuppliesPage() {
   const [showEnabledOnly, setShowEnabledOnly] = useState(
     localStorage.getItem("showEnabledOnly") === "true"
   );
+  const ITEMS_PER_PAGE = 1;
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     getSupplies();
@@ -27,6 +31,7 @@ function SuppliesPage() {
 
   useEffect(() => {
     localStorage.setItem("showEnabledOnly", showEnabledOnly);
+    setCurrentPage(1);
   }, [showEnabledOnly]);
 
   const handleSearchChange = (event) => {
@@ -43,6 +48,11 @@ function SuppliesPage() {
     } = supply;
     const searchString =
       `${Name_Supplies}`.toLowerCase();
+
+    if (showEnabledOnly) {
+      return supply.State && searchString.includes(searchTerm.toLowerCase());
+    }
+
     return searchString.includes(searchTerm.toLowerCase());
   });
 
@@ -50,7 +60,11 @@ function SuppliesPage() {
   const disabledSupplies = filteredSupplies.filter((supply) => !supply.State);
   const sortedSupplies = [...enabledSupplies, ...disabledSupplies];
 
-  const visibleSupplies = showEnabledOnly ? enabledSupplies : sortedSupplies;
+  const pageCount = Math.ceil(sortedSupplies.length / ITEMS_PER_PAGE);
+
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const visibleSupplies = sortedSupplies.slice(startIndex, endIndex);
 
 
   const handleDelete = (supply) => {
@@ -66,6 +80,23 @@ function SuppliesPage() {
   const handleUpdateSupply = (supply) => {
     setSelectedSupplyToUpdate(supply);
   };
+
+  const handlePageChange = (event, value) => {
+    const maxPagesToShow = 4;
+    const newPage = value;
+
+    // Evitar que la nueva página sea menor que 1 o mayor que la cantidad total de páginas
+    if (newPage < 1) {
+      setCurrentPage(1);
+    } else if (newPage > pageCount) {
+      setCurrentPage(pageCount);
+    } else {
+      // Avanzar o retroceder hasta un máximo de 4 páginas
+      const diff = Math.abs(newPage - currentPage);
+      setCurrentPage((prevPage) => (newPage > prevPage ? prevPage + Math.min(diff, maxPagesToShow) : prevPage - Math.min(diff, maxPagesToShow)));
+    }
+  };
+  
 
   return (
     <section className="pc-container">
@@ -95,7 +126,7 @@ function SuppliesPage() {
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="row">
                     <div className="col-md-6">
                       <CreateSupplies />
@@ -188,6 +219,17 @@ function SuppliesPage() {
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="pagination-container">
+        <Pagination
+          className="pagination"
+          count={pageCount}
+          page={currentPage}
+          onChange={handlePageChange}
+          showFirstButton
+          showLastButton
+        />
       </div>
 
       {isDeleteModalOpen && (
