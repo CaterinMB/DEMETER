@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useShoppingContext } from '../Context/Shopping.context';
 import { useSupplier } from "../Context/Supplier.context";
+import { MdToggleOn, MdToggleOff } from "react-icons/md";
+
 import '../css/style.css';
 import "../css/landing.css";
 
@@ -130,12 +132,18 @@ function ShoppingPage() {
 
                               <td className="flex items-center">
 
-                                <button
-                                  type="button"
-                                  className={`btn  btn-icon btn-success ${status}`}
-
-                                  onClick={() => toggleSupplyStatus(shoppingItem.ID_Shopping)}
+                              <button
+                                   type="button"
+                                   className={`btn  btn-icon btn-success ${status}`}
+                                   onClick={() => toggleSupplyStatus(shoppingData.ID_ShoppingDetail)}
+                                  
                                 >
+                                   {shoppingData.State ? (
+                                     <MdToggleOn className={`estado-icon active${status}`} />
+                                   ) : (
+                                     <MdToggleOff className={`estado-icon inactive${status}`} />
+ 
+                                   )}
                                 </button>
                                 
                               </td>
