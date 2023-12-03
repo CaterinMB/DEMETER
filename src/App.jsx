@@ -59,7 +59,7 @@ function App() {
                       <Route path='/alert' element={<Alert />} />
                       <Route path='/edit_profile' element={<EditProfile />} />
                       <Route path='/instructions' element={<Instruction />} />
-                      <Route path='/create_product' element={<ProductDetails />} />
+                      <Route path='/productDetail' element={<ProductDetails />} />
                     </Routes>
                   </Supplies>
                 </Supplier>

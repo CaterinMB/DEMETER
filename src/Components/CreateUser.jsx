@@ -60,7 +60,7 @@ function CreateUser({ onClose, onCreated }) {
     };
 
     const onSubmit = handleSubmit(async (values) => {
-        const isDocumentouplicate = user.some(waiters => waiters.Document === values.Document);
+        const isDocumentouplicate = user.some(users => users.Document === values.Document);
         const isEmailDuplicate = user.some(users => users.Email === values.Email);
 
         if (isDocumentouplicate) {

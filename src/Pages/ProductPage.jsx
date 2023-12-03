@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { BiEdit } from "react-icons/bi";
+import { AiFillDelete } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { MdToggleOn, MdToggleOff } from "react-icons/md";
 import "../css/style.css";
@@ -14,10 +16,6 @@ function ProductPage() {
     const [searchTerm, setSearchTerm] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate();
-
-    useEffect(() => {
-        getProducts();
-    }, []);
 
     const navigateToCreateProduct = () => {
         setIsModalOpen(true);
@@ -81,11 +79,11 @@ function ProductPage() {
                                             <table className="table table-hover">
                                                 <thead>
                                                     <tr>
-                                                        <th>Nombre</th>
-                                                        <th>Categoria</th>
-                                                        <th>Precio</th>
-                                                        <th>Estado</th>
-                                                        <th>Acciones</th>
+                                                        <th className="text-center">Nombre</th>
+                                                        <th className="text-center">Categoria</th>
+                                                        <th className="text-center">Precio</th>
+                                                        <th className="text-center">Estado</th>
+                                                        <th className="text-center">Acciones</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
