@@ -21,14 +21,45 @@
     padding-right: 9%;
 }
 
+.custom-select{
+    padding-left: 50px;
+    bottom: 25px;
+    border-radius: 4px;
+}
+
+.custom-select:focus{
+    outline: none; 
+    border-color: #FD7B15;
+}
+
 .select-measure {
     padding: 10px;
-    font-size: 14px;
-    width: 80px; 
+    font-size: 15px;
+    width: 100px; 
+    border: 1px solid black; 
+    border-radius: 4px;
+    text-align: center;
   }
 
-.deleteText {
-
-    font-size: 20px;
-
+.select-measure:focus{
+    outline: none; 
+    border-color: #FD7B15;
 }
+
+
+.deleteText {
+    font-size: 20px;
+}
+
+.custom-input {
+    border: 1px solid black; /* Borde negro de 1px */
+    border-radius: 4px;
+    height: 34px; /* Bordes redondeados */
+    padding: 5px;
+    margin-left: 12px; /* Espaciado interno */
+  }
+  
+  .custom-input:focus {
+    outline: none; /* Elimina el contorno al estar enfocado */
+    border-color: #FD7B15; /* Cambia el color del borde cuando el input está enfocado */
+  }

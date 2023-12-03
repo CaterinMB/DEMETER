@@ -1,6 +1,7 @@
 import axios from "./Axios.js";
 
 export const getUsersRequest = () => axios.get(`/user`);
+export const GetUserCookies = () => axios.get(`/getUserCookies`);
 export const getUserRequest = (ID_User) => axios.get(`/user/${ID_User}`);
 export const createUserRequest = (user) => axios.post(`/add_user`, user);
 export const statusUserRequest = (ID_User) => axios.put(`/user/toggle/${ID_User}`);
