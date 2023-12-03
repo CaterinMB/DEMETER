@@ -21,15 +21,25 @@ function SuppliesCategoryPage() {
   const [selectedSupplyCategoryToUpdate, setSelectedSupplyCategoryToUpdate] = useState(null);
   const [showWarning, setShowWarning] = useState(false);
   const [showWarningDisable, setShowWarningDisable] = useState(false);
+  const [showEnabledOnly, setShowEnabledOnly] = useState(
+    localStorage.getItem("showEnabledOnly") === "true"
+  );
 
   useEffect(() => {
     getCategory_supplies();
     getSupplies();
   }, []);
 
+  useEffect(() => {
+    localStorage.setItem("showEnabledOnly", showEnabledOnly);
+  }, [showEnabledOnly]);
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
+  };
+
+  const handleCheckboxChange = () => {
+    setShowEnabledOnly(!showEnabledOnly);
   };
 
   const filteredSuppliesCategory = Category_supplies.filter((suppliesCategory) => {
@@ -41,6 +51,12 @@ function SuppliesCategoryPage() {
     return searchString.includes(searchTerm.toLowerCase());
   });
 
+  const enabledSuppliesCategory = filteredSuppliesCategory.filter((suppliesCategory) => suppliesCategory.State);
+  const disabledSuppliesCategory = filteredSuppliesCategory.filter((suppliesCategory) => !suppliesCategory.State);
+  const sortedSuppliesCategory = [...enabledSuppliesCategory, ...disabledSuppliesCategory];
+
+  const visibleSuppliesCategory = showEnabledOnly ? enabledSuppliesCategory : sortedSuppliesCategory;
+
   const handleDelete = async (supplyCategory) => {
     const categoryID = supplyCategory.ID_SuppliesCategory;
 
@@ -48,13 +64,13 @@ function SuppliesCategoryPage() {
 
     if (suppliesInCategory.length > 0) {
       setShowWarning(true);
-      //setDeleteModalOpen(false);
     } else {
       setShowWarning(false);
       setSelectedSupplyCategoryToDelete(supplyCategory);
       setDeleteModalOpen(true);
     }
   };
+
   const closeDeleteModal = () => {
     setDeleteModalOpen(false);
     setSelectedSupplyCategoryToDelete(null);
@@ -77,7 +93,6 @@ function SuppliesCategoryPage() {
       toggleCategorySupplyStatus(categoryID);
     }
   };
-
 
   return (
     <section className="pc-container">
@@ -109,6 +124,23 @@ function SuppliesCategoryPage() {
                     </div>
                   </div>
 
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <div className="form-check">
+                        <input
+                          type="checkbox"
+                          className="form-check-input"
+                          id="showEnabledOnly"
+                          checked={showEnabledOnly}
+                          onChange={handleCheckboxChange}
+                        />
+                        <label className="form-check-label" htmlFor="showEnabledOnly">
+                          Mostrar solo habilitados
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
                   <div className="card-body table-border-style">
                     <div className="table-responsive">
                       <table className="table table-hover">
@@ -120,7 +152,7 @@ function SuppliesCategoryPage() {
                           </tr>
                         </thead>
                         <tbody>
-                          {filteredSuppliesCategory.map((suppliesCategory) => (
+                          {visibleSuppliesCategory.map((suppliesCategory) => (
                             <tr key={suppliesCategory.ID_SuppliesCategory}>
                               <td>{suppliesCategory.Name_SuppliesCategory}</td>
                               <td>{suppliesCategory.State ? 'Habilitado' : 'Deshabilitado'}</td>

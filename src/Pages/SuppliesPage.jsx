@@ -17,13 +17,24 @@ function SuppliesPage() {
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedSupplyToDelete, setSelectedSupplyToDelete] = useState(null);
   const [selectedSupplyToUpdate, setSelectedSupplyToUpdate] = useState(null);
+  const [showEnabledOnly, setShowEnabledOnly] = useState(
+    localStorage.getItem("showEnabledOnly") === "true"
+  );
 
   useEffect(() => {
     getSupplies();
   }, []);
 
+  useEffect(() => {
+    localStorage.setItem("showEnabledOnly", showEnabledOnly);
+  }, [showEnabledOnly]);
+
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
+  };
+
+  const handleCheckboxChange = () => {
+    setShowEnabledOnly(!showEnabledOnly);
   };
 
   const filteredSupplies = supplies.filter((supply) => {
@@ -34,6 +45,13 @@ function SuppliesPage() {
       `${Name_Supplies}`.toLowerCase();
     return searchString.includes(searchTerm.toLowerCase());
   });
+
+  const enabledSupplies = filteredSupplies.filter((supply) => supply.State);
+  const disabledSupplies = filteredSupplies.filter((supply) => !supply.State);
+  const sortedSupplies = [...enabledSupplies, ...disabledSupplies];
+
+  const visibleSupplies = showEnabledOnly ? enabledSupplies : sortedSupplies;
+
 
   const handleDelete = (supply) => {
     setSelectedSupplyToDelete(supply);
@@ -60,6 +78,24 @@ function SuppliesPage() {
                   <h5>Visualización de insumos</h5>
                 </div>
                 <div className="card-body">
+
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <div className="form-check">
+                        <input
+                          type="checkbox"
+                          className="form-check-input"
+                          id="showEnabledOnly"
+                          checked={showEnabledOnly}
+                          onChange={handleCheckboxChange}
+                        />
+                        <label className="form-check-label" htmlFor="showEnabledOnly">
+                          Mostrar solo habilitados
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  
                   <div className="row">
                     <div className="col-md-6">
                       <CreateSupplies />
@@ -94,7 +130,7 @@ function SuppliesPage() {
                           </tr>
                         </thead>
                         <tbody>
-                          {filteredSupplies.map((supply) => (
+                          {visibleSupplies.map((supply) => (
                             <tr key={supply.ID_Supplies}>
                               <td>{supply.Name_Supplies}</td>
                               <td>{supply.Unit}</td>

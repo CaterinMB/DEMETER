@@ -2270,6 +2270,11 @@ progress {
     }
 }
 
+.form-control[type="search"] {
+    width: 40%;
+    margin-left: 440px;
+}
+
 .form-control[type="file"] {
     overflow: hidden;
 }

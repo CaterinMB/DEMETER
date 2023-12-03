@@ -3,7 +3,6 @@ import { BiEdit } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
 import { MdToggleOn, MdToggleOff } from "react-icons/md";
 import { useCategoryProducts } from '../Context/CategoryProducts.context.jsx';
-// import { useProducts } from "../Context/Products.context.jsx";
 import CreateProductCategory from "../Components/CreateProductCategory.jsx";
 import UpdateProductCategory from "../Components/UpdateProductCategory.jsx";
 import DeleteProductCategory from "../Components/DeleteProductCategory.jsx";
@@ -15,22 +14,30 @@ import "../css/landing.css";
 
 function ProductCategoryPage() {
   const { Category_products, getCategory_products, deleteCategory_products, toggleCategoryProductStatus } = useCategoryProducts();
-//   const { products, getProducts } = useProducts();
   const [searchTerm, setSearchTerm] = useState("");
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedProductCategoryToDelete, setSelectedProductCategoryToDelete] = useState(null);
   const [selectedProductCategoryToUpdate, setSelectedProductCategoryToUpdate] = useState(null);
   const [showWarning, setShowWarning] = useState(false);
   const [showWarningDisable, setShowWarningDisable] = useState(false);
+  const [showEnabledOnly, setShowEnabledOnly] = useState(
+    localStorage.getItem("showEnabledOnlyProduct") === "true"
+  );
 
   useEffect(() => {
     getCategory_products();
-    // getProducts();
   }, []);
 
+  useEffect(() => {
+    localStorage.setItem("showEnabledOnlyProduct", showEnabledOnly);
+  }, [showEnabledOnly]);
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
+  };
+
+  const handleCheckboxChange = () => {
+    setShowEnabledOnly(!showEnabledOnly);
   };
 
   const filteredProductsCategory = Category_products.filter((productCategory) => {
@@ -42,18 +49,16 @@ function ProductCategoryPage() {
     return searchString.includes(searchTerm.toLowerCase());
   });
 
-  const handleDelete = async (productCategory) => {
-    // const categoryID = productCategory.ID_ProductCaProduct
-    // const productInCategory = product.filter((product) => product.ProductCategory_ID === categoryID);
+  const enabledProductsCategory = filteredProductsCategory.filter((productCategory) => productCategory.State);
+  const disabledProductsCategory = filteredProductsCategory.filter((productCategory) => !productCategory.State);
+  const sortedProductsCategory = [...enabledProductsCategory, ...disabledProductsCategory];
 
-    // if (productInCategory.length > 0) {
-      // setShowWarning(true);
-      //setDeleteModalOpen(false);
-    // } else {
-      setShowWarning(false);
-      setSelectedProductCategoryToDelete(productCategory);
-      setDeleteModalOpen(true);
-    // }
+  const visibleProductsCategory = showEnabledOnly ? enabledProductsCategory : sortedProductsCategory;
+
+  const handleDelete = async (productCategory) => {
+    setShowWarning(false);
+    setSelectedProductCategoryToDelete(productCategory);
+    setDeleteModalOpen(true);
   };
 
   const closeDeleteModal = () => {
@@ -69,16 +74,15 @@ function ProductCategoryPage() {
   const handleToggleStatus = async (productCategory) => {
     const categoryID = productCategory.ID_ProductCategory;
 
-    const productInCategory = product.filter((product) => supply.ProductCategory_ID === categoryID);
+    const productsInCategory = products.filter((product) => product.ProductCategory_ID === categoryID);
 
-    if (productInCategory.length > 0) {
+    if (productsInCategory.length > 0) {
       setShowWarningDisable(true);
     } else {
       setShowWarningDisable(false);
       toggleCategoryProductStatus(categoryID);
     }
   };
-
 
   return (
     <section className="pc-container">
@@ -88,7 +92,7 @@ function ProductCategoryPage() {
             <div className=" w-100 col-sm-12">
               <div className="card">
                 <div className="card-header">
-                  <h5>Visualización de categoría de insumos</h5>
+                  <h5>Visualización de categoría de productos</h5>
                 </div>
                 <div className="card-body">
                   <div className="row">
@@ -110,6 +114,23 @@ function ProductCategoryPage() {
                     </div>
                   </div>
 
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <div className="form-check">
+                        <input
+                          type="checkbox"
+                          className="form-check-input"
+                          id="showEnabledOnlyProduct"
+                          checked={showEnabledOnly}
+                          onChange={handleCheckboxChange}
+                        />
+                        <label className="form-check-label" htmlFor="showEnabledOnlyProduct">
+                          Mostrar solo habilitados
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
                   <div className="card-body table-border-style">
                     <div className="table-responsive">
                       <table className="table table-hover">
@@ -121,7 +142,7 @@ function ProductCategoryPage() {
                           </tr>
                         </thead>
                         <tbody>
-                          {filteredProductsCategory.map((productCategory) => (
+                          {visibleProductsCategory.map((productCategory) => (
                             <tr key={productCategory.ID_ProductCategory}>
                               <td>{productCategory.Name_ProductCategory}</td>
                               <td>{productCategory.State ? 'Habilitado' : 'Deshabilitado'}</td>
