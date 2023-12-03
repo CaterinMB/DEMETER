@@ -7,7 +7,6 @@ import { useCategorySupplies } from '../Context/CategorySupplies.context.jsx';
 import CreateSupplies from "../Components/CreateSupplies.jsx";
 import UpdateSupplies from "../Components/UpdateSupplies.jsx";
 import DeleteSupplies from "../Components/DeleteSupplies.jsx";
-import PaginationItem from '@mui/material/PaginationItem';
 import Pagination from '@mui/material/Pagination';
 import "../css/style.css";
 import "../css/landing.css";
@@ -226,6 +225,7 @@ function SuppliesPage() {
           className="pagination"
           count={pageCount}
           page={currentPage}
+          siblingCount={2}
           onChange={handlePageChange}
           showFirstButton
           showLastButton
