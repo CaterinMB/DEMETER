@@ -3,12 +3,17 @@ import { Link } from 'react-router-dom';
 import { useShoppingContext } from '../Context/Shopping.context';
 import { useSupplier } from "../Context/Supplier.context";
 import { MdToggleOn, MdToggleOff } from "react-icons/md";
+<<<<<<< HEAD
 
+=======
+import { MdRemoveRedEye } from "react-icons/md";
+import ShoppingView from '../Components/ShoppingView';
+>>>>>>> 4f0ea71ad483109773d13c84bda4ff6b4ec9b605
 import '../css/style.css';
 import "../css/landing.css";
 
 function ShoppingPage() {
-  const { getOneShopping, shopping: Shopping, selectAction, disableShopping, getShoppingList, getShopingAndShopingDetails } = useShoppingContext();
+  const { getOneShopping, shopping: Shopping, selectAction, disableShopping, getShopingByProvider } = useShoppingContext();
   const { getSupplier } = useSupplier();
   const [searchTerm, setSearchTerm] = useState("");
   const [shoppingData, setShoppingData] = useState([])
@@ -18,10 +23,9 @@ function ShoppingPage() {
 
   useEffect(() => {
     return async () => {
-      const data = await getShopingAndShopingDetails();
+      const data = await getShopingByProvider();
       setShoppingData(data)
       console.log("data")
-      console.log(shoppingData)
       console.log(data)
     }
   }, []);
@@ -85,7 +89,7 @@ function ShoppingPage() {
                       <table className="table table-hover">
                         <thead>
                           <tr>
-                            <th>#</th>
+                            <th>Id</th>
                             <th>Fecha</th>
                             <th>Proveedor</th>
                             <th>Total</th>
@@ -96,42 +100,29 @@ function ShoppingPage() {
                         <tbody>
                           {shoppingData.map((
                             {
-                              ID_ShoppingDetail,
-                              Lot,
-                              Price_Supplier,
-                              Supplies_ID,
-                              Shopping_ID,
-                              Shopping: {
-                                  ID_Shopping,
-                                  Datetime,
-                                  Total,
-                                  State,
-                                  User_ID,
-                                  Supplier_ID,
-                                  Supplier: {
-                                      ID_Supplier,
-                                      Type_Document,
-                                      Document,
-                                      Name_Supplier,
-                                      Name_Business,
-                                      Phone,
-                                      Email,
-                                      City: Medellin,
-                                      State: SupplierState
-                                  }
+                              ID_Shopping,
+                              Datetime,
+                              Total,
+                              State,
+                              Supplier: {
+                                Name_Supplier,
+                                ID_Supplier
                               }
-                          }
+                            }
                           ) => (
-                            <tr key={ID_ShoppingDetail}>
-                              <td>{Datetime}</td>
+                            <tr key={ID_Shopping}>
+                              <td>{ID_Shopping}</td>
+                              <td>{new Date(Datetime).toLocaleDateString()}</td>
                               <td>{Name_Supplier}</td>
                               <td>{Total}</td>
-                              <td className={`${State ? "" : "desactivado"}`}>
+                              <td className={`${status}`}>
                                 {State ? "Habilitado" : "Deshabilitado"}
                               </td>
 
                               <td className="flex items-center">
+                                <ShoppingView id={ID_Supplier} />
 
+<<<<<<< HEAD
                               <button
                                    type="button"
                                    className={`btn  btn-icon btn-success ${status}`}
@@ -144,10 +135,23 @@ function ShoppingPage() {
                                      <MdToggleOff className={`estado-icon inactive${status}`} />
  
                                    )}
+=======
+                                <button
+                                  type="button"
+                                  className={`btn  btn-icon btn-success ${status}`}
+                                  onClick={() => disableShopping(ID_Shopping)}
+
+                                >
+                                  {State ? (
+                                    <MdToggleOn className={`estado-icon active${status}`} />
+                                  ) : (
+                                    <MdToggleOff className={`estado-icon inactive${status}`} />
+
+                                  )}
+>>>>>>> 4f0ea71ad483109773d13c84bda4ff6b4ec9b605
                                 </button>
-                                
                               </td>
-                              
+
                             </tr>
                           ))}
                         </tbody>

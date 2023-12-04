@@ -6,6 +6,11 @@ import { useSupplies } from '../Context/Supplies.context'
 import '../css/style.css'
 import '../css/general.css'
 import { useShoppingContext } from '../Context/Shopping.context';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
+import Select from 'react-select';
+
+
 
 function NewPurchase() {
   const { register, handleSubmit, reset } = useForm();
@@ -15,6 +20,17 @@ function NewPurchase() {
   const [shoppingBillState, setShoppingBillState] = useState({
     total: 0
   })
+  
+
+  const [page, setPage] = useState(1);
+  const itemsPerPage = 2;
+
+  const handleChangePage = (event, value) => {
+    setPage(value);
+  };
+
+  const startIndex = (page - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
 
   // const [selectedSupplies, setSelectedSupplies] = useState([{
   //   Lot: "",
@@ -45,12 +61,15 @@ function NewPurchase() {
         Supplies_ID: ID_Supplies
       },
       Total: shoppingBillState.total,
-      Datetime: new Date().getDate(),
+      Datetime: new Date(),
       State: 1,
       Supplier_ID: value,
       User_ID: 7
     }))
     await createMultipleShopping(data)
+
+    console.log("data3")
+    console.log(data)
   }
   const [suppliesState, setSuppliesState] = useState([{
     ID_Supplies: "",
@@ -114,9 +133,9 @@ function NewPurchase() {
    * @param {Object} target
    * @param {Document} target.target
    */
-  const onSelectSupplie = ({ target: { value } }) => {
+  const onSelectSupplie = ( option ) => {
     // console.log(target.querySelector("selected").value)
-    supplierRef.current = value
+    supplierRef.current = option.value
   }
 
   const onDeleteSupplie = (id) => {
@@ -124,29 +143,49 @@ function NewPurchase() {
     setSelectedSupplies(prev => prev.filter(el => el.ID_Supplies != id))
   }
 
+  const customStyles = {
+    control: (provided) => ({
+      ...provided,
+      width: '200px',
+      minHeight: '30px',
+      fontSize: '14px',
+      marginLeft: '20px',
+      border: '1px solid black',
+      height: '34px'
+      
+    
+    }),
+  };
+
   return (
 
     <div className='position-shop'>
-      <div className="flex justify-between mt-20 mx-10 ">
+      <div className="flex justify-between mb-5 mx-10 mr-5 ">
 
         <div className=" card-body table-border-style mt-4">
           <form onSubmit={handleSubmit(onSubmit)} >
             <div className="flex flex-row mb-5 ml-5">
               <div className="mr-5">
-                <label>
+                <label className='mt-1'>
                   Insumo:
-                  <select className="border border-gray-300 rounded-md p-1 ml-2" onChange={onSelectSupplie}>
-                    <option value="" selected>Selecciona un insumo</option>
-                    {suppliesState.map(({ ID_Supplies, Name_Supplies }) => (
-                      <option value={ID_Supplies}>{Name_Supplies}</option>
-                    ))}
-                  </select>
+                  <Select
+                  className=" custom-select  "
+                  onChange={(option) => onSelectSupplie(option)}
+                  options={suppliesState.map(({ ID_Supplies, Name_Supplies }) => ({
+                  value: ID_Supplies,
+                  label: Name_Supplies,
+                 
+                  }))}
+                 placeholder=""
+                 styles={customStyles}
+                />
                 </label>
+         
               </div>
               <div>
                 <label>
                   Cantidad:
-                  <input className="border border-gray-300 rounded-md p-1 ml-2 " type="number" {...register("Lot")} />
+                  <input className="custom-input" type="number" {...register("Lot")} />
                 </label>
               </div>
             </div>
@@ -155,7 +194,7 @@ function NewPurchase() {
               <div className="mr-5 ml-5">
                 <label>
                   Medida:
-                  <select className="select-measure text-center border border-gray-300 rounded-md p-1 mr-5 ml-2" {...register("medida1")}>
+                  <select className="select-measure  rounded-md p-1 mr-5 ml-3" {...register("medida1")}>
                     <option value="kg">Kg</option>
                     <option value="lb">Lb</option>
                   </select>
@@ -164,7 +203,7 @@ function NewPurchase() {
               <div>
                 <label className='ml-5'>
                   Precio:
-                  <input className="border border-gray-300 rounded-md p-1 ml-4" type="number" {...register("Price_Supplier")} />
+                  <input className=" custom-input  " type="number" {...register("Price_Supplier")} />
                 </label>
               </div>
               <button type="submit" className="btn btn-icon btn-primary ml-4 mb-3">Agregar insumo</button>
@@ -186,7 +225,7 @@ function NewPurchase() {
               </thead>
               <tbody>
                 {
-                  selectedSupplies.map(({ Lot, Price_Supplier, supplieName, medida1, ID_Supplies }) => (
+                   selectedSupplies.slice(startIndex, endIndex).map(({ Lot, Price_Supplier, supplieName, medida1, ID_Supplies }) => (
                     <tr>
                       <td>{supplieName}</td>
                       <td>{Lot}</td>
@@ -202,10 +241,20 @@ function NewPurchase() {
                 }
               </tbody>
             </table>
+            <div className="pagination-container">
+          <Stack spacing={2} direction="row" justifyContent="center">
+            <Pagination
+              count={Math.ceil(selectedSupplies.length / itemsPerPage)}
+              color="secondary"
+              page={page}
+              onChange={handleChangePage}
+            />
+          </Stack>
+        </div>
           </div>
         </div>
       </div>
-      <div className='position-facture ml-5'>
+      <div className='position-facture ml-5 '>
 
         <ShoppingBill {...shoppingBillState} onConfirm={onConfirm} />
       </div>

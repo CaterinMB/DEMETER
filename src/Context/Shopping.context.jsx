@@ -1,5 +1,5 @@
 import { createContext, useState, useContext } from 'react';
-import { CreateShopping, GetOneShopping, GetShopping, DisableShopping, UpdateShopping, GetShoppingDetail, GetShoppingDetails, CreateShoppingDetail, CreateManyDetails, CreateMultipleShopping, GetShopingAndShopingDetails } from '../Api/Shopping.request.js'
+import { CreateShopping, GetOneShopping, GetShopping, DisableShopping, UpdateShopping, GetShoppingDetail, GetShoppingDetails, CreateShoppingDetail, CreateManyDetails, CreateMultipleShopping, GetShopingAndShopingDetails, GetShopingByProvider, GetShoppingAndSuppliesBySupplierId } from '../Api/Shopping.request.js'
 
 export const ShoppingContext = createContext();
 
@@ -45,6 +45,15 @@ export const ShoppingProvider = ({ children }) => {
     }
   }
 
+  const getShopingByProvider = async () => {
+    try {
+      const res = await GetShopingByProvider();
+      return res.data
+    } catch (error) {
+      return []
+    }
+  }
+
   const getOneShopping = async (ID_Shopping) => {
     try {
       const res = await GetOneShopping(ID_Shopping);
@@ -80,6 +89,17 @@ export const ShoppingProvider = ({ children }) => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const getShoppingAndSuppliesBySupplierId = async (id) => {
+    try {
+      const res = await GetShoppingAndSuppliesBySupplierId(id);
+      return res.data
+    } catch (error) {
+      console.log(error);
+    }
+
+    return []
   };
 
   //detalles de compras
@@ -175,7 +195,9 @@ export const ShoppingProvider = ({ children }) => {
         addnewDetail,
         selectAction,
         createMultipleShopping,
-        getShopingAndShopingDetails
+        getShopingAndShopingDetails,
+        getShopingByProvider,
+        getShoppingAndSuppliesBySupplierId
       }}
     >
       {children}

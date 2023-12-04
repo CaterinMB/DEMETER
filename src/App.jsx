@@ -44,7 +44,7 @@ function App() {
 
                 <Route path='/' element={<Login />} />
                 <Route path='/resetPassword' element={<ResetPassword />} />
-                <Route path='/newPassword/:idUser/:token' element={<NewPassword />} />
+                <Route path='/newPassword/:idUser' element={<NewPassword />} />
 
                 <Route element={<ProtectedRoute />}>
                   <Route path='/dashboard' element={<h3>DashBoard</h3>} />
