@@ -20,19 +20,17 @@ const style = {
 };
 
 
-function ShoppingView({ id }) {
+function ShoppingView({ id, date }) {
   const [open, setOpen] = React.useState(false);
-  const { getShoppingAndSuppliesBySupplierId } = useShoppingContext()
+  const { getShoppingAndSuppliesBySupplierIdAndDate } = useShoppingContext()
   const [shoppingData, setShoppingData] = useState([])
 
   useEffect(() => {
 
     return async () => {
       if (open) return
-      const data = await getShoppingAndSuppliesBySupplierId(id)
-      setShoppingData(data)
-      console.log("data")
-      console.log(data)
+      const newDate = await getShoppingAndSuppliesBySupplierIdAndDate(id, date)
+      setShoppingData(newDate)
     }
   }, [open])
   const handleOpen = () => {

@@ -25,7 +25,7 @@ function ConfirmShop({ onConfirm, data, ...onConfirmValues }) {
 
   return (
     <div>
-      <button className="btn btn-primary ml-2" onClick={handleOpen}>Confirmar compra</button>
+      <button className="btn btn-primary ml-2" title="Presiona para confirmar la compra" onClick={handleOpen}>Confirmar compra</button>
       <Modal
         open={open}
         onClose={handleClose}

@@ -52,9 +52,9 @@ function ResetPassword() {
                  {forgotPasswordSuccess && (
                  <p className="success-message">{forgotPasswordSuccess}</p>
                   )}
-                    <button type="submit" className="btn btn-block btn-primary mt-3 mr-3 ">Enviar</button>
+                    <button type="submit" title="Presiona para enviar el correo" className="btn btn-block btn-primary mt-3 mr-3 ">Enviar</button>
                     <Link to="/">
-                      <button className="btn btn-block btn-primary mt-3">
+                      <button title="Presiona para volver al login" className="btn btn-block btn-primary mt-3">
                         Cancelar
                       </button>
                     </Link>

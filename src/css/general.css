@@ -10,15 +10,25 @@
 }
 
 .position-facture{
-    padding-top: 7%;
+    
+    max-height: 600px;
+    
+}
+
+.position-table {
+    padding-top: 3% ;
+}
+
+.position-shoppping{
+    padding-top: 8%;
 }
 
 .position-shop{
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    padding-top: 70px;
     padding-right: 9%;
+    height: 100vh;
 }
 
 .custom-select{
@@ -52,14 +62,30 @@
 }
 
 .custom-input {
-    border: 1px solid black; /* Borde negro de 1px */
+    border: 1px solid black;
     border-radius: 4px;
-    height: 34px; /* Bordes redondeados */
+    height: 34px; 
     padding: 5px;
-    margin-left: 12px; /* Espaciado interno */
+    margin-left: 12px; 
   }
   
   .custom-input:focus {
-    outline: none; /* Elimina el contorno al estar enfocado */
-    border-color: #FD7B15; /* Cambia el color del borde cuando el input está enfocado */
+    outline: none; 
+    border-color: #FD7B15;
+  }
+
+  .table-shopping{
+    height: 20%;
+  }
+
+  
+
+  
+  .password-toggle-button {
+    position: relative;
+    right: 30px;
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
   }

@@ -5,6 +5,7 @@ import { useSupplier } from "../Context/Supplier.context";
 import { AiFillDelete } from "react-icons/ai";
 
 import "../css/style.css";
+import LinkedSupplier from "./LinkedSupplier";
 
 const style = {
   position: "absolute",
@@ -31,10 +32,10 @@ export default function DeleteSupplier({
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const confirmDelete = () => {
+  const confirmDelete = async () => {
     if (currentSupplier.ID_Supplier) {
       console.log(currentSupplier);
-      deleteSupplier(currentSupplier.ID_Supplier);
+      const isDeleted = await deleteSupplier(currentSupplier.ID_Supplier);
       handleClose(false);
     }
   };

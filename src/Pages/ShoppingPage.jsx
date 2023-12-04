@@ -1,28 +1,47 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useShoppingContext } from '../Context/Shopping.context';
 import { useSupplier } from "../Context/Supplier.context";
 import { MdToggleOn, MdToggleOff } from "react-icons/md";
-import { MdRemoveRedEye } from "react-icons/md";
 import ShoppingView from '../Components/ShoppingView';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import '../css/style.css';
 import "../css/landing.css";
 
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+
+
 function ShoppingPage() {
   const { getOneShopping, shopping: Shopping, selectAction, disableShopping, getShopingByProvider } = useShoppingContext();
-  const { getSupplier } = useSupplier();
   const [searchTerm, setSearchTerm] = useState("");
   const [shoppingData, setShoppingData] = useState([])
+  const [searchDate, setSearchDate] = React.useState(null); // Estado para la fecha seleccionada
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+
+  function DateRangeSelector({ handleDateChange }) {
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
+  
+    const handleGenerateReport = () => {
+      handleDateChange(startDate, endDate);
+    };
+
+  }
+
   const handlePageClick = ({ selected }) => {
     setPageNumber(selected);
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    setShoppingData([])
     return async () => {
       const data = await getShopingByProvider();
       setShoppingData(data)
-      console.log("data")
-      console.log(data)
     }
   }, []);
 
@@ -32,19 +51,91 @@ function ShoppingPage() {
     setSearchTerm(event.target.value);
   };
 
-  const filteredShopping = Shopping.filter((shoppingItem) => {
+  const filteredShopping = shoppingData.filter((shoppingItem) => {
     const {
       ID_Shopping,
       Datetime,
       Total,
-      State
+      State,
+      Supplier: {
+        Name_Supplier
+      }
     } = shoppingItem;
-    const searchString =
-      `${ID_Shopping} ${Datetime} ${Total} ${State}`.toLowerCase();
-    return searchString.includes(searchTerm.toLowerCase());
+    const itemDate = new Date(shoppingItem.Datetime).toLocaleDateString('en-CA');
+
+  // Formatear searchTerm para asegurar consistencia
+  const searchDate = new Date(searchTerm).toLocaleDateString('en-CA'); // Asegúrate de usar el formato correcto aquí
+
+  // Comparar las fechas formateadas
+  return itemDate === searchDate.toLowerCase() ||
+    `${ID_Shopping} ${itemDate} ${Total} ${State} ${Name_Supplier}`.toLowerCase().includes(searchTerm.toLowerCase());
+});
+
+const generatePDF = () => {
+  const tableBody = shoppingData.map((shopping) => {
+    const {
+      ID_Shopping,
+      Datetime,
+      Total,
+      Supplier: { Name_Supplier },
+    } = shopping;
+
+    return [
+      { text: ID_Shopping, bold: true, alignment: 'center'  },
+      { text: Name_Supplier, alignment: 'center' },
+      { text: new Date(Datetime).toLocaleDateString() , alignment: 'center' },
+      { text: Total, alignment: 'center'  },
+    ];
   });
 
+  const documentDefinition = {
+    content: [
+      { text: 'Reporte de compras', fontSize: 16, margin: [0, 0, 0, 10] },
+      {
+        table: {
+          headerRows: 1,
+          widths: ['auto', '*', '*', 'auto'],
+          body: [
+            [
+              'ID',
+              'Proveedor',
+              'Fecha',
+              'Total'
+            ],
+            ...tableBody,
+          ],
+        },
+        layout: {
+          fontSize: 12, // Ajusta el tamaño de la fuente dentro de la tabla
+          margin: [0, 5, 0, 15], // Ajusta los márgenes de la tabla
+          fillColor: (rowIndex, node, columnIndex) => {
+            return rowIndex % 2 === 0 ? '#CCCCCC' : null; // Cambia el color de fondo de las filas pares
+          },
+        },
+      },
+    ],
+    styles: {
+      table: {
+        width: '100%', // Establece el ancho de la tabla al 100% del documento
+      },
+    },
+  };
 
+  pdfMake.createPdf(documentDefinition).download('shopping_report.pdf');
+};
+
+const handleGenerateReport = () => {
+  const filteredData = shoppingData.filter((shoppingItem) => {
+    const itemDate = new Date(shoppingItem.Datetime).toLocaleDateString('en-CA');
+    return (
+      itemDate === searchTerm.toLowerCase() ||
+      `${shoppingItem.ID_Shopping} ${itemDate} ${shoppingItem.Total} ${shoppingItem.State} ${shoppingItem.Supplier.Name_Supplier}`
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
+    );
+  });
+
+   }
 
   return (
     <section className="pc-container">
@@ -64,11 +155,29 @@ function ShoppingPage() {
                           Registrar compra
                         </button>
                       </Link>
+                      <LocalizationProvider dateAdapter={AdapterDayjs}>
+                          <DatePicker
+                            label="Fecha de inicio"
+                            value={startDate}
+                            onChange={(date) => setStartDate(date)}
+                            renderInput={(params) => <input {...params.inputProps} />}
+                          />
+                          <DatePicker
+                            label="Fecha de fin"
+                            value={endDate}
+                            onChange={(date) => setEndDate(date)}
+                            renderInput={(params) => <input {...params.inputProps} />}
+                          />
+                                                <button title='Presiona para generar el pdf ' className="btn btn-outline-secondary p-2 ml-1" onClick={generatePDF}>Generar Reporte </button>
+
+                           </LocalizationProvider>
+                      
                     </div>
                     <div className="col-md-6">
                       <div className="form-group">
                         <input
                           type="search"
+                          title='Presiona para buscar la compra'
                           className="form-control"
                           id="exampleInputEmail1"
                           aria-describedby="emailHelp"
@@ -94,7 +203,7 @@ function ShoppingPage() {
                           </tr>
                         </thead>
                         <tbody>
-                          {shoppingData.map((
+                          {filteredShopping.map((
                             {
                               ID_Shopping,
                               Datetime,
@@ -115,11 +224,12 @@ function ShoppingPage() {
                                 {State ? "Habilitado" : "Deshabilitado"}
                               </td>
 
-                              <td className="flex items-center">
-                                <ShoppingView id={ID_Supplier} />
+                              <td className="flex items-center" title='Presiona para ver el detalle de la compra'>
+                                <ShoppingView id={ID_Supplier} date={Datetime} />
 
                                 <button
                                   type="button"
+                                  title='Presiona para inhabilitar o habilitar la compra'
                                   className={`btn  btn-icon btn-success ${status}`}
                                   onClick={() => disableShopping(ID_Shopping)}
 

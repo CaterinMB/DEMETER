@@ -4,6 +4,7 @@ export const CreateShopping = (data) => axios.post('/shopping', data);
 export const CreateMultipleShopping = (data) => axios.post('/multpleShopping', data);
 export const GetShopingAndShopingDetails = () => axios.get('/getShopingAndShopingDetails');
 export const GetShopingByProvider = () => axios.get('/getShopingByProvider');
+export const GetShoppingAndSuppliesBySupplierIdAndDate = (id, date) => axios.get(`/getShoppingAndSuppliesBySupplierIdAndDate/${id}/${date}`);
 export const GetOneShopping = (ID_Shopping) => axios.get(`/shopping/${ID_Shopping}`);
 export const GetShoppingAndSuppliesBySupplierId = (ID_Shopping) => axios.get(`/getShoppingAndSuppliesBySupplierId/${ID_Shopping}`);
 export const GetShopping = () => axios.get('/shopping');

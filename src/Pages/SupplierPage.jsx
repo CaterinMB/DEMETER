@@ -11,6 +11,7 @@ import "../fonts/fontawesome.css";
 import "../fonts//material.css";
 import CreateSupplier from "../Components/CreateSupplier.jsx";
 import DeleteSupplier from "../Components/DeleteSupplier.jsx";
+import LinkedSupplier from "../Components/LinkedSupplier.jsx";
 
 function SupplierPage() {
   const { supplier, getSupplierByState, updateSupplier, getSupplie , toggleSupplyStatus } = useSupplier();
@@ -73,7 +74,7 @@ function SupplierPage() {
                 </div>
                 <div className="card-body">
                   <div className="row">
-                    <div className="col-md-6">
+                    <div className="col-md-6" title="Presiona para registrar un proveedor">
                       <CreateSupplier />
                     </div>
                     <div className="col-md-6">
@@ -86,6 +87,7 @@ function SupplierPage() {
                           placeholder="Buscador"
                           value={searchTerm}
                           onChange={handleSearchChange}
+                          title="Presiona para buscar el proveedor"
                         />
                       </div>
                     </div>
@@ -139,20 +141,24 @@ function SupplierPage() {
                                   }
                                   buttonProps={{
                                     buttonText: (
-                                      <i data-feather="thumbs-up">
+                                      <i data-feather="thumbs-up" title="Presiona para editar el proveedor">
                                         <BiEdit />
                                       </i>
                                     ),
-                                    buttonClass: "btn btn-icon btn-primary mr-1"
+                                    buttonClass: "btn btn-icon btn-primary mr-1",
                                   }}
                                 />
+                                <div title="Presiona para eliminar el proveedor">
                                 <DeleteSupplier
                                   currentSupplier={supplierItem}
                                   isDisabled={!supplierItem.State}
-                                  
                                 />
+
+                                </div>
+                             
                                 <button
                                    type="button"
+                                   title='Presiona para inhabilitar o habilitar el proveedor'
                                    className={`btn  btn-icon btn-success ml-1 ${status}`}
                                    onClick={() => toggleSupplyStatus(supplierItem.ID_Supplier)}
                                   

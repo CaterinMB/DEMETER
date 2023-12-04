@@ -1,5 +1,5 @@
 import { createContext, useState, useContext } from 'react';
-import { CreateShopping, GetOneShopping, GetShopping, DisableShopping, UpdateShopping, GetShoppingDetail, GetShoppingDetails, CreateShoppingDetail, CreateManyDetails, CreateMultipleShopping, GetShopingAndShopingDetails, GetShopingByProvider, GetShoppingAndSuppliesBySupplierId } from '../Api/Shopping.request.js'
+import { CreateShopping, GetOneShopping, GetShopping, DisableShopping, UpdateShopping, GetShoppingDetail, GetShoppingDetails, CreateShoppingDetail, CreateManyDetails, CreateMultipleShopping, GetShopingAndShopingDetails, GetShopingByProvider, GetShoppingAndSuppliesBySupplierId, GetShoppingAndSuppliesBySupplierIdAndDate } from '../Api/Shopping.request.js'
 
 export const ShoppingContext = createContext();
 
@@ -54,6 +54,15 @@ export const ShoppingProvider = ({ children }) => {
     }
   }
 
+  const getShoppingAndSuppliesBySupplierIdAndDate = async (id, date) => {
+    try {
+      const res = await GetShoppingAndSuppliesBySupplierIdAndDate(id, date);
+      return res.data
+    } catch (error) {
+      return []
+    }
+  }
+
   const getOneShopping = async (ID_Shopping) => {
     try {
       const res = await GetOneShopping(ID_Shopping);
@@ -76,11 +85,12 @@ export const ShoppingProvider = ({ children }) => {
   const disableShopping = async (id) => {
     try {
       const res = await DisableShopping(id);
-
+      console.log("req")
+      console.log(res)
       if (res.status === 200) {
         setShopping((prevShopping) =>
           prevShopping.map((data) =>
-            data.ID_Shoppingr === id
+            data.ID_Shopping === id
               ? { ...data, State: !data.State }
               : data
           )
@@ -197,7 +207,8 @@ export const ShoppingProvider = ({ children }) => {
         createMultipleShopping,
         getShopingAndShopingDetails,
         getShopingByProvider,
-        getShoppingAndSuppliesBySupplierId
+        getShoppingAndSuppliesBySupplierId,
+        getShoppingAndSuppliesBySupplierIdAndDate
       }}
     >
       {children}

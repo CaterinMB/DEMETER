@@ -23,7 +23,7 @@ function NewPurchase() {
   
 
   const [page, setPage] = useState(1);
-  const itemsPerPage = 2;
+  const itemsPerPage = 3;
 
   const handleChangePage = (event, value) => {
     setPage(value);
@@ -144,16 +144,25 @@ function NewPurchase() {
   }
 
   const customStyles = {
-    control: (provided) => ({
+    control: (provided, state) => ({
       ...provided,
       width: '200px',
       minHeight: '30px',
       fontSize: '14px',
       marginLeft: '20px',
-      border: '1px solid black',
-      height: '34px'
-      
-    
+      border: `1px solid ${state.isFocused ? '#FFA500' : 'black'}`,
+      height: '34px',
+      borderColor: state.isFocused ? '#FFA500' : 'black',
+      boxShadow: state.isFocused ? '0 0 0 1px #FFA500' : 'none',
+     "&:focus-within": {
+      borderColor: '#FFA500',
+      }
+    }),
+    menu: (provided) => ({
+      ...provided,
+      fontSize: '14px', 
+      width: '200px', 
+      marginLeft: '20px'
     }),
   };
 
@@ -162,8 +171,9 @@ function NewPurchase() {
     <div className='position-shop'>
       <div className="flex justify-between mb-5 mx-10 mr-5 ">
 
-        <div className=" card-body table-border-style mt-4">
+        <div className=" card-body table-border-style mt-5 ">
           <form onSubmit={handleSubmit(onSubmit)} >
+            <div className='position-shoppping'>
             <div className="flex flex-row mb-5 ml-5">
               <div className="mr-5">
                 <label className='mt-1'>
@@ -206,14 +216,16 @@ function NewPurchase() {
                   <input className=" custom-input  " type="number" {...register("Price_Supplier")} />
                 </label>
               </div>
-              <button type="submit" className="btn btn-icon btn-primary ml-4 mb-3">Agregar insumo</button>
+              <button title='Presiona para agregar el insumo' type="submit" className="btn btn-icon btn-primary ml-4 mb-3">Agregar insumo</button>
 
             </div>
             {error && <p className='ml-5'>{error}</p>}
+            </div>
+        
           </form>
 
-          <div className=" ">
-            <table className="table table-sm ml-5">
+          <div className="position-table ">
+            <table className="table table-sm ml-5 table-shopping">
               <thead>
                 <tr>
                   <th>Insumo</th>

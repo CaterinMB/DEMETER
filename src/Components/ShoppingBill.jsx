@@ -9,7 +9,7 @@ import Select from 'react-select';
 
 function ShoppingBill({ total = 0, ...confirmValues }) {
   const { register, handleSubmit } = useForm();
-  const { getSupplier } = useSupplier()
+  const { getSupplier, getSuppliersByState } = useSupplier()
   const [supplierState, setSupplierState] = useState([{
     Name_Supplier: "",
     ID_Supplier: "",
@@ -19,17 +19,22 @@ function ShoppingBill({ total = 0, ...confirmValues }) {
   const [selectedSupplier, setSelectedSupplier] = useState(null);
 
   const customStyles = {
-    control: (provided) => ({
+    control: (provided, state) => ({
       ...provided,
       width: '180px',
       minHeight: '30px',
       fontSize: '14px',
+      borderColor: state.isFocused ? '#FFA500' : 'black',
+      boxShadow: state.isFocused ? '0 0 0 1px #FFA500' : 'none',
+     "&:focus-within": {
+      borderColor: '#FFA500',
+      }
     }),
   };
 
   useEffect(() => {
     return async () => {
-      const newSupplier = await Promise.resolve(getSupplier())
+      const newSupplier = await Promise.resolve(getSuppliersByState())
       setSupplierState(newSupplier)
       console.log(newSupplier)
     }
@@ -79,6 +84,7 @@ function ShoppingBill({ total = 0, ...confirmValues }) {
           <h4 className='ml-4 mt-2'>Proveedor:</h4>
           <Select
             required
+            title="Presiona para seleccionar el proveedor"
             className='ml-3'
             options={options}
             value={selectedSupplier}

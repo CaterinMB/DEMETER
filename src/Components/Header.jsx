@@ -45,8 +45,7 @@ const Header = () => {
 								onClick={toggleDropdown}
 							>
 								<span>
-									<p className="user-name">Samuel Rios</p>
-									<span className="user-desc">Administrador</span>
+									<p className="user-name">Opciones</p>
 								</span>
 							</button>
 							{showDropdown && (

@@ -5,7 +5,8 @@ import {
   createSupplierRequest,
   disableSupplierRequest,
   updateSupplierRequest,
-  deleteSupplierRequest
+  deleteSupplierRequest,
+  GetSuppliersByState
 } from "../Api/Supplier.request.js";
 
 const SupplierContext = createContext();
@@ -68,6 +69,15 @@ export function Supplier({ children }) {
     }
   };
 
+  const getSuppliersByState = async () => {
+    try {
+      const res = await GetSuppliersByState();
+      return res.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const createSupplier = async (supplie) => {
     try {
       const res = await createSupplierRequest(supplie);
@@ -106,13 +116,19 @@ export function Supplier({ children }) {
   };
 
   const deleteSupplier = async (id) => {
+    let providerDeleted = true
     try {
       const res = await deleteSupplierRequest(id);
       if (res.status === 204)
         setSupplier(supplier.filter((supplier) => supplier.ID_Supplier !== id));
     } catch (error) {
-      console.log(error);
+      console.log("error");
+      if (!error.response.data) {
+        providerDeleted = false
+      }
     }
+
+    return providerDeleted
   };
 
   return (
@@ -125,7 +141,8 @@ export function Supplier({ children }) {
         toggleSupplyStatus,
         updateSupplier,
         deleteSupplier,
-        getSupplierByState
+        getSupplierByState,
+        getSuppliersByState
       }}
     >
       {children}

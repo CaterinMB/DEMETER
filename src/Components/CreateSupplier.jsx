@@ -233,7 +233,7 @@ export default function CreateSupplier({
                             pattern: {
                               value:/^[A-ZÁÉÍÓÚÑ][a-zA-Z\sáéíóúñ]*$/,
                               message:
-                                "La primera letra debe ser mayúscula y solo letras."
+                                "La primera letra debe ser mayúscula"
                             }
                           })}
                           type="text"
@@ -255,9 +255,9 @@ export default function CreateSupplier({
                           {...register("Name_Business", {
                             required: false,
                             pattern: {
-                              value: /^[A-ZÁÉÍÓÚÑ][a-záéíóúñ\s]*[a-záéíóúñ]$/,
+                              value:/^[A-ZÁÉÍÓÚÑ][a-zA-Z\sáéíóúñ]*$/,
                               message:
-                                "La primera letra debe ser mayúscula y solo letras."
+                                "La primera letra debe ser mayúscula"
                             }
                           })}
                           type="text"
@@ -338,7 +338,7 @@ export default function CreateSupplier({
                         <button
                           className="btn btn-primary mr-5"
                           type="submit"
-                          disabled={!isValid}
+                          title="Presiona para confirmar el registro"
                         >
                           Confirmar
                         </button>
@@ -346,6 +346,7 @@ export default function CreateSupplier({
                           className="btn btn-primary"
                           onClick={handleClose}
                           type="button"
+                          title="Presiona para cancelar"
                         >
                           Cancelar
                         </button>
