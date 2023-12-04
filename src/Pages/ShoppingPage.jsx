@@ -228,20 +228,6 @@ const handleGenerateReport = () => {
                               <td className="flex items-center" title='Presiona para ver el detalle de la compra'>
                                 <ShoppingView id={ID_Supplier} date={Datetime} />
 
-
-                                <button
-                                  type="button"
-                                  className={`btn  btn-icon btn-success ${status}`}
-                                  onClick={() => disableShopping(ID_Shopping)}
-
-                                >
-                                  {State ? (
-                                    <MdToggleOn className={`estado-icon active${status}`} />
-                                  ) : (
-                                    <MdToggleOff className={`estado-icon inactive${status}`} />
-
-                                  )}
-                                </button>
                                 <button
                                   type="button"
                                   title='Presiona para inhabilitar o habilitar la compra'
