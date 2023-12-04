@@ -73,70 +73,59 @@ function ShoppingPage() {
 });
 
 const generatePDF = () => {
-  const tableBody = shoppingData.map((shopping) => {
-    const {
-      ID_Shopping,
-      Datetime,
-      Total,
-      Supplier: { Name_Supplier },
-    } = shopping;
+  if (startDate && endDate) {
+    const filteredData = shoppingData.filter((shoppingItem) => {
+      const itemDate = new Date(shoppingItem.Datetime).toLocaleDateString('en-CA');
+      return itemDate >= startDate && itemDate <= endDate;
+    });
 
-    return [
-      { text: ID_Shopping, bold: true, alignment: 'center'  },
-      { text: Name_Supplier, alignment: 'center' },
-      { text: new Date(Datetime).toLocaleDateString() , alignment: 'center' },
-      { text: Total, alignment: 'center'  },
-    ];
-  });
+    const tableBody = filteredData.map((shopping) => {
+      const { ID_Shopping, Datetime, Total, Supplier: { Name_Supplier } } = shopping;
+      return [
+        { text: ID_Shopping, bold: true, alignment: 'center' },
+        { text: Name_Supplier, alignment: 'center' },
+        { text: new Date(Datetime).toLocaleDateString(), alignment: 'center' },
+        { text: Total, alignment: 'center' },
+      ];
+    });
 
-  const documentDefinition = {
-    content: [
-      { text: 'Reporte de compras', fontSize: 16, margin: [0, 0, 0, 10] },
-      {
-        table: {
-          headerRows: 1,
-          widths: ['auto', '*', '*', 'auto'],
-          body: [
-            [
-              'ID',
-              'Proveedor',
-              'Fecha',
-              'Total'
+    const documentDefinition = {
+      content: [
+        { text: 'Reporte de compras', fontSize: 16, margin: [0, 0, 0, 10] },
+        {
+          table: {
+            headerRows: 1,
+            widths: ['auto', '*', '*', 'auto'],
+            body: [
+              ['ID', 'Proveedor', 'Fecha', 'Total'],
+              ...tableBody,
             ],
-            ...tableBody,
-          ],
-        },
-        layout: {
-          fontSize: 12, // Ajusta el tamaño de la fuente dentro de la tabla
-          margin: [0, 5, 0, 15], // Ajusta los márgenes de la tabla
-          fillColor: (rowIndex, node, columnIndex) => {
-            return rowIndex % 2 === 0 ? '#CCCCCC' : null; // Cambia el color de fondo de las filas pares
+          },
+          layout: {
+            fontSize: 12,
+            margin: [0, 5, 0, 15],
+            fillColor: (rowIndex, node, columnIndex) => {
+              return rowIndex % 2 === 0 ? '#CCCCCC' : null;
+            },
           },
         },
+      ],
+      styles: {
+        table: {
+          width: '100%',
+        },
       },
-    ],
-    styles: {
-      table: {
-        width: '100%', // Establece el ancho de la tabla al 100% del documento
-      },
-    },
-  };
+    };
 
-  pdfMake.createPdf(documentDefinition).download('shopping_report.pdf');
+    pdfMake.createPdf(documentDefinition).download('shopping_report.pdf');
+  } else {
+    console.log('Por favor, selecciona un rango de fechas válido');
+  }
 };
 
-const handleGenerateReport = () => {
-  const filteredData = shoppingData.filter((shoppingItem) => {
-    const itemDate = new Date(shoppingItem.Datetime).toLocaleDateString('en-CA');
-    return (
-      itemDate === searchTerm.toLowerCase() ||
-      `${shoppingItem.ID_Shopping} ${itemDate} ${shoppingItem.Total} ${shoppingItem.State} ${shoppingItem.Supplier.Name_Supplier}`
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase())
-    );
-  });
 
-   }
+
+   
 
   return (
     <section className="pc-container">

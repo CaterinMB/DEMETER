@@ -20,6 +20,9 @@ function NewPurchase() {
   const [shoppingBillState, setShoppingBillState] = useState({
     total: 0
   })
+
+  const [availableSupplies, setAvailableSupplies] = useState([]);
+
   
 
   const [page, setPage] = useState(1);
@@ -77,6 +80,13 @@ function NewPurchase() {
     Unit: 0,
     Measure: 0
   }])
+
+  useEffect(() => {
+    const updatedAvailableSupplies = suppliesState.filter(
+      (supply) => !selectedSupplies.find((selected) => selected.ID_Supplies === supply.ID_Supplies)
+    );
+    setAvailableSupplies(updatedAvailableSupplies);
+  }, [suppliesState, selectedSupplies]);
 
   const supplierRef = useRef(null)
 
@@ -181,7 +191,7 @@ function NewPurchase() {
                   <Select
                   className=" custom-select  "
                   onChange={(option) => onSelectSupplie(option)}
-                  options={suppliesState.map(({ ID_Supplies, Name_Supplies }) => ({
+                  options={availableSupplies.map(({ ID_Supplies, Name_Supplies }) => ({
                   value: ID_Supplies,
                   label: Name_Supplies,
                  
