@@ -9,6 +9,7 @@ import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
+import { MdRemoveRedEye } from "react-icons/md";
 import '../css/style.css';
 import "../css/landing.css";
 
@@ -227,6 +228,20 @@ const handleGenerateReport = () => {
                               <td className="flex items-center" title='Presiona para ver el detalle de la compra'>
                                 <ShoppingView id={ID_Supplier} date={Datetime} />
 
+
+                                <button
+                                  type="button"
+                                  className={`btn  btn-icon btn-success ${status}`}
+                                  onClick={() => disableShopping(ID_Shopping)}
+
+                                >
+                                  {State ? (
+                                    <MdToggleOn className={`estado-icon active${status}`} />
+                                  ) : (
+                                    <MdToggleOff className={`estado-icon inactive${status}`} />
+
+                                  )}
+                                </button>
                                 <button
                                   type="button"
                                   title='Presiona para inhabilitar o habilitar la compra'
