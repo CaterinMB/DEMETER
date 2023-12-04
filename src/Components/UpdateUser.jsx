@@ -252,7 +252,6 @@ function UpdateUser({ onClose, userToEdit }) {
                                         </label>
                                         <Select
                                             options={[
-                                                { label: 'Seleccione rol', value: '', isDisabled: true },
                                                 ...rolOpcions
                                             ]}
                                             {...register("Role_ID")}

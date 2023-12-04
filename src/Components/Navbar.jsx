@@ -38,6 +38,7 @@ const Navbar = () => {
                             navigate('/');
                         }}
                         className="b-brand"
+                        title='Dirigirse a la pagina principal del sistema.'
                     >
                         <img src={logo} alt="Demeter SOFT" className="logo logo-lg" width="130" height="60" />
                     </button>
@@ -53,6 +54,7 @@ const Navbar = () => {
                                     navigate('/');
                                 }}
                                 className="pc-link"
+                                title='Dirigirse al DashBoard del sistema.'
                             >
                                 <span className="pc-micon">
                                     <i className="material-icons-two-tone">
@@ -73,6 +75,7 @@ const Navbar = () => {
                                     navigate('/setting');
                                 }}
                                 className="pc-link"
+                                title='Dirigirse al modulo de roles con asignacion de permisos del sistema.'
                             >
                                 <span className="pc-micon">
                                     <i className="material-icons-two-tone">
@@ -93,6 +96,7 @@ const Navbar = () => {
                                     navigate('/user');
                                 }}
                                 className="pc-link"
+                                title='Dirigirse al modulo de empleados del sistema.'
                             >
                                 <span className="pc-micon">
                                     <i className="material-icons-two-tone">
@@ -111,6 +115,7 @@ const Navbar = () => {
                             <button
                                 onClick={toggleSubmenuCompras}
                                 className="pc-link"
+                                title='Desplegar el submenu hacia abajo con los modulos correspondientes de la gestion de compras.'
                             >
                                 <span className="pc-micon">
                                     <i className="material-icons-two-tone">
@@ -132,6 +137,7 @@ const Navbar = () => {
                                                 navigate('/category_supplies')
                                             }}
                                             className="pc-link"
+                                            title='Dirigirse al modulo de categoria de insumos del sistema.'
                                         >
                                             Categria insumos
                                         </button>
@@ -143,6 +149,7 @@ const Navbar = () => {
                                                 navigate('/supplies')
                                             }}
                                             className="pc-link"
+                                            title='Dirigirse al modulo de insumos del sistema.'
                                         >
                                             Insumos
                                         </button>
@@ -154,6 +161,7 @@ const Navbar = () => {
                                                 navigate('/supplier')
                                             }}
                                             className="pc-link"
+                                            title='Dirigirse al modulo de proveedores del sistema.'
                                         >
                                             Proveedores
                                         </button>
@@ -165,6 +173,7 @@ const Navbar = () => {
                                                 navigate('/shopping')
                                             }}
                                             className="pc-link"
+                                            title='Dirigirse al modulo de compras del sistema.'
                                         >
                                             Compras
                                         </button>
@@ -179,6 +188,7 @@ const Navbar = () => {
                             <button
                                 onClick={toggleSubmenuVentas}
                                 className="pc-link"
+                                title='Desplegar el submenu hacia abajo con los modulos correspondientes de la gestion de ventas.'
                             >
                                 <span className="pc-micon">
                                     <i className="material-icons-two-tone">
@@ -199,6 +209,7 @@ const Navbar = () => {
                                                 navigate('/category_product')
                                             }}
                                             className="pc-link"
+                                            title='Dirigirse al modulo de categoria de productos del sistema.'
                                         >
                                             Categoria producto
                                         </button>
@@ -210,6 +221,7 @@ const Navbar = () => {
                                                 navigate('/product')
                                             }}
                                             className="pc-link"
+                                            title='Dirigirse al modulo de productos del sistema.'
                                         >
                                             Producto
                                         </button>
@@ -221,6 +233,7 @@ const Navbar = () => {
                                                 navigate('/waiter')
                                             }}
                                             className="pc-link"
+                                            title='Dirigirse al modulo de meseros del sistema.'
                                         >
                                             Meseros
                                         </button>
@@ -232,6 +245,7 @@ const Navbar = () => {
                                                 navigate('/sale')
                                             }}
                                             className="pc-link"
+                                            title='Dirigirse al modulo de ventas del sistema.'
                                         >
                                             Venta
                                         </button>

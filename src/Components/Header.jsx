@@ -44,7 +44,7 @@ const Header = () => {
 			<div className="mr-auto pc-mob-drp">
 				<ul className="list-unstyled">
 					<li className="dropdown pc-h-item">
-						<h3>DEMETER</h3>
+						<h3 title='Nombre del sistema.'>DEMETER</h3>
 					</li>
 				</ul>
 			</div>
@@ -56,6 +56,7 @@ const Header = () => {
 							onClick={() => {
 								navigate('/edit_profile');
 							}}
+							title='Dirigirse a la sesion para actualizar informacion del usuario logueado en el sistema.'
 						>
 							<i className="material-icons-two-tone">
 								<ConstructionIcon />
@@ -66,6 +67,7 @@ const Header = () => {
 							onClick={() => {
 								navigate('/alert');
 							}}
+							title='Dirigirse a la sesion de notificaciones del sistema.'
 						>
 							<i className="material-icons-two-tone">
 								<NotificationsIcon />
@@ -78,6 +80,7 @@ const Header = () => {
 							aria-expanded="false"
 							onClick={toggleDropdown}
 							// ref={dropdownRef}
+							title='Desplegar el submenu para cerrar sesion del sistema o ver los manuales de uso de cada modulo.'
 						>
 							<span>
 								<span className="user-name">Samuel Rios A.</span>
@@ -115,6 +118,7 @@ const Header = () => {
 										onClick={() => {
 											navigate('/instructions');
 										}}
+										title='Manuales de ayuda para cada modulo disponible del sistema.'
 									>
 										<i className="material-icons-two-tone">
 											<AutoStoriesIcon />
@@ -127,6 +131,7 @@ const Header = () => {
 										onClick={() => {
 											navigate('/');
 										}}
+										title='Cerrar la sesion del usuario logueado en el sistema.'
 									>
 										<i className="material-icons-two-tone">
 											<ExitToAppIcon />

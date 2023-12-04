@@ -50,6 +50,7 @@ function WaiterPage() {
                                     <div className="row">
                                         <div className="col-md-6">
                                             <button
+                                                title='Crear un nuevo mesero.'
                                                 type='button'
                                                 className='btn btn-primary'
                                                 onClick={navigateToCreateWaiter}
@@ -66,6 +67,7 @@ function WaiterPage() {
                                                     placeholder="Buscador"
                                                     value={searchTerm}
                                                     onChange={handleSearchChange}
+                                                    title='Buscar uno o varios meseros por algun dato de los meseros.'
                                                 />
                                             </div>
                                         </div>
@@ -89,18 +91,19 @@ function WaiterPage() {
                                                 <tbody>
                                                     {filteredWaiters.map((waiter) => (
                                                         <tr key={waiter.ID_User}>
-                                                            <td>{waiter.Type_Document}</td>
-                                                            <td>{waiter.Document}</td>
-                                                            <td>{waiter.Name_User}</td>
-                                                            <td>{waiter.LastName_User}</td>
-                                                            <td>{waiter.Restaurant}</td>
-                                                            <td className={`${barraClass}`}>
+                                                            <td title='Tipo de documento del mesero.'>{waiter.Type_Document}</td>
+                                                            <td title='Numero de identificacion del mesero.'>{waiter.Document}</td>
+                                                            <td title='Nombre del mesero.'>{waiter.Name_User}</td>
+                                                            <td title='Apellido del mesero.'>{waiter.LastName_User}</td>
+                                                            <td title='Restaurante al que pertenece el mesero.'>{waiter.Restaurant}</td>
+                                                            <td title='Estado actual del mesero.' className={`${barraClass}`}>
                                                                 {waiter.State ? "Habilitado" : "Deshabilitado"}
                                                             </td>
                                                             <td>
                                                                 <div>
                                                                     <button
                                                                         type="button"
+                                                                        title='Cambiar el estado de un mesero.'
                                                                         className={`btn btn-icon btn-success ${barraClass}`}
                                                                         onClick={() => toggleUserStatus(waiter.ID_User)}
                                                                     >
