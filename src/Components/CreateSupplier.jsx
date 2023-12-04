@@ -262,7 +262,7 @@ export default function CreateSupplier({
                           })}
                           type="text"
                           className="form-control"
-                          
+                          required
                         />
                         {errors.Name_Business && (
                           <p className="text-red-500">

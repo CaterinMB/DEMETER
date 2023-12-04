@@ -7,9 +7,7 @@ import ShoppingView from '../Components/ShoppingView';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
-import { MdRemoveRedEye } from "react-icons/md";
+
 import '../css/style.css';
 import "../css/landing.css";
 
@@ -145,22 +143,10 @@ const generatePDF = () => {
                           Registrar compra
                         </button>
                       </Link>
-                      <LocalizationProvider dateAdapter={AdapterDayjs}>
-                          <DatePicker
-                            label="Fecha de inicio"
-                            value={startDate}
-                            onChange={(date) => setStartDate(date)}
-                            renderInput={(params) => <input {...params.inputProps} />}
-                          />
-                          <DatePicker
-                            label="Fecha de fin"
-                            value={endDate}
-                            onChange={(date) => setEndDate(date)}
-                            renderInput={(params) => <input {...params.inputProps} />}
-                          />
-                                                <button title='Presiona para generar el pdf ' className="btn btn-outline-secondary p-2 ml-1" onClick={generatePDF}>Generar Reporte </button>
+                     
+                         <button title='Presiona para generar el pdf ' className="btn btn-outline-secondary p-2 ml-1" onClick={generatePDF}>Generar Reporte </button>
 
-                           </LocalizationProvider>
+                          
                       
                     </div>
                     <div className="col-md-6">
