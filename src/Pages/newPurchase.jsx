@@ -67,7 +67,7 @@ function NewPurchase() {
       Datetime: new Date(),
       State: 1,
       Supplier_ID: value,
-      User_ID: 7
+      User_ID: 1
     }))
     await createMultipleShopping(data)
 

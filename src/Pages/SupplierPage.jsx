@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import { BiEdit } from "react-icons/bi";
 import { AiOutlineEye, AiFillDelete } from "react-icons/ai";
 import { MdToggleOn, MdToggleOff } from "react-icons/md";
@@ -20,7 +20,10 @@ function SupplierPage() {
 
   useEffect(() => {
     getSupplierByState().then(console.log(supplier));
+  
   }, []);
+
+ 
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);

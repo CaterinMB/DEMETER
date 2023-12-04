@@ -18,9 +18,6 @@ function ShoppingPage() {
   const { getOneShopping, shopping: Shopping, selectAction, disableShopping, getShopingByProvider } = useShoppingContext();
   const [searchTerm, setSearchTerm] = useState("");
   const [shoppingData, setShoppingData] = useState([])
-  const [searchDate, setSearchDate] = React.useState(null); // Estado para la fecha seleccionada
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
 
   function DateRangeSelector({ handleDateChange }) {
     const [startDate, setStartDate] = useState(null);
@@ -38,6 +35,7 @@ function ShoppingPage() {
 
   useLayoutEffect(() => {
     setShoppingData([])
+   
     return async () => {
       const data = await getShopingByProvider();
       setShoppingData(data)
@@ -71,54 +69,56 @@ function ShoppingPage() {
 });
 
 const generatePDF = () => {
-  if (startDate && endDate) {
-    const filteredData = shoppingData.filter((shoppingItem) => {
-      const itemDate = new Date(shoppingItem.Datetime).toLocaleDateString('en-CA');
-      return itemDate >= startDate && itemDate <= endDate;
-    });
+  const tableBody = shoppingData.map((shopping) => {
+    const {
+      ID_Shopping,
+      Datetime,
+      Total,
+      Supplier: { Name_Supplier },
+    } = shopping;
 
-    const tableBody = filteredData.map((shopping) => {
-      const { ID_Shopping, Datetime, Total, Supplier: { Name_Supplier } } = shopping;
-      return [
-        { text: ID_Shopping, bold: true, alignment: 'center' },
-        { text: Name_Supplier, alignment: 'center' },
-        { text: new Date(Datetime).toLocaleDateString(), alignment: 'center' },
-        { text: Total, alignment: 'center' },
-      ];
-    });
+    return [
+      { text: ID_Shopping, bold: true, alignment: 'center'  },
+      { text: Name_Supplier, alignment: 'center' },
+      { text: new Date(Datetime).toLocaleDateString() , alignment: 'center' },
+      { text: Total, alignment: 'center'  },
+    ];
+  });
 
-    const documentDefinition = {
-      content: [
-        { text: 'Reporte de compras', fontSize: 16, margin: [0, 0, 0, 10] },
-        {
-          table: {
-            headerRows: 1,
-            widths: ['auto', '*', '*', 'auto'],
-            body: [
-              ['ID', 'Proveedor', 'Fecha', 'Total'],
-              ...tableBody,
-            ],
-          },
-          layout: {
-            fontSize: 12,
-            margin: [0, 5, 0, 15],
-            fillColor: (rowIndex, node, columnIndex) => {
-              return rowIndex % 2 === 0 ? '#CCCCCC' : null;
-            },
-          },
-        },
-      ],
-      styles: {
+  const documentDefinition = {
+    content: [
+      { text: 'Reporte de compras', fontSize: 16, margin: [0, 0, 0, 10] },
+      {
         table: {
-          width: '100%',
+          headerRows: 1,
+          widths: ['auto', '*', '*', 'auto'],
+          body: [
+            [
+              'ID',
+              'Proveedor',
+              'Fecha',
+              'Total'
+            ],
+            ...tableBody,
+          ],
+        },
+        layout: {
+          fontSize: 12, // Ajusta el tamaño de la fuente dentro de la tabla
+          margin: [0, 5, 0, 15], // Ajusta los márgenes de la tabla
+          fillColor: (rowIndex, node, columnIndex) => {
+            return rowIndex % 2 === 0 ? '#CCCCCC' : null; // Cambia el color de fondo de las filas pares
+          },
         },
       },
-    };
+    ],
+    styles: {
+      table: {
+        width: '100%', // Establece el ancho de la tabla al 100% del documento
+      },
+    },
+  };
 
-    pdfMake.createPdf(documentDefinition).download('shopping_report.pdf');
-  } else {
-    console.log('Por favor, selecciona un rango de fechas válido');
-  }
+  pdfMake.createPdf(documentDefinition).download('shopping_report.pdf');
 };
 
 
