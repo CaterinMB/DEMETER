@@ -23,17 +23,17 @@ function CreateRole({ onClose, onCreated }) {
     const { createRole, role } = useRole();
 
     // Cambio de activacion
-    const [dashboardActive, setDashboardActive] = useState(false);
-    const [configuracionActive, setConfiguracionActive] = useState(false);
-    const [usuarioActive, setUsuarioActive] = useState(false);
-    const [categoriaInsumosActive, setCategoriaInsumosActive] = useState(false);
-    const [insumosActive, setInsumosActive] = useState(false);
-    const [proveedoresActive, setProveedoresActive] = useState(false);
-    const [categoriaProductosActive, setCategoriaProductosActive] = useState(false);
-    const [productosActive, setProductosActive] = useState(false);
-    const [meserosActive, setMeserosActive] = useState(false);
-    const [comprasActive, setComprasActive] = useState(false);
-    const [ventasActive, setVentasActive] = useState(false);
+    // const [dashboardActive, setDashboardActive] = useState(false);
+    // const [configuracionActive, setConfiguracionActive] = useState(false);
+    // const [usuarioActive, setUsuarioActive] = useState(false);
+    // const [categoriaInsumosActive, setCategoriaInsumosActive] = useState(false);
+    // const [insumosActive, setInsumosActive] = useState(false);
+    // const [proveedoresActive, setProveedoresActive] = useState(false);
+    // const [categoriaProductosActive, setCategoriaProductosActive] = useState(false);
+    // const [productosActive, setProductosActive] = useState(false);
+    // const [meserosActive, setMeserosActive] = useState(false);
+    // const [comprasActive, setComprasActive] = useState(false);
+    // const [ventasActive, setVentasActive] = useState(false);
 
     const onSubmit = handleSubmit(async (values) => {
         const isNameDuplicate = role.some(rol => rol.Name_Role === values.Name_Role);
@@ -56,52 +56,52 @@ function CreateRole({ onClose, onCreated }) {
     };
 
     // Funciones de cambio de activacion
-    const handleDashboardClick = () => {
-        setDashboardActive(prevState => !prevState);
-    };
+    // const handleDashboardClick = () => {
+    //     setDashboardActive(prevState => !prevState);
+    // };
 
-    const handleConfiguracionClick = () => {
-        setConfiguracionActive(prevState => !prevState);
-    };
+    // const handleConfiguracionClick = () => {
+    //     setConfiguracionActive(prevState => !prevState);
+    // };
 
-    const handleUsuarioClick = () => {
-        setUsuarioActive(prevState => !prevState);
-    };
+    // const handleUsuarioClick = () => {
+    //     setUsuarioActive(prevState => !prevState);
+    // };
 
-    const handleCategoriaInsumosClick = () => {
-        setCategoriaInsumosActive(prevState => !prevState);
-    };
+    // const handleCategoriaInsumosClick = () => {
+    //     setCategoriaInsumosActive(prevState => !prevState);
+    // };
 
-    const handleInsumosClick = () => {
-        setInsumosActive(prevState => !prevState);
-    };
+    // const handleInsumosClick = () => {
+    //     setInsumosActive(prevState => !prevState);
+    // };
 
-    const handleProveedoresClick = () => {
-        setProveedoresActive(prevState => !prevState);
-    };
+    // const handleProveedoresClick = () => {
+    //     setProveedoresActive(prevState => !prevState);
+    // };
 
-    const handleCategoriaProductosClick = () => {
-        setCategoriaProductosActive(prevState => !prevState);
-    };
+    // const handleCategoriaProductosClick = () => {
+    //     setCategoriaProductosActive(prevState => !prevState);
+    // };
 
-    const handleProductosClick = () => {
-        setProductosActive(prevState => !prevState);
-    };
+    // const handleProductosClick = () => {
+    //     setProductosActive(prevState => !prevState);
+    // };
 
-    const handleMeserosClick = () => {
-        setMeserosActive(prevState => !prevState);
-    };
+    // const handleMeserosClick = () => {
+    //     setMeserosActive(prevState => !prevState);
+    // };
 
-    const handleComprasClick = () => {
-        setComprasActive(prevState => !prevState);
-    };
+    // const handleComprasClick = () => {
+    //     setComprasActive(prevState => !prevState);
+    // };
 
-    const handleVentasClick = () => {
-        setVentasActive(prevState => !prevState);
-    };
+    // const handleVentasClick = () => {
+    //     setVentasActive(prevState => !prevState);
+    // };
 
     return (
-        <Box sx={{ ...style, width: 700, height: 500 }}>
+        <Box sx={{ ...style, width: 600 }}>
             <div>
                 <div className="col-md-12">
                     <div className="card">
@@ -137,7 +137,7 @@ function CreateRole({ onClose, onCreated }) {
                                     </div>
                                 </div>
 
-                                <div className="control">
+                                {/* <div className="control">
                                     <div className="form-group col-md-4">
                                         <div style={{ display: "flex", alignItems: "center" }}>
                                             <h5>DashBoard</h5>
@@ -323,22 +323,23 @@ function CreateRole({ onClose, onCreated }) {
                                             </button>
                                         </div>
                                     </div>
-                                </div>
+                                </div> */}
 
                                 <div className="buttonconfirm">
                                     <div className="mb-3">
+                                        <button
+                                            className="btn btn-primary"
+                                            onClick={onCancel}
+                                            type="button"
+                                            title='Cancelar el rol no creado actualemente en el sistema'
+                                        >
+                                            Cancelar
+                                        </button>
                                         <button
                                             className="btn btn-primary mr-5"
                                             type="submit"
                                         >
                                             Confirmar
-                                        </button>
-                                        <button
-                                            className="btn btn-primary"
-                                            onClick={onCancel}
-                                            type="button"
-                                        >
-                                            Cancelar
                                         </button>
                                     </div>
                                 </div>

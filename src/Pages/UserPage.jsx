@@ -13,14 +13,14 @@ import DeleteUser from "../Components/DeleteUser";
 
 function UserPage() {
     const { user, getUsers, toggleUserStatus, deleteUser } = useUser()
-    const { getRoles } = useRole();
+    const { role } = useRole();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [userToEdit, setUserToEdit] = useState(null);
     const [userToDelete, setUserToDelete] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
-    const [role, setRole] = useState([])
+    // const [role, setRole] = useState([])
 
     useEffect(() => {
         getUsers();
@@ -112,7 +112,7 @@ function UserPage() {
                                             <table className="table table-hover">
                                                 <thead>
                                                     <tr>
-                                                        <th className="text-center">Tipo de documento</th>
+                                                        <th className="text-center">Tipo</th>
                                                         <th className="text-center">N° documento</th>
                                                         <th className="text-center">Nombre</th>
                                                         <th className="text-center">Apellido</th>
@@ -123,47 +123,47 @@ function UserPage() {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {filteredUsers.map((user) => (
-                                                        <tr key={user.ID_User}>
-                                                            <td>{user.Type_Document}</td>
-                                                            <td>{user.Document}</td>
-                                                            <td>{user.Name_User}</td>
-                                                            <td>{user.LastName_User}</td>
-                                                            <td>{user.Email}</td>
+                                                    {filteredUsers.map((users) => (
+                                                        <tr key={users.ID_User}>
+                                                            <td>{users.Type_Document}</td>
+                                                            <td>{users.Document}</td>
+                                                            <td>{users.Name_User}</td>
+                                                            <td>{users.LastName_User}</td>
+                                                            <td>{users.Email}</td>
                                                             <td>
-                                                                {user.SuppliesCategory_ID
+                                                                {users.Role_ID
                                                                     ? role.find(
-                                                                        (category) =>
-                                                                            category.ID_SuppliesCategory ===
-                                                                            user.SuppliesCategory_ID
-                                                                    )?.Name_SuppliesCategory || '' : ''
+                                                                        (rol) =>
+                                                                            rol.ID_Role ===
+                                                                            users.Role_ID
+                                                                    )?.Name_Role || '' : ''
                                                                 }
                                                             </td>
                                                             <td className={`${barraClass}`}>
-                                                                {user.State ? "Habilitado" : "Deshabilitado"}
+                                                                {users.State ? "Habilitado" : "Deshabilitado"}
                                                             </td>
                                                             <td>
-                                                                <div style={{ display: "flex", alignItems: "center" }}>
+                                                                <div style={{ display: "flex", alignItems: "center", padding: '3px' }}>
                                                                     <button
-                                                                        onClick={() => handleEdit(user)}
-                                                                        className={`btn btn-icon btn-primary ${!user.State ? "text-gray-400 cursor-not-allowed" : ""}`}
-                                                                        disabled={!user.State}
+                                                                        onClick={() => handleEdit(users)}
+                                                                        className={`ml-1 btn btn-icon btn-primary ${!users.State ? "text-gray-400 cursor-not-allowed" : ""}`}
+                                                                        disabled={!users.State}
                                                                     >
                                                                         <BiEdit />
                                                                     </button>
                                                                     <button
-                                                                        onClick={() => handleDelete(user)}
-                                                                        className={`btn btn-icon btn-danger ${!user.State ? "text-gray-400 cursor-not-allowed" : ""}`}
-                                                                        disabled={!user.State}
+                                                                        onClick={() => handleDelete(users)}
+                                                                        className={`ml-1 btn btn-icon btn-danger ${!users.State ? "text-gray-400 cursor-not-allowed" : ""}`}
+                                                                        disabled={!users.State}
                                                                     >
                                                                         <AiFillDelete />
                                                                     </button>
                                                                     <button
                                                                         type="button"
-                                                                        className={`btn btn-icon btn-success ${barraClass}`}
-                                                                        onClick={() => toggleUserStatus(user.ID_User)}
+                                                                        className={`ml-1 btn btn-icon btn-success ${barraClass}`}
+                                                                        onClick={() => toggleUserStatus(users.ID_User)}
                                                                     >
-                                                                        {user.State ? (
+                                                                        {users.State ? (
                                                                             <MdToggleOn className={`estado-icon active ${barraClass}`} />
                                                                         ) : (
                                                                             <MdToggleOff className={`estado-icon inactive ${barraClass}`} />

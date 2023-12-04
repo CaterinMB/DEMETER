@@ -104,7 +104,7 @@ function WaiterPage() {
                                                                     <button
                                                                         type="button"
                                                                         title='Cambiar el estado de un mesero.'
-                                                                        className={`btn btn-icon btn-success ${barraClass}`}
+                                                                        className={`ml-1 btn btn-icon btn-success ${barraClass}`}
                                                                         onClick={() => toggleUserStatus(waiter.ID_User)}
                                                                     >
                                                                         {waiter.State ? (

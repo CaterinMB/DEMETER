@@ -28,8 +28,8 @@ function DeleteUser({ onClose, onDelete }) {
                 <div className="fixed inset-0 flex items-center justify-center">
 
                     <div className="p-6 rounded shadow-md text-end">
-                        <h1 className="text-3xl font-semibold ">Confirmar eliminación</h1>
-                        <p className="deleteText">
+                        <h1 className="text-3xl font-semibold ml-3">Confirmar eliminación</h1>
+                        <p className="deleteText ml-3">
                             ¿Estás seguro de que deseas eliminar este usuario?
                         </p>
                         <div className="justify-between">
@@ -41,7 +41,7 @@ function DeleteUser({ onClose, onDelete }) {
                             </button>
                             <button
                                 onClick={onCancel}
-                                className="bg-gray-300 hover:bg-gray-400 text-gray-700 font-bold py-2 px-4 rounded"
+                                className="bg-gray-300 hover:bg-gray-400 text-gray-700 font-bold py-2 px-4 rounded ml-4"
                             >
                                 Cancelar
                             </button>

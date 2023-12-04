@@ -24,7 +24,7 @@ function CreateUser({ onClose, onCreated }) {
     const { createUser, user } = useUser();
     const [selectedType, setSelectedType] = useState({ label: 'Seleccione tipo', value: '', isDisabled: true });
     const { role, getRoles } = useRole();
-    const [selectRole, setSelectRol] = useState({ label: 'Seleccionar Rol', value: '', isDisable: true });
+    const [selectRole, setSelectRol] = useState(null);
 
     const typeOptions = [
         { label: 'Seleccione tipo', value: '', isDisabled: true },
@@ -37,7 +37,9 @@ function CreateUser({ onClose, onCreated }) {
         getRoles();
     }, []);
 
-    const rolOpcions = role.map(option => ({ label: option.Name_Role, value: option.ID_Role }));
+    const handleRolChange = (selectedOption) => {
+        setSelectRol(selectedOption);
+    };
 
     const customStyles = {
         control: (provided, state) => ({
@@ -290,13 +292,13 @@ function CreateUser({ onClose, onCreated }) {
                                             Rol: <strong>*</strong>
                                         </label>
                                         <Select
-                                            options={[
-                                                { label: 'Seleccione rol', value: '', isDisabled: true },
-                                                ...rolOpcions
-                                            ]}
+                                            options={role.map((rol) => ({
+                                                value: rol.ID_Role,
+                                                label: rol.Name_Role,
+                                            }))}
                                             {...register("Role_ID")}
-                                            value={rolOpcions}
-                                            onChange={(selectedOption) => setSelectRol(selectedOption)}
+                                            value={selectRole}
+                                            onChange={handleRolChange}
                                             menuPlacement="auto"
                                             menuShouldScrollIntoView={false}
                                             maxMenuHeight={132}

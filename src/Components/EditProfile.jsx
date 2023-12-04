@@ -17,12 +17,13 @@ const EditUser = () => {
                         pattern: {
                             value: /^[A-ZÁÉÍÓÚÑ][a-záéíóúñ\s]*[a-záéíóúñ]$/,
                             message:
-                                "El nombre del mesero debe tener la primera letra en mayúscula y solo letras."
+                                "El nombre debe tener la primera letra en mayúscula y solo letras."
                         }
                     })}
                     type="text"
                     placeholder='Nombre'
                     className="form-control"
+                    title='Cambiar el nombre del usuario logueado si esta incorrectamente guardado.'
                 />
                 {errors.Name_User && (
                     <p className="text-red-500">
@@ -41,12 +42,13 @@ const EditUser = () => {
                         pattern: {
                             value: /^[A-ZÁÉÍÓÚÑ][a-záéíóúñ\s]*[a-záéíóúñ]$/,
                             message:
-                                "El apellido del mesero debe tener la primera letra en mayúscula y solo letras."
+                                "El apellido debe tener la primera letra en mayúscula y solo letras."
                         }
                     })}
                     type="text"
                     placeholder='Apellido'
                     className="form-control"
+                    title='Cambiar el apellido del usuario logueado si esta incorrectamente guardado.'
                 />
                 {errors.LastName_User && (
                     <p className="text-red-500">
@@ -54,7 +56,7 @@ const EditUser = () => {
                     </p>
                 )}
             </div>
-            
+
             <div className="form-group p-3">
                 <label htmlFor="Email" className="form-label">
                     Correo electrónico: <strong>*</strong>
@@ -70,6 +72,7 @@ const EditUser = () => {
                     type="email"
                     placeholder='Correo electrónico'
                     className="form-control"
+                    title='Cambiar el correo electrónico del usuario logueado si esta incorrectamente guardado.'
                 />
                 {errors.Email && (
                     <p className="text-red-500">
@@ -82,6 +85,7 @@ const EditUser = () => {
                 <button
                     className="btn btn-primary mr-3"
                     type="submit"
+                    title='Guardar los cambios realizados en el nombre, apellido ó correo electronico.'
                 >
                     Guardar
                 </button>

@@ -2,9 +2,9 @@ import axios from "./Axios.js";
 
 export const getUsersRequest = () => axios.get(`/user`);
 export const getUserRequest = (ID_User) => axios.get(`/user/${ID_User}`);
-export const createUserRequest = (user) => axios.post(`/add_user`, user);
+export const createUserRequest = (users) => axios.post(`/add_user`, users);
 export const statusUserRequest = (ID_User) => axios.put(`/user/toggle/${ID_User}`);
-export const updateUserRequest = (ID_User, user) => axios.put(`/user/${ID_User}`, user);
+export const updateUserRequest = (ID_User, users) => axios.put(`/user/${ID_User}`, users);
 export const deleteUserRequest = (ID_User) => axios.delete(`/user/${ID_User}`);
 
 // --------------------------- Mesero --------------------------- //

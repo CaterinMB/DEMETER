@@ -117,43 +117,17 @@ function CreateProduct({ onClose, onCreated }) {
                                     </div>
 
                                     <div className="form-group col-md-6">
-                                        <label htmlFor="LastName_User" className="form-label">
-                                            Apellidos: <strong>*</strong>
-                                        </label>
-                                        <input
-                                            {...register("LastName_User", {
-                                                required: 'El apellido es obligatorio',
-                                                pattern: {
-                                                    value: /^[A-ZÁÉÍÓÚÑ][a-záéíóúñ\s]*[a-záéíóúñ]$/,
-                                                    message:
-                                                        "El apellido del mesero debe tener la primera letra en mayúscula y solo letras."
-                                                }
-                                            })}
-                                            type="text"
-                                            placeholder='Apellido'
-                                            className="form-control"
-                                        />
-                                        {errors.LastName_User && (
-                                            <p className="text-red-500">
-                                                {errors.LastName_User.message}
-                                            </p>
-                                        )}
-                                    </div>
-                                </div>
-{/* 
-                                <div className="control">
-                                    <div className="form-group col-md-6">
-                                        <label htmlFor="Role_ID" className="form-label">
-                                            Rol: <strong>*</strong>
+                                        <label htmlFor="ProductCategory_ID" className="form-label">
+                                            Categoria: <strong>*</strong>
                                         </label>
                                         <Select
-                                            options={[
-                                                { label: 'Seleccione rol', value: '', isDisabled: true },
-                                                ...rolOpcions
-                                            ]}
-                                            {...register("Role_ID")}
-                                            value={rolOpcions}
-                                            onChange={(selectedOption) => setSelectRol(selectedOption)}
+                                            {...register("Type_Document")}
+                                            options={Category_products.map((category) => ({
+                                                value: category.ID_ProductCategory,
+                                                label: category.Name_ProductCategory,
+                                            }))}
+                                            value={selectedCategory}
+                                            onChange={handleCategoryChange}
                                             menuPlacement="auto"
                                             menuShouldScrollIntoView={false}
                                             maxMenuHeight={132}
@@ -166,13 +140,60 @@ function CreateProduct({ onClose, onCreated }) {
                                                 },
                                             })}
                                         />
-                                        {errors.Role_ID && (
+                                        {errors.ProductCategory_ID && (
+                                            <p className="text-red-500">{errors.ProductCategory_ID.message}</p>
+                                        )}
+                                    </div>
+                                </div>
+
+                                <div className="control">
+                                    <div className="form-group col-md-6">
+                                        <label htmlFor="Price_Product" className="form-label">
+                                            Precio: <strong>*</strong>
+                                        </label>
+                                        <input
+                                            {...register("Price_Product", {
+                                                required: "El precio es obligatorio",
+                                                validate: (value) => {
+                                                    const parsedValue = parseInt(value);
+                                                    if (isNaN(parsedValue)) {
+                                                        return 'El precio debe ser un número válido.';
+                                                    }
+                                                },
+                                            })}
+                                            type="text"
+                                            placeholder='Precio del producto'
+                                            className="form-control"
+                                        />
+                                        {errors.Price_Product && (
                                             <p className="text-red-500">
-                                                {errors.Role_ID.message}
+                                                {errors.Price_Product.message}
                                             </p>
                                         )}
                                     </div>
-                                </div> */}
+
+                                    <div className="form-group col-md-6">
+                                        <label htmlFor="Unit" className="form-label">
+                                            Cantidad
+                                        </label>
+                                        <input
+                                            {...register('Unit', {
+                                                required: 'Este campo es obligatorio',
+                                                validate: (value) => {
+                                                    const parsedValue = parseInt(value);
+                                                    if (isNaN(parsedValue)) {
+                                                        return 'La cantidad debe ser un número válido.';
+                                                    }
+                                                },
+                                            })}
+                                            type="text"
+                                            className="form-control"
+                                        />
+                                        {errors.Unit && (
+                                            <p className="text-red-500">{errors.Unit.message}</p>
+                                        )}
+                                    </div>
+                                </div>
 
                                 <div className="buttonconfirm">
                                     <div className="mb-3">

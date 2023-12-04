@@ -2242,10 +2242,10 @@ progress {
 
 .form-control {
     display: block;
-    width: 100%;
+    width: 85%;
     padding: 5px 10px;
     font-size: 0.875rem;
-    font-weight: 400;
+    font-weight: 350;
     line-height: 1.5;
     color: #293240;
     background-color: #ffffff;
@@ -4796,7 +4796,7 @@ fieldset:disabled .btn {
 
 .card-body {
     flex: 1 1 auto;
-    padding: 5px 5px;
+    padding: 10px 10px;
 }
 
 .card-text:last-child {
