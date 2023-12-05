@@ -215,7 +215,7 @@ function NewPurchase() {
               <div className="mr-5 ml-5">
                 <label>
                   Medida:
-                  <select className="select-measure  rounded-md p-1 mr-5 ml-3" {...register("medida1")}>
+                  <select className="select-measure  rounded-md p-1 mr-5 ml-3" {...register("Measure")}>
                     <option value="kg">Kg</option>
                     <option value="lb">Lb</option>
                   </select>
@@ -250,11 +250,11 @@ function NewPurchase() {
               </thead>
               <tbody>
                 {
-                   selectedSupplies.slice(startIndex, endIndex).map(({ Lot, Price_Supplier, supplieName, medida1, ID_Supplies }) => (
+                   selectedSupplies.slice(startIndex, endIndex).map(({ Lot, Price_Supplier, supplieName, Measure, ID_Supplies }) => (
                     <tr>
                       <td>{supplieName}</td>
                       <td>{Lot}</td>
-                      <td>{medida1}</td>
+                      <td>{Measure}</td>
                       <td>{Price_Supplier}</td>
                       <td>
                         <button type="button" className="btn btn-icon btn-danger" onClick={() => onDeleteSupplie(ID_Supplies)}>
