@@ -51,13 +51,18 @@ function WaiterPage() {
         setSearchTerm(event.target.value);
     };
 
-    // const handleCheckboxChange = () => {
-    //     setShowEnabledOnly(!showEnabledOnly);
-    // };
+    const handleCheckboxChange = () => {
+        setShowEnabledOnly(!showEnabledOnly);
+    };
 
     const filteredWaiters = user.filter((waiter) => {
         const { Type_Document, Document, Name_User, LastName_User, Restaurant } = waiter;
         const searchString = `${Type_Document} ${Document} ${Name_User} ${LastName_User} ${Restaurant}`.toLowerCase();
+
+        if (showEnabledOnly) {
+            return waiter.State && searchString.includes(searchTerm.toLowerCase());
+        }
+
         return searchString.includes(searchTerm.toLowerCase());
     });
 
@@ -112,20 +117,21 @@ function WaiterPage() {
                                                 />
                                             </div>
                                         </div>
-                                        {/* <div className="movement">
+                                        <div className="movement">
                                             <div className="form-check">
                                                 <input
                                                     type="checkbox"
+                                                    title="Mostrar los meseros que estan habilitados en la primeras paginas."
                                                     className="form-check-input"
                                                     id="showEnabledOnly"
                                                     checked={showEnabledOnly}
                                                     onChange={handleCheckboxChange}
                                                 />
                                                 <label className="form-check-label" htmlFor="showEnabledOnly">
-                                                    Habilitados
+                                                    Mostrar solo habilitados.
                                                 </label>
                                             </div>
-                                        </div> */}
+                                        </div>
                                     </div>
 
 

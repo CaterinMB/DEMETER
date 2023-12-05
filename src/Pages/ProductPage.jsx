@@ -57,13 +57,18 @@ function ProductPage() {
         setSearchTerm(event.target.value);
     };
 
-    // const handleCheckboxChange = () => {
-    //     setShowEnabledOnly(!showEnabledOnly);
-    // };
+    const handleCheckboxChange = () => {
+        setShowEnabledOnly(!showEnabledOnly);
+    };
 
     const filteredProduct = product.filter((produc) => {
         const { Name_Products, Price_Product, ProductCategory_ID } = produc;
         const searchString = `${Name_Products} ${Price_Product} ${ProductCategory_ID}`.toLowerCase();
+
+        if (showEnabledOnly) {
+            return produc.State && searchString.includes(searchTerm.toLowerCase());
+        }
+
         return searchString.includes(searchTerm.toLowerCase());
     });
 
@@ -118,20 +123,21 @@ function ProductPage() {
                                                 />
                                             </div>
                                         </div>
-                                        {/* <div className="movement">
+                                        <div className="movement">
                                             <div className="form-check">
                                                 <input
                                                     type="checkbox"
+                                                    title="Mostrar los productos que estan habilitados en la primeras paginas."
                                                     className="form-check-input"
                                                     id="showEnabledOnly"
                                                     checked={showEnabledOnly}
                                                     onChange={handleCheckboxChange}
                                                 />
                                                 <label className="form-check-label" htmlFor="showEnabledOnly">
-                                                    Habilitados
+                                                    Mostrar solo habilitados.
                                                 </label>
                                             </div>
-                                        </div> */}
+                                        </div>
                                     </div>
 
                                     <div className="card-body table-border-style">

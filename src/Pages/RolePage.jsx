@@ -5,7 +5,6 @@ import { MdToggleOn, MdToggleOff } from "react-icons/md";
 import { BiEdit } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
 import { Assignment } from '@mui/icons-material';
-import EnhancedEncryptionIcon from '@mui/icons-material/EnhancedEncryption';
 
 // Diseño
 import '../css/style.css'
@@ -90,13 +89,18 @@ function RolePage() {
         setSearchTerm(event.target.value);
     };
 
-    // const handleCheckboxChange = () => {
-    //     setShowEnabledOnly(!showEnabledOnly);
-    // };
+    const handleCheckboxChange = () => {
+        setShowEnabledOnly(!showEnabledOnly);
+    };
 
     const filteredRoles = role.filter((rol) => {
-        const { Name_Role, State } = rol;
-        const searchString = `${Name_Role} ${State}`.toLowerCase();
+        const { Name_Role } = rol;
+        const searchString = `${Name_Role}`.toLowerCase();
+
+        if (showEnabledOnly) {
+            return rol.State && searchString.includes(searchTerm.toLowerCase());
+        }
+
         return searchString.includes(searchTerm.toLowerCase());
     });
 
@@ -151,20 +155,21 @@ function RolePage() {
                                                 />
                                             </div>
                                         </div>
-                                        {/* <div className="movement">
+                                        <div className="movement">
                                             <div className="form-check">
                                                 <input
                                                     type="checkbox"
+                                                    title="Mostrar los roles que estan habilitados en la primeras paginas."
                                                     className="form-check-input"
                                                     id="showEnabledOnly"
                                                     checked={showEnabledOnly}
                                                     onChange={handleCheckboxChange}
                                                 />
                                                 <label className="form-check-label" htmlFor="showEnabledOnly">
-                                                    Habilitados
+                                                    Mostrar solo habilitados.
                                                 </label>
                                             </div>
-                                        </div> */}
+                                        </div>
                                     </div>
 
                                     <div className="card-body table-border-style">
@@ -191,7 +196,6 @@ function RolePage() {
                                                                             className='btn btn-icon btn-outline-dark btn-sm'
                                                                             onClick={AssignPermission}
                                                                         >
-                                                                            <EnhancedEncryptionIcon />
                                                                             <Assignment />
                                                                         </button>
                                                                     </div>

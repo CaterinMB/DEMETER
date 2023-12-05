@@ -107,9 +107,9 @@ export default function AssignPermissions({ onClose, onCreated }) {
                       onClick={handleDashboardClick}
                     >
                       {dashboardActive ? (
-                        <MdToggleOn className={`estado-icon active`} />
+                        <MdToggleOn/>
                       ) : (
-                        <MdToggleOff className={`estado-icon inactive`} />
+                        <MdToggleOff/>
                       )}
                     </button>
                   </div>
@@ -121,13 +121,13 @@ export default function AssignPermissions({ onClose, onCreated }) {
                       onClick={handleConfiguracionClick}
                     >
                       {configuracionActive ? (
-                        <MdToggleOn className={`estado-icon active`} />
+                        <MdToggleOn/>
                       ) : (
-                        <MdToggleOff className={`estado-icon inactive`} />
+                        <MdToggleOff/>
                       )}
                     </button>
                   </div>
-                  <div className="form-group col-md-4">
+                  {/* <div className="form-group col-md-4">
                     <h5>Usuario</h5>
                     <button
                       type="button"
@@ -140,7 +140,7 @@ export default function AssignPermissions({ onClose, onCreated }) {
                         <MdToggleOff className={`estado-icon inactive`} />
                       )}
                     </button>
-                  </div>
+                  </div> */}
                 </div>
 
                 <div className="control">
@@ -187,7 +187,7 @@ export default function AssignPermissions({ onClose, onCreated }) {
                     </button>
                   </div>
                 </div>
-
+{/* 
                 <div className="control">
                   <div className="form-group col-md-4">
                     <h5>Categoria Productos</h5>
@@ -262,7 +262,7 @@ export default function AssignPermissions({ onClose, onCreated }) {
                       )}
                     </button>
                   </div>
-                </div>
+                </div> */}
 
                 <div className="buttonconfirm">
                   <div className="mb-3">

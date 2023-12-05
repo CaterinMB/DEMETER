@@ -84,13 +84,18 @@ function UserPage() {
         setSearchTerm(event.target.value);
     };
 
-    // const handleCheckboxChange = () => {
-    //     setShowEnabledOnly(!showEnabledOnly);
-    // };
+    const handleCheckboxChange = () => {
+        setShowEnabledOnly(!showEnabledOnly);
+    };
 
     const filteredUsers = user.filter((user) => {
-        const { Type_Document, Document, Name_User, LastName_User, Email, State } = user;
-        const searchString = `${Type_Document} ${Document} ${Name_User} ${LastName_User} ${Email} ${State}`.toLowerCase();
+        const { Type_Document, Document, Name_User, LastName_User, Email } = user;
+        const searchString = `${Type_Document} ${Document} ${Name_User} ${LastName_User} ${Email}`.toLowerCase();
+
+        if (showEnabledOnly) {
+            return user.State && searchString.includes(searchTerm.toLowerCase());
+        }
+
         return searchString.includes(searchTerm.toLowerCase());
     });
 
@@ -145,20 +150,21 @@ function UserPage() {
                                                 />
                                             </div>
                                         </div>
-                                        {/* <div className="movement">
+                                        <div className="movement">
                                             <div className="form-check">
                                                 <input
                                                     type="checkbox"
+                                                    title="Mostrar los empleados que estan habilitados en la primeras paginas"
                                                     className="form-check-input"
                                                     id="showEnabledOnly"
                                                     checked={showEnabledOnly}
                                                     onChange={handleCheckboxChange}
                                                 />
                                                 <label className="form-check-label" htmlFor="showEnabledOnly">
-                                                    Habilitados
+                                                    Mostrar solo habilitados.
                                                 </label>
                                             </div>
-                                        </div> */}
+                                        </div>
                                     </div>
 
 
