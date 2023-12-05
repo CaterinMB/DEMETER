@@ -12,7 +12,7 @@ export default function ProductDetails() {
 
   useEffect(() => {
     getDetailProduct();
-}, []);
+  }, []);
 
   return (
     <div className="card-body table-border-style">
@@ -28,32 +28,39 @@ export default function ProductDetails() {
             </tr>
           </thead>
           <tbody>
-            {detailP && detailP.map((detail) => (
-              <tr key={detail.ID_ProductDetail}>
-                <td>{detail.Supplies_ID
-                    ? supplies.find(
-                      (supply) =>
-                        supply.ID_Supplies ===
-                        detail.Supplies_ID
-                    )?.Name_Supplies || ''
-                    : ''}</td>
-                <td>{detail.Lot_ProductDetail}</td>
-                <td>{detail.Measure}</td>
-                <td>{detail.State ? 'Habilitado' : 'Deshabilitado'}</td>
-                <td>
-                  <div style={{ display: "flex", alignItems: "center" }}>
-
-                    <button
-                      type="button"
-                      className={`btn btn-icon btn-success ${detail.State ? "active" : "inactive"}`}
-                      onClick={() => toggleSupplyStatus(detail.ID_Product)}
-                    >
-                      <AiFillDelete/>
-                    </button>
-                  </div>
-                </td>
+            {Array.isArray(detailP) && detailP.length > 0 ? (
+              detailP.map((detailItem) => (
+                <tr key={detailItem.ID_ProductDetail}>
+                  <td>
+                    {detailItem.Supplies_ID
+                      ? supplies.find(
+                        (supply) =>
+                          supply.ID_Supplies === detailItem.Supplies_ID
+                      )?.Name_Supplies || ''
+                      : ''}
+                  </td>
+                  <td>{detailItem.Lot_ProductDetail}</td>
+                  <td>{detailItem.Measure}</td>
+                  <td>{detailItem.State ? 'Habilitado' : 'Deshabilitado'}</td>
+                  <td>
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      <button
+                        type="button"
+                        className={`btn btn-icon btn-success ${detailItem.State ? 'active' : 'inactive'
+                          }`}
+                        onClick={() => toggleSupplyStatus(detailItem.ID_Product)}
+                      >
+                        <AiFillDelete />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="5">No existen detalles en este producto.</td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>

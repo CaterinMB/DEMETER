@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
+
+// Icons
 import { MdToggleOn, MdToggleOff } from "react-icons/md";
+
+// Diseño
 import '../css/style.css'
 import '../css/landing.css'
 
@@ -19,6 +23,7 @@ function WaiterPage() {
     const { user, getWaiters, toggleUserStatus } = useUser();
     const [searchTerm, setSearchTerm] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
+
     const [showEnabledOnly, setShowEnabledOnly] = useState(
         localStorage.getItem("showEnabledOnly") === "true"
     );
@@ -46,9 +51,9 @@ function WaiterPage() {
         setSearchTerm(event.target.value);
     };
 
-    const handleCheckboxChange = () => {
-        setShowEnabledOnly(!showEnabledOnly);
-    };
+    // const handleCheckboxChange = () => {
+    //     setShowEnabledOnly(!showEnabledOnly);
+    // };
 
     const filteredWaiters = user.filter((waiter) => {
         const { Type_Document, Document, Name_User, LastName_User, Restaurant } = waiter;

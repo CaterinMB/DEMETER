@@ -1,17 +1,30 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
+
+// Icons
 import { MdToggleOn, MdToggleOff } from "react-icons/md";
 import { BiEdit } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
+import { Assignment } from '@mui/icons-material';
 import EnhancedEncryptionIcon from '@mui/icons-material/EnhancedEncryption';
+
+// Diseño
 import '../css/style.css'
 import '../css/landing.css'
 
+// Context
 import { useRole } from '../Context/Role.context.jsx';
+
+// Componentes
 import CreateRole from '../Components/CreateRole.jsx';
 import UpdateRole from '../Components/UpdateRole.jsx';
 import DeleteRole from '../Components/DeleteRole.jsx';
 import AssignPermissions from '../Components/AssignPermissions.jsx';
-import { Assignment } from '@mui/icons-material';
+
+// Paginado
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 
 function RolePage() {
     const { role, getRoles, toggleRoleStatus, deleteRole } = useRole();
@@ -23,18 +36,22 @@ function RolePage() {
     const [roleToDelete, setRoleToDelete] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
 
-    // useLayoutEffect(() => {
-    //     getRoles();
-    // }, []);
+    const [showEnabledOnly, setShowEnabledOnly] = useState(
+        localStorage.getItem("showEnabledOnly") === "true"
+    );
+    const itemsForPage = 5;
+    const [currentPage, setCurrentPage] = useState(1);
+
     useEffect(() => {
         getRoles();
+        setCurrentPage(1);
     }, []);
 
     const navigateToCreateRole = () => {
         setIsModalOpen(true);
     };
 
-    const AssignPermissions = () => {
+    const AssignPermission = () => {
         setIsModalOpenPrmissions(true);
     };
 
@@ -65,17 +82,39 @@ function RolePage() {
         setIsDeleteModalOpen(false);
     };
 
+    useEffect(() => {
+        localStorage.setItem("showEnabledOnly", showEnabledOnly);
+    }, [showEnabledOnly]);
+
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
     };
 
-    const filteredRoles = role.filter((role) => {
-        const { Name_Role, State } = role;
+    // const handleCheckboxChange = () => {
+    //     setShowEnabledOnly(!showEnabledOnly);
+    // };
+
+    const filteredRoles = role.filter((rol) => {
+        const { Name_Role, State } = rol;
         const searchString = `${Name_Role} ${State}`.toLowerCase();
         return searchString.includes(searchTerm.toLowerCase());
     });
 
+    const enabledRoles = filteredRoles.filter((rol) => rol.State);
+    const disabledRoles = filteredRoles.filter((rol) => !rol.State);
+    const sortedRoles = [...enabledRoles, ...disabledRoles];
+
+    const pageCount = Math.ceil(sortedRoles.length / itemsForPage);
+
+    const startIndex = (currentPage - 1) * itemsForPage;
+    const endIndex = startIndex + itemsForPage;
+    const visibleRoles = sortedRoles.slice(startIndex, endIndex);
+
     const statusRoles = role.State ? "" : "desactivado";
+
+    const handlePageChange = (event, value) => {
+        setCurrentPage(value);
+    };
 
     return (
         <section className="pc-container">
@@ -112,6 +151,20 @@ function RolePage() {
                                                 />
                                             </div>
                                         </div>
+                                        {/* <div className="movement">
+                                            <div className="form-check">
+                                                <input
+                                                    type="checkbox"
+                                                    className="form-check-input"
+                                                    id="showEnabledOnly"
+                                                    checked={showEnabledOnly}
+                                                    onChange={handleCheckboxChange}
+                                                />
+                                                <label className="form-check-label" htmlFor="showEnabledOnly">
+                                                    Habilitados
+                                                </label>
+                                            </div>
+                                        </div> */}
                                     </div>
 
                                     <div className="card-body table-border-style">
@@ -126,7 +179,7 @@ function RolePage() {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {filteredRoles.map((rol) => (
+                                                    {visibleRoles.map((rol) => (
                                                         <tr key={rol.ID_Role}>
                                                             <td title='Nombre del rol'>{rol.Name_Role}</td>
                                                             <td>
@@ -136,9 +189,10 @@ function RolePage() {
                                                                             title='Para poder remover o asignar permisos a un rol ya creado con anterioridad.'
                                                                             type='button'
                                                                             className='btn btn-icon btn-outline-dark btn-sm'
-                                                                            onClick={AssignPermissions}
+                                                                            onClick={AssignPermission}
                                                                         >
                                                                             <EnhancedEncryptionIcon />
+                                                                            <Assignment />
                                                                         </button>
                                                                     </div>
                                                                 ) : (
@@ -188,39 +242,6 @@ function RolePage() {
                                                     ))}
                                                 </tbody>
                                             </table>
-
-                                            {isModalOpen && (
-                                                <div className="fixed inset-0 flex items-center justify-center z-50">
-                                                    <div className="modal-overlay" onClick={() => setIsModalOpen(false)}></div>
-                                                    <div className="modal-container">
-                                                        <CreateRole onClose={() => setIsModalOpen(false)} onCreated={handleCreated} />
-                                                    </div>
-                                                </div>
-                                            )}
-
-                                            {isModalOpenPrmissions && (
-                                                <div className="fixed inset-0 flex items-center justify-center z-50">
-                                                    <div className="modal-overlay" onClick={() => setIsModalOpenPrmissions(false)}></div>
-                                                    <div className="modal-container">
-                                                        <AssignPermissions onClose={() => setIsModalOpenPrmissions(false)} onAssign={AssignPermissions} />
-                                                    </div>
-                                                </div>
-                                            )}
-
-                                            {isEditModalOpen && (
-                                                <div className="fixed inset-0 flex items-center justify-center z-50">
-                                                    <div className="modal-overlay" onClick={() => setIsEditModalOpen(false)}></div>
-                                                    <div className="modal-container">
-                                                        <UpdateRole onClose={() => setIsEditModalOpen(false)} roleToEdit={roleToEdit} />
-                                                    </div>
-                                                </div>
-                                            )}
-                                            {isDeleteModalOpen && (
-                                                <DeleteRole
-                                                    onClose={cancelDelete}
-                                                    onDelete={confirmDelete}
-                                                />
-                                            )}
                                         </div>
                                     </div>
 
@@ -230,6 +251,61 @@ function RolePage() {
                     </div>
                 </div>
             </div>
+
+            <div
+                className="pagination-container pagination"
+                title='Para moverse mas rapido por el modulo cuando hay varios registros en el sistema.'
+            >
+                <Stack spacing={2}>
+                    <Pagination
+                        count={pageCount}
+                        page={currentPage}
+                        siblingCount={2}
+                        onChange={handlePageChange}
+                        variant="outlined"
+                        shape="rounded"
+                    />
+                </Stack>
+            </div>
+
+            <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 2, title: 'Muestra la pagina en la que se encuentra actualmente de las paginas en total que existen.' }}>
+                <Typography variant="body2" color="text.secondary">
+                    Página {currentPage} de {pageCount}
+                </Typography>
+            </Box>
+
+            {isModalOpen && (
+                <div className="fixed inset-0 flex items-center justify-center z-50">
+                    <div className="modal-overlay" onClick={() => setIsModalOpen(false)}></div>
+                    <div className="modal-container">
+                        <CreateRole onClose={() => setIsModalOpen(false)} onCreated={handleCreated} />
+                    </div>
+                </div>
+            )}
+
+            {isModalOpenPrmissions && (
+                <div className="fixed inset-0 flex items-center justify-center z-50">
+                    <div className="modal-overlay" onClick={() => setIsModalOpenPrmissions(false)}></div>
+                    <div className="modal-container">
+                        <AssignPermissions onClose={() => setIsModalOpenPrmissions(false)} onAssign={AssignPermission} />
+                    </div>
+                </div>
+            )}
+
+            {isEditModalOpen && (
+                <div className="fixed inset-0 flex items-center justify-center z-50">
+                    <div className="modal-overlay" onClick={() => setIsEditModalOpen(false)}></div>
+                    <div className="modal-container">
+                        <UpdateRole onClose={() => setIsEditModalOpen(false)} roleToEdit={roleToEdit} />
+                    </div>
+                </div>
+            )}
+            {isDeleteModalOpen && (
+                <DeleteRole
+                    onClose={cancelDelete}
+                    onDelete={confirmDelete}
+                />
+            )}
         </section>
     )
 }
