@@ -119,6 +119,7 @@ export function Product({ children }) {
             updateProduct,
             deleteProduct,
             // Datalles
+            detailP,
             getDetailProduct,
             createDetailP,
             deleteDetailProduct

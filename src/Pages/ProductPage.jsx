@@ -17,6 +17,10 @@ function ProductPage() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate();
 
+    useEffect(() => {
+        getProducts();
+    }, []);
+
     const navigateToCreateProduct = () => {
         setIsModalOpen(true);
     };

@@ -108,6 +108,7 @@ function CreateProduct({ onClose, onCreated }) {
                                             type="text"
                                             placeholder='Nombre del producto'
                                             className="form-control"
+                                            title='Se debe ingresar el nombre del producto que se desea crear en el sistema.'
                                         />
                                         {errors.Name_Products && (
                                             <p className="text-red-500">
@@ -139,6 +140,7 @@ function CreateProduct({ onClose, onCreated }) {
                                                     primary: '#201E1E',
                                                 },
                                             })}
+                                            title='Se debe seleccionar una categoria para el producto que se desea crear en el sistema.'
                                         />
                                         {errors.ProductCategory_ID && (
                                             <p className="text-red-500">{errors.ProductCategory_ID.message}</p>
@@ -164,6 +166,7 @@ function CreateProduct({ onClose, onCreated }) {
                                             type="text"
                                             placeholder='Precio del producto'
                                             className="form-control"
+                                            title='Ingresar el precio del producto que se desea crear.'
                                         />
                                         {errors.Price_Product && (
                                             <p className="text-red-500">
@@ -173,24 +176,48 @@ function CreateProduct({ onClose, onCreated }) {
                                     </div>
 
                                     <div className="form-group col-md-6">
-                                        <label htmlFor="Unit" className="form-label">
-                                            Cantidad
+                                        <label htmlFor="Image" className="form-label">
+                                            Imagen: <strong>*</strong>
                                         </label>
                                         <input
-                                            {...register('Unit', {
+                                            {...register('Image', {
                                                 required: 'Este campo es obligatorio',
-                                                validate: (value) => {
-                                                    const parsedValue = parseInt(value);
-                                                    if (isNaN(parsedValue)) {
-                                                        return 'La cantidad debe ser un número válido.';
-                                                    }
+                                                validate: {
+                                                    validImage: (value) => {
+                                                        const isFile = value instanceof FileList;
+                                                        const isUrl = /^https?:\/\//i.test(value);
+
+                                                        if (!isFile && !isUrl) {
+                                                            return 'Por favor, selecciona una imagen o ingresa una URL válida.';
+                                                        }
+
+                                                        if (isFile) {
+                                                            // Validar la imagen si es un archivo
+                                                            const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+                                                            const maxFileSize = 5 * 1024 * 1024; // 5MB
+
+                                                            const file = value[0];
+
+                                                            const fileExtension = file.name.split('.').pop().toLowerCase();
+                                                            if (!allowedExtensions.includes(fileExtension)) {
+                                                                return 'Por favor, selecciona una imagen con formato válido (jpg, jpeg, png, gif).';
+                                                            }
+
+                                                            if (file.size > maxFileSize) {
+                                                                return 'La imagen es demasiado grande. Por favor, selecciona una imagen más pequeña.';
+                                                            }
+                                                        }
+
+                                                        return true; // La validación pasó
+                                                    },
                                                 },
                                             })}
-                                            type="text"
+                                            type="file"
                                             className="form-control"
+                                            title='Inserte la imagen del producto.'
                                         />
-                                        {errors.Unit && (
-                                            <p className="text-red-500">{errors.Unit.message}</p>
+                                        {errors.Image && (
+                                            <p className="text-red-500">{errors.Image.message}</p>
                                         )}
                                     </div>
                                 </div>
@@ -198,17 +225,19 @@ function CreateProduct({ onClose, onCreated }) {
                                 <div className="buttonconfirm">
                                     <div className="mb-3">
                                         <button
-                                            className="btn btn-primary mr-5"
-                                            type="submit"
-                                        >
-                                            Confirmar
-                                        </button>
-                                        <button
                                             className="btn btn-primary"
                                             onClick={onCancel}
                                             type="button"
+                                            title='Se cancela el producto antes de crearlo en el sistema.'
                                         >
                                             Cancelar
+                                        </button>
+                                        <button
+                                            className="btn btn-primary mr-5"
+                                            type="submit"
+                                            title='Se crea el producto en el sistema.'
+                                        >
+                                            Confirmar
                                         </button>
                                     </div>
                                 </div>

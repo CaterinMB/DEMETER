@@ -1,6 +1,9 @@
 import React from 'react'
+import UpdateProduct from '../Components/UpdateProduct.jsx'
+import ProductDetails from '../Components/ProductDetails.jsx'
+import CreateProductDetail from '../Components/CreateProductDetail.jsx'
 
-export default function ProductDetails() {
+export default function ProductDetail() {
     return (
         <section className="pc-container">
             <div className="pcoded-content">
@@ -11,24 +14,24 @@ export default function ProductDetails() {
                                 <div className="card-header">
                                     <div className="row">
                                         <div className="col-md-6">
-                                            <h5>producto</h5>
+                                            <h5>Producto</h5>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="card-body">
                                     <div className="row">
-                                        Formulario producto
+                                        <UpdateProduct />
                                     </div>
                                     <div className="row">
                                         <div className="col-md-6">
                                             <h5>Recetas</h5>
                                         </div>
                                         <div>
-                                            Tabla de detalles
+                                            <ProductDetails />
                                         </div>
                                     </div>
                                     <div className="row">
-                                        Formulario detalles
+                                        <CreateProductDetail />
                                     </div>
                                 </div>
                             </div>

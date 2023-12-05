@@ -11,6 +11,7 @@ import CreateRole from '../Components/CreateRole.jsx';
 import UpdateRole from '../Components/UpdateRole.jsx';
 import DeleteRole from '../Components/DeleteRole.jsx';
 import AssignPermissions from '../Components/AssignPermissions.jsx';
+import { Assignment } from '@mui/icons-material';
 
 function RolePage() {
     const { role, getRoles, toggleRoleStatus, deleteRole } = useRole();
@@ -169,7 +170,7 @@ function RolePage() {
                                                                         <button
                                                                             type="button"
                                                                             title='Para cambiar el estado del rol seleccionado en el sistema.'
-                                                                            className={`btn btn-icon btn-success ${statusRoles}`}
+                                                                            className={`ml-1 btn btn-icon btn-success ${statusRoles}`}
                                                                             onClick={() => toggleRoleStatus(rol.ID_Role)}
                                                                         >
                                                                             {rol.State ? (
@@ -201,7 +202,7 @@ function RolePage() {
                                                 <div className="fixed inset-0 flex items-center justify-center z-50">
                                                     <div className="modal-overlay" onClick={() => setIsModalOpenPrmissions(false)}></div>
                                                     <div className="modal-container">
-                                                        <AssignPermissions onClose={() => setIsModalOpenPrmissions(false)} onAssign={handleCreated} />
+                                                        <AssignPermissions onClose={() => setIsModalOpenPrmissions(false)} onAssign={AssignPermissions} />
                                                     </div>
                                                 </div>
                                             )}
@@ -214,7 +215,6 @@ function RolePage() {
                                                     </div>
                                                 </div>
                                             )}
-||
                                             {isDeleteModalOpen && (
                                                 <DeleteRole
                                                     onClose={cancelDelete}

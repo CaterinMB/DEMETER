@@ -3,16 +3,31 @@ import { MdToggleOn, MdToggleOff } from "react-icons/md";
 import '../css/style.css'
 import '../css/landing.css'
 
+// Context
 import { useUser } from '../Context/User.context.jsx';
+
+// Componentes
 import CreateWaiter from '../Components/CreateWaiter.jsx';
+
+// Paginado
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 
 function WaiterPage() {
     const { user, getWaiters, toggleUserStatus } = useUser();
     const [searchTerm, setSearchTerm] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [showEnabledOnly, setShowEnabledOnly] = useState(
+        localStorage.getItem("showEnabledOnly") === "true"
+    );
+    const itemsForPage = 5;
+    const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
         getWaiters();
+        setCurrentPage(1);
     }, []);
 
     const navigateToCreateWaiter = () => {
@@ -23,17 +38,39 @@ function WaiterPage() {
         getWaiters();
     };
 
+    useEffect(() => {
+        localStorage.setItem("showEnabledOnly", showEnabledOnly);
+    }, [showEnabledOnly]);
+
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
     };
 
+    const handleCheckboxChange = () => {
+        setShowEnabledOnly(!showEnabledOnly);
+    };
+
     const filteredWaiters = user.filter((waiter) => {
-        const { Type_Document, Document, Name_User, LastName_User, Restaurant, State } = waiter;
-        const searchString = `${Type_Document} ${Document} ${Name_User} ${LastName_User} ${Restaurant} ${State}`.toLowerCase();
+        const { Type_Document, Document, Name_User, LastName_User, Restaurant } = waiter;
+        const searchString = `${Type_Document} ${Document} ${Name_User} ${LastName_User} ${Restaurant}`.toLowerCase();
         return searchString.includes(searchTerm.toLowerCase());
     });
-    
+
+    const enabledWaiters = filteredWaiters.filter((waiter) => waiter.State);
+    const disabledWaiters = filteredWaiters.filter((waiter) => !waiter.State);
+    const sortedWaiters = [...enabledWaiters, ...disabledWaiters];
+
+    const pageCount = Math.ceil(sortedWaiters.length / itemsForPage);
+
+    const startIndex = (currentPage - 1) * itemsForPage;
+    const endIndex = startIndex + itemsForPage;
+    const visibleWaiters = sortedWaiters.slice(startIndex, endIndex);
+
     const barraClass = user.State ? "" : "desactivado";
+
+    const handlePageChange = (event, value) => {
+        setCurrentPage(value);
+    };
 
     return (
         <section className="pc-container">
@@ -57,7 +94,6 @@ function WaiterPage() {
                                             >
                                                 Registrar
                                             </button>
-
                                         </div>
                                         <div className="col-md-6">
                                             <div className="form-group">
@@ -71,6 +107,20 @@ function WaiterPage() {
                                                 />
                                             </div>
                                         </div>
+                                        {/* <div className="movement">
+                                            <div className="form-check">
+                                                <input
+                                                    type="checkbox"
+                                                    className="form-check-input"
+                                                    id="showEnabledOnly"
+                                                    checked={showEnabledOnly}
+                                                    onChange={handleCheckboxChange}
+                                                />
+                                                <label className="form-check-label" htmlFor="showEnabledOnly">
+                                                    Habilitados
+                                                </label>
+                                            </div>
+                                        </div> */}
                                     </div>
 
 
@@ -89,7 +139,7 @@ function WaiterPage() {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {filteredWaiters.map((waiter) => (
+                                                    {visibleWaiters.map((waiter) => (
                                                         <tr key={waiter.ID_User}>
                                                             <td title='Tipo de documento del mesero.'>{waiter.Type_Document}</td>
                                                             <td title='Numero de identificacion del mesero.'>{waiter.Document}</td>
@@ -119,15 +169,6 @@ function WaiterPage() {
                                                     ))}
                                                 </tbody>
                                             </table>
-
-                                            {isModalOpen && (
-                                                <div className="fixed inset-0 flex items-center justify-center z-50">
-                                                    <div className="modal-overlay" onClick={() => setIsModalOpen(false)}></div>
-                                                    <div className="modal-container">
-                                                        <CreateWaiter onClose={() => setIsModalOpen(false)} onCreated={handleCreated} />
-                                                    </div>
-                                                </div>
-                                            )}
                                         </div>
                                     </div>
 
@@ -137,6 +178,36 @@ function WaiterPage() {
                     </div>
                 </div>
             </div>
+            <div
+                className="pagination-container pagination"
+                title='Para moverse mas rapido por el modulo cuando hay varios registros en el sistema.'
+            >
+                <Stack spacing={2}>
+                    <Pagination
+                        count={pageCount}
+                        page={currentPage}
+                        siblingCount={2}
+                        onChange={handlePageChange}
+                        variant="outlined"
+                        shape="rounded"
+                    />
+                </Stack>
+            </div>
+
+            <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 2, title: 'Muestra la pagina en la que se encuentra actualmente de las paginas en total que existen.' }}>
+                <Typography variant="body2" color="text.secondary">
+                    Página {currentPage} de {pageCount}
+                </Typography>
+            </Box>
+
+            {isModalOpen && (
+                <div className="fixed inset-0 flex items-center justify-center z-50">
+                    <div className="modal-overlay" onClick={() => setIsModalOpen(false)}></div>
+                    <div className="modal-container">
+                        <CreateWaiter onClose={() => setIsModalOpen(false)} onCreated={handleCreated} />
+                    </div>
+                </div>
+            )}
         </section>
     )
 }

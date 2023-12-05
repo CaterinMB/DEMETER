@@ -24,7 +24,7 @@ import EditProfile from './Pages/EditProfilePage.jsx'
 import Alert from './Pages/Alert.jsx'
 import Instruction from './Pages/Instruction.jsx'
 
-import ProductDetails from './Pages/ProductDetails.jsx'
+import ProductDetail from './Pages/ProductDetail.jsx'
 
 // Menu & Header
 import Navbar from './Components/Navbar.jsx'
@@ -59,7 +59,7 @@ function App() {
                       <Route path='/alert' element={<Alert />} />
                       <Route path='/edit_profile' element={<EditProfile />} />
                       <Route path='/instructions' element={<Instruction />} />
-                      <Route path='/productDetail' element={<ProductDetails />} />
+                      <Route path='/productDetail' element={<ProductDetail />} />
                     </Routes>
                   </Supplies>
                 </Supplier>
