@@ -92,7 +92,7 @@ function UpdateSuppliesCategory({
                                     <div className="city">
                                         <div className="form-group col-md-6">
                                             <label htmlFor="Name_SuppliesCategory" className="form-label">
-                                                Nombre
+                                                Nombre:
                                             </label>
                                             <input
                                                 {...register('Name_SuppliesCategory', {

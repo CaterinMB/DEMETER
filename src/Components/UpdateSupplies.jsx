@@ -106,11 +106,11 @@ function UpdateSupplies({
     };
 
     const options = Category_supplies
-  .filter(category => category.State)
-  .map(category => ({
-    value: category.ID_SuppliesCategory,
-    label: category.Name_SuppliesCategory,
-  }));
+        .filter(category => category.State)
+        .map(category => ({
+            value: category.ID_SuppliesCategory,
+            label: category.Name_SuppliesCategory,
+        }));
 
     return (
         <React.Fragment>
@@ -144,7 +144,7 @@ function UpdateSupplies({
                                     <div className="control">
                                         <div className="form-group col-md-6">
                                             <label htmlFor="Name_Supplies" className="form-label">
-                                                Nombre
+                                                Nombre:
                                             </label>
                                             <input
                                                 {...register('Name_Supplies', {
@@ -168,7 +168,7 @@ function UpdateSupplies({
 
                                         <div className="form-group col-md-6">
                                             <label htmlFor="Unit" className="form-label">
-                                                Cantidad
+                                                Cantidad:
                                             </label>
                                             <input
                                                 {...register('Unit', {
@@ -193,7 +193,7 @@ function UpdateSupplies({
                                     <div className="control">
                                         <div className="form-group col-md-6">
                                             <label htmlFor="Measure" className="form-label">
-                                                Medida
+                                                Medida:
                                             </label>
                                             <Select
                                                 options={[
@@ -223,7 +223,7 @@ function UpdateSupplies({
 
                                         <div className="form-group col-md-6">
                                             <label htmlFor="Stock" className="form-label">
-                                                Stock mínimo
+                                                Existencia mínima:
                                             </label>
                                             <input
                                                 {...register('Stock', {
@@ -258,7 +258,7 @@ function UpdateSupplies({
                                     <div className="city">
                                         <div className="form-group col-md-6">
                                             <label htmlFor="SuppliesCategory_ID" className="form-label">
-                                                Categoría
+                                                Categoría:
                                             </label>
                                             <Select
                                                 options={options}
@@ -274,7 +274,7 @@ function UpdateSupplies({
                                                     colors: {
                                                         ...theme.colors,
                                                         primary: '#e36209',
-                                                    },  
+                                                    },
                                                 })}
                                             />
                                             {errors.SuppliesCategory_ID && (

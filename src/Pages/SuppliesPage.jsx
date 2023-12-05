@@ -167,7 +167,7 @@ function SuppliesPage() {
                                 <div style={{ display: "flex", alignItems: "center" }}>
                                   <UpdateSupplies
                                     buttonProps={{
-                                      buttonClass: `btn btn-icon btn-primary ${!supply.State ? "text-gray-400 cursor-not-allowed" : ""}`,
+                                      buttonClass: `ml-1 btn btn-icon btn-primary ${!supply.State ? "text-gray-400 cursor-not-allowed" : ""}`,
                                       isDisabled: !supply.State,
                                       buttonText: <BiEdit />,
                                     }}
@@ -176,14 +176,14 @@ function SuppliesPage() {
                                   />
                                   <button
                                     onClick={() => handleDelete(supply)}
-                                    className={`btn btn-icon btn-danger ${!supply.State ? "text-gray-400 cursor-not-allowed" : ""}`}
+                                    className={`ml-1 btn btn-icon btn-danger ${!supply.State ? "text-gray-400 cursor-not-allowed" : ""}`}
                                     disabled={!supply.State}
                                   >
                                     <AiFillDelete />
                                   </button>
                                   <button
                                     type="button"
-                                    className={`btn btn-icon btn-success ${supply.State ? "active" : "inactive"}`}
+                                    className={`ml-1 btn btn-icon btn-success ${supply.State ? "active" : "inactive"}`}
                                     onClick={() => toggleSupplyStatus(supply.ID_Supplies)}
                                   >
                                     {supply.State ? (
