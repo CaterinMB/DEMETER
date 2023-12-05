@@ -3,7 +3,7 @@ import ProtectedRoute from './ProtectedRoute.jsx'
 
 //Context
 import { Role } from './Context/Role.context.jsx'
-import { User, useUser } from './Context/User.context.jsx'
+import { User } from './Context/User.context.jsx'
 import { Supplier } from './Context/Supplier.context.jsx'
 import { ShoppingProvider } from './Context/Shopping.context.jsx'
 import { Supplies } from './Context/Supplies.context.jsx'
