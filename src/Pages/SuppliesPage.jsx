@@ -25,7 +25,7 @@ function SuppliesPage() {
   const [showEnabledOnly, setShowEnabledOnly] = useState(
     localStorage.getItem("showEnabledOnly") === "true"
   );
-  const ITEMS_PER_PAGE = 1;
+  const ITEMS_PER_PAGE = 7;
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {

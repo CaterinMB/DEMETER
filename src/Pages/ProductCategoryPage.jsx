@@ -8,7 +8,10 @@ import UpdateProductCategory from "../Components/UpdateProductCategory.jsx";
 import DeleteProductCategory from "../Components/DeleteProductCategory.jsx";
 import CannotDeleteCategory from "../Components/CannotDeleteProductsCategory.jsx";
 import CannotDisableCategoryProduct from '../Components/CannotDisableCategoryProduct.jsx';
-
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 import "../css/style.css";
 import "../css/landing.css";
 
@@ -23,9 +26,12 @@ function ProductCategoryPage() {
   const [showEnabledOnly, setShowEnabledOnly] = useState(
     localStorage.getItem("showEnabledOnlyProduct") === "true"
   );
+  const ITEMS_PER_PAGE = 2;
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     getCategory_products();
+    setCurrentPage(1);
   }, []);
 
   useEffect(() => {
@@ -53,7 +59,11 @@ function ProductCategoryPage() {
   const disabledProductsCategory = filteredProductsCategory.filter((productCategory) => !productCategory.State);
   const sortedProductsCategory = [...enabledProductsCategory, ...disabledProductsCategory];
 
-  const visibleProductsCategory = showEnabledOnly ? enabledProductsCategory : sortedProductsCategory;
+  const pageCount = Math.ceil(sortedProductsCategory.length / ITEMS_PER_PAGE);
+
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const visibleProductsCategory = sortedProductsCategory.slice(startIndex, endIndex);
 
   const handleDelete = async (productCategory) => {
     setShowWarning(false);
@@ -74,6 +84,14 @@ function ProductCategoryPage() {
   const handleToggleStatus = async (productCategory) => {
     const categoryID = productCategory.ID_ProductCategory;
 
+    //
+    //
+    //
+    //Terminar, falta importar el context de products
+    //
+    //
+    //
+    //
     const productsInCategory = products.filter((product) => product.ProductCategory_ID === categoryID);
 
     if (productsInCategory.length > 0) {
@@ -82,6 +100,10 @@ function ProductCategoryPage() {
       setShowWarningDisable(false);
       toggleCategoryProductStatus(categoryID);
     }
+  };
+
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
   };
 
   return (
@@ -186,6 +208,25 @@ function ProductCategoryPage() {
           </div>
         </div>
       </div>
+
+      <div className="pagination-container pagination">
+          <Stack spacing={2}>
+            <Pagination
+              count={pageCount}
+              page={currentPage}
+              siblingCount={2}
+              onChange={handlePageChange}
+              variant="outlined"
+              shape="rounded"
+            />
+          </Stack>
+        </div>
+
+      <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 2 }}>
+        <Typography variant="body2" color="text.secondary">
+          Página {currentPage} de {pageCount}
+        </Typography>
+      </Box>
 
       {isDeleteModalOpen && (
         <DeleteProductCategory

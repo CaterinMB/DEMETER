@@ -9,6 +9,10 @@ import UpdateSuppliesCategory from "../Components/UpdateSuppliesCategory.jsx";
 import DeleteSuppliesCategory from "../Components/DeleteSupplies.jsx";
 import CannotDeleteCategory from "../Components/CannotDeleteSuppliesCategory.jsx";
 import CannotDisableCategorySupplies from '../Components/CannotDisableCategorySupplies.jsx';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 import "../css/style.css";
 import "../css/landing.css";
 
@@ -24,10 +28,14 @@ function SuppliesCategoryPage() {
   const [showEnabledOnly, setShowEnabledOnly] = useState(
     localStorage.getItem("showEnabledOnly") === "true"
   );
+  const ITEMS_PER_PAGE = 2;
+  const [currentPage, setCurrentPage] = useState(1);
+
 
   useEffect(() => {
     getCategory_supplies();
     getSupplies();
+    setCurrentPage(1);
   }, []);
 
   useEffect(() => {
@@ -55,7 +63,11 @@ function SuppliesCategoryPage() {
   const disabledSuppliesCategory = filteredSuppliesCategory.filter((suppliesCategory) => !suppliesCategory.State);
   const sortedSuppliesCategory = [...enabledSuppliesCategory, ...disabledSuppliesCategory];
 
-  const visibleSuppliesCategory = showEnabledOnly ? enabledSuppliesCategory : sortedSuppliesCategory;
+  const pageCount = Math.ceil(sortedSuppliesCategory.length / ITEMS_PER_PAGE);
+
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const visibleSuppliesCategory = sortedSuppliesCategory.slice(startIndex, endIndex);
 
   const handleDelete = async (supplyCategory) => {
     const categoryID = supplyCategory.ID_SuppliesCategory;
@@ -92,6 +104,10 @@ function SuppliesCategoryPage() {
       setShowWarningDisable(false);
       toggleCategorySupplyStatus(categoryID);
     }
+  };
+
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
   };
 
   return (
@@ -196,6 +212,25 @@ function SuppliesCategoryPage() {
           </div>
         </div>
       </div>
+
+      <div className="pagination-container pagination">
+          <Stack spacing={2}>
+            <Pagination
+              count={pageCount}
+              page={currentPage}
+              siblingCount={2}
+              onChange={handlePageChange}
+              variant="outlined"
+              shape="rounded"
+            />
+          </Stack>
+        </div>
+
+      <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 2 }}>
+        <Typography variant="body2" color="text.secondary">
+          Página {currentPage} de {pageCount}
+        </Typography>
+      </Box>
 
       {isDeleteModalOpen && (
         <DeleteSuppliesCategory

@@ -2281,14 +2281,15 @@ progress {
 }
 
 .form-control[type="search"] {
-    width: 50%;
-    margin-left: 150%;
-    margin-top: -42px;
+    position: absolute;
+    width: 25%;
+    margin-left: 23%;
 }
 
 .movement {
-    margin-left: 60%;
-    margin-top: -35px;
+    position: absolute;
+    margin-left: 61%;
+    margin-top: 6px;
 }
 
 .form-control[type="file"] {
