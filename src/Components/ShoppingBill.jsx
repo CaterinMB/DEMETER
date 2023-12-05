@@ -21,7 +21,7 @@ function ShoppingBill({ total = 0, ...confirmValues }) {
   const customStyles = {
     control: (provided, state) => ({
       ...provided,
-      width: '180px',
+      width: '177px',
       minHeight: '30px',
       fontSize: '14px',
       borderColor: state.isFocused ? '#FFA500' : 'black',
@@ -80,20 +80,27 @@ function ShoppingBill({ total = 0, ...confirmValues }) {
           <h2>Factura</h2>
           <hr className="ml-2" />
         </div>
-        <div className="flex mb-2 ">
-          <h4 className='ml-4 mt-2'>Proveedor:</h4>
+        <div  className="flex  ">
+        <h4 className='ml-4 mt-3'>N. factura:</h4>
+        <input className=" custom-input-facture mt-2 ml-3  " type="number" {...register("Facture")} />
+
+        </div>
+        <div className="flex mb- ">
+          <h4 className='ml-4 mt-4 '>Proveedor:</h4>
           <Select
             required
             title="Presiona para seleccionar el proveedor"
-            className='ml-3'
+            className='ml-3 mt-3'
             options={options}
             value={selectedSupplier}
             onChange={handleChange}
             placeholder=""
             styles={customStyles}
           />
-
+          
         </div>
+      
+        
         <hr className='ml-2 mt-4' />
         <div>
           <h1 className='text-center mt-5'>$ {total}</h1>
@@ -102,7 +109,7 @@ function ShoppingBill({ total = 0, ...confirmValues }) {
 
         <div className="mt-auto ">
           <hr className="ml-2 mt-5 " />
-          <div className="flex justify-between pt-4">
+          <div className="flex justify-between ">
             <ConfirmShop {...confirmValues} data={selectedSupplier} />
             <CancelShop />
           </div>

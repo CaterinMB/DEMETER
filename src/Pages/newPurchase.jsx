@@ -180,7 +180,10 @@ function NewPurchase() {
 
     <div className='position-shop'>
       <div className="flex justify-between mb-5 mx-10 mr-5 ">
-
+      <div className="card">
+                <div className="card-header">
+                  <h5>Detalle de compras</h5>
+                </div>
         <div className=" card-body table-border-style mt-5 ">
           <form onSubmit={handleSubmit(onSubmit)} >
             <div className='position-shoppping'>
@@ -202,7 +205,7 @@ function NewPurchase() {
                 </label>
          
               </div>
-              <div>
+              <div className=''>
                 <label>
                   Cantidad:
                   <input className="custom-input" type="number" {...register("Lot")} />
@@ -210,7 +213,7 @@ function NewPurchase() {
               </div>
             </div>
 
-            <div className="flex mb-5">
+            <div className="flex mb-3">
               
               <div className="mr-5 ml-5">
                 <label>
@@ -223,7 +226,7 @@ function NewPurchase() {
               </div>
 
               <div>
-                <label className='ml-5'>
+                <label className='ml-4'>
                   Precio:
                   <input className=" custom-input  " type="number" {...register("Price_Supplier")} />
                 </label>
@@ -238,7 +241,7 @@ function NewPurchase() {
           </form>
 
           <div className="position-table ">
-            <table className="table table-sm ml-5 table-shopping">
+            <table className="table table-sm ml-2 table-static ">
               <thead>
                 <tr>
                   <th>Insumo</th>
@@ -283,7 +286,7 @@ function NewPurchase() {
 
         <ShoppingBill {...shoppingBillState} onConfirm={onConfirm} />
       </div>
-
+      </div>
     </div>
   )
 }

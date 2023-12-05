@@ -22,7 +22,7 @@ function SupplierPage() {
 
   
   useEffect(() => {
-    getSupplierByState().then(console.log(supplier));
+    getSupplierByState();
   }, []);
 
   //funcion para inhabilitar proveedor

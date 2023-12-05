@@ -34,7 +34,7 @@ export default function CreateSupplier({
     setError,
     reset,
     setValue,
-    formState: { errors, isValid }
+    formState: { errors }
   } = useForm();
   const { createSupplier, supplier } = useSupplier();
 
@@ -150,7 +150,7 @@ export default function CreateSupplier({
                 })();
             </script> */}
                   <form
-                    className="was-validated"
+                 
                     onSubmit={(event) =>
                       typeof onDefaultSubmit === "function"
                         ? onDefaultSubmit(event, setOpen)
@@ -164,7 +164,7 @@ export default function CreateSupplier({
                             htmlFor="Type_Document"
                             className="form-label mt-3"
                           >
-                            Tipo de documento
+                            Tipo de documento: <strong>*</strong> 
                           </label>
                           <select
                             {...register("Type_Document", {
@@ -194,7 +194,7 @@ export default function CreateSupplier({
 
                       <div className="form-group col-md-6">
                         <label htmlFor="Document" className="form-label">
-                          Documento
+                          Documento: <strong>*</strong> 
                         </label>
                         <input
                           {...register("Document", {
@@ -225,7 +225,7 @@ export default function CreateSupplier({
                     <div className="control">
                       <div className="form-group col-md-6">
                         <label htmlFor="Name_Supplier" className="form-label">
-                          Nombre
+                          Nombre: <strong>*</strong> 
                         </label>
                         <input
                           {...register("Name_Supplier", {
@@ -249,11 +249,10 @@ export default function CreateSupplier({
 
                       <div className="form-group col-md-6">
                         <label htmlFor="Name_Business" className="form-label">
-                          Empresa
+                          Empresa: <strong>*</strong> 
                         </label>
                         <input
                           {...register("Name_Business", {
-                            required: false,
                             pattern: {
                               value:/^[A-ZÁÉÍÓÚÑ][a-zA-Z\sáéíóúñ]*$/,
                               message:
@@ -262,7 +261,7 @@ export default function CreateSupplier({
                           })}
                           type="text"
                           className="form-control"
-                          required
+                          
                         />
                         {errors.Name_Business && (
                           <p className="text-red-500">
@@ -275,7 +274,7 @@ export default function CreateSupplier({
                     <div className="control">
                       <div className="form-group col-md-6">
                         <label htmlFor="Phone" className="form-label">
-                          Teléfono
+                          Teléfono: <strong>*</strong> 
                         </label>
                         <input
                           {...register("Phone", {
@@ -292,7 +291,7 @@ export default function CreateSupplier({
 
                       <div className="form-group col-md-6">
                         <label htmlFor="Email" className="form-label">
-                          Email
+                          Email: <strong>*</strong> 
                         </label>
                         <input
                           {...register("Email", {
@@ -316,7 +315,7 @@ export default function CreateSupplier({
                     <div className="city">
                       <div className="form-group col-md-6">
                         <label htmlFor="City" className="form-label">
-                          Ciudad
+                          Ciudad: <strong>*</strong> 
                         </label>
                         <input
                           {...register("City", {
