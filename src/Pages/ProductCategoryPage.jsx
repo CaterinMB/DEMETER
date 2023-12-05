@@ -99,6 +99,20 @@ function ProductCategoryPage() {
                     <div className="col-md-6">
                       <CreateProductCategory />
                     </div>
+                    <div className="movement">
+                      <div className="form-check">
+                        <input
+                          type="checkbox"
+                          className="form-check-input"
+                          id="showEnabledOnly"
+                          checked={showEnabledOnly}
+                          onChange={handleCheckboxChange}
+                        />
+                        <label className="form-check-label" htmlFor="showEnabledOnly">
+                          Mostrar solo habilitados
+                        </label>
+                      </div>
+                    </div>
                     <div className="col-md-6">
                       <div className="form-group">
                         <input
@@ -110,23 +124,6 @@ function ProductCategoryPage() {
                           value={searchTerm}
                           onChange={handleSearchChange}
                         />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <div className="form-check">
-                        <input
-                          type="checkbox"
-                          className="form-check-input"
-                          id="showEnabledOnlyProduct"
-                          checked={showEnabledOnly}
-                          onChange={handleCheckboxChange}
-                        />
-                        <label className="form-check-label" htmlFor="showEnabledOnlyProduct">
-                          Mostrar solo habilitados
-                        </label>
                       </div>
                     </div>
                   </div>

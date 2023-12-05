@@ -109,23 +109,7 @@ function SuppliesCategoryPage() {
                     <div className="col-md-6">
                       <CreateSuppliesCategory />
                     </div>
-                    <div className="col-md-6">
-                      <div className="form-group">
-                        <input
-                          type="search"
-                          className="form-control"
-                          id="exampleInputEmail1"
-                          aria-describedby="emailHelp"
-                          placeholder="Buscador"
-                          value={searchTerm}
-                          onChange={handleSearchChange}
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="col-md-6">
-                    <div className="form-group">
+                    <div className="movement">
                       <div className="form-check">
                         <input
                           type="checkbox"
@@ -137,6 +121,19 @@ function SuppliesCategoryPage() {
                         <label className="form-check-label" htmlFor="showEnabledOnly">
                           Mostrar solo habilitados
                         </label>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <input
+                          type="search"
+                          className="form-control"
+                          id="exampleInputEmail1"
+                          aria-describedby="emailHelp"
+                          placeholder="Buscador"
+                          value={searchTerm}
+                          onChange={handleSearchChange}
+                        />
                       </div>
                     </div>
                   </div>

@@ -2281,8 +2281,14 @@ progress {
 }
 
 .form-control[type="search"] {
-    width: 40%;
-    margin-left: 440px;
+    width: 50%;
+    margin-left: 150%;
+    margin-top: -42px;
+}
+
+.movement {
+    margin-left: 60%;
+    margin-top: -35px;
 }
 
 .form-control[type="file"] {
@@ -5096,9 +5102,62 @@ fieldset:disabled .btn {
 
 .pagination {
     display: flex;
-    padding-left: 0;
-    list-style: none;
-}
+    justify-content: center;
+  }
+  
+  .pagination .page-link,
+  .pagination .pagination-prev,
+  .pagination .pagination-next {
+    color: #ff6600;
+    border: 1px solid #ff6600;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  
+  .pagination .page-link.active {
+    background-color: #ff6600;
+    color: #ff6600;
+  }
+  
+  .pagination .pagination-prev,
+  .pagination .pagination-next {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .pagination .pagination-prev:hover,
+  .pagination .pagination-next:hover {
+    background-color: #ff6600;
+  }
+  
+  .pagination .pagination-prev::before,
+  .pagination .pagination-next::before {
+    content: '';
+    display: inline-block;
+  }
+  
+  .pagination .pagination-prev::before {
+    content: '‹'; /* Unicode character for left arrow */
+  }
+  
+  .pagination .pagination-next::before {
+    content: '›'; /* Unicode character for right arrow */
+  }
+
+  .pagination .pagination-hide {
+    color: #ccc; /* Cambia el color según tus preferencias */
+    cursor: not-allowed;
+  }
+  
+  .pagination .pagination-hide:hover {
+    background-color: #fff; /* Cambia el color de fondo según tus preferencias */
+    border-color: #ddd; /* Cambia el color del borde según tus preferencias */
+  }
 
 .page-link {
     position: relative;
@@ -5117,10 +5176,10 @@ fieldset:disabled .btn {
 
 .page-link:hover {
     z-index: 2;
-    color: #ff6600;
+    color: #ffffff;
     text-decoration: none;
-    background-color: #f0f2f8;
-    border-color: #dee2e6;
+    background-color: #ff6600;
+    border-color: #ff6600;
 }
 
 .page-link:focus {
@@ -5129,10 +5188,6 @@ fieldset:disabled .btn {
     background-color: #e9ecef;
     outline: 0;
     box-shadow: 0 0 0 0.2rem rgba(114, 103, 239, 0.25);
-}
-
-.page-item:not(:first-child) .page-link {
-    margin-left: -1px;
 }
 
 .page-item.active .page-link {

@@ -8,8 +8,12 @@ import CreateSupplies from "../Components/CreateSupplies.jsx";
 import UpdateSupplies from "../Components/UpdateSupplies.jsx";
 import DeleteSupplies from "../Components/DeleteSupplies.jsx";
 import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 import "../css/style.css";
 import "../css/landing.css";
+
 
 function SuppliesPage() {
   const { supplies, getSupplies, deleteSupplies, toggleSupplyStatus } = useSupplies();
@@ -65,7 +69,6 @@ function SuppliesPage() {
   const endIndex = startIndex + ITEMS_PER_PAGE;
   const visibleSupplies = sortedSupplies.slice(startIndex, endIndex);
 
-
   const handleDelete = (supply) => {
     setSelectedSupplyToDelete(supply);
     setDeleteModalOpen(true);
@@ -81,21 +84,8 @@ function SuppliesPage() {
   };
 
   const handlePageChange = (event, value) => {
-    const maxPagesToShow = 4;
-    const newPage = value;
-
-    // Evitar que la nueva página sea menor que 1 o mayor que la cantidad total de páginas
-    if (newPage < 1) {
-      setCurrentPage(1);
-    } else if (newPage > pageCount) {
-      setCurrentPage(pageCount);
-    } else {
-      // Avanzar o retroceder hasta un máximo de 4 páginas
-      const diff = Math.abs(newPage - currentPage);
-      setCurrentPage((prevPage) => (newPage > prevPage ? prevPage + Math.min(diff, maxPagesToShow) : prevPage - Math.min(diff, maxPagesToShow)));
-    }
+    setCurrentPage(value);
   };
-  
 
   return (
     <section className="pc-container">
@@ -109,8 +99,11 @@ function SuppliesPage() {
                 </div>
                 <div className="card-body">
 
-                  <div className="col-md-6">
-                    <div className="form-group">
+                  <div className="row">
+                    <div className="col-md-6">
+                      <CreateSupplies />
+                    </div>
+                    <div className="movement">
                       <div className="form-check">
                         <input
                           type="checkbox"
@@ -123,12 +116,6 @@ function SuppliesPage() {
                           Mostrar solo habilitados
                         </label>
                       </div>
-                    </div>
-                  </div>
-
-                  <div className="row">
-                    <div className="col-md-6">
-                      <CreateSupplies />
                     </div>
                     <div className="col-md-6">
                       <div className="form-group">
@@ -220,17 +207,25 @@ function SuppliesPage() {
         </div>
       </div>
 
-      <div className="pagination-container">
-        <Pagination
-          className="pagination"
-          count={pageCount}
-          page={currentPage}
-          siblingCount={2}
-          onChange={handlePageChange}
-          showFirstButton
-          showLastButton
-        />
-      </div>
+
+      <div className="pagination-container pagination">
+          <Stack spacing={2}>
+            <Pagination
+              count={pageCount}
+              page={currentPage}
+              siblingCount={2}
+              onChange={handlePageChange}
+              variant="outlined"
+              shape="rounded"
+            />
+          </Stack>
+        </div>
+
+      <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 2 }}>
+        <Typography variant="body2" color="text.secondary">
+          Página {currentPage} de {pageCount}
+        </Typography>
+      </Box>
 
       {isDeleteModalOpen && (
         <DeleteSupplies
