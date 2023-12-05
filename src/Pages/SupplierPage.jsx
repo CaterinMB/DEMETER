@@ -17,10 +17,11 @@ function SupplierPage() {
   const { supplier, getSupplierByState, updateSupplier, getSupplie , toggleSupplyStatus } = useSupplier();
 
   const [searchTerm, setSearchTerm] = useState("");
+  const [supplierData, setSupplierData] = useState([])
+
 
   useEffect(() => {
     getSupplierByState().then(console.log(supplier));
-  
   }, []);
 
  

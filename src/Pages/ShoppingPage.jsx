@@ -19,28 +19,25 @@ function ShoppingPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [shoppingData, setShoppingData] = useState([])
 
-  function DateRangeSelector({ handleDateChange }) {
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
-  
-    const handleGenerateReport = () => {
-      handleDateChange(startDate, endDate);
-    };
-
-  }
+ 
 
   const handlePageClick = ({ selected }) => {
     setPageNumber(selected);
   };
 
-  useLayoutEffect(() => {
-    setShoppingData([])
-   
-    return async () => {
-      const data = await getShopingByProvider();
-      setShoppingData(data)
-    }
-  }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getShopingByProvider();
+        setShoppingData(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [getShopingByProvider]);
+
 
   const status = Shopping.State ? "" : "desactivado";
 
@@ -69,19 +66,20 @@ function ShoppingPage() {
 });
 
 const generatePDF = () => {
-  const tableBody = shoppingData.map((shopping) => {
+  const tableBody = shoppingData.map((shoppingItem) => {
     const {
       ID_Shopping,
       Datetime,
       Total,
       Supplier: { Name_Supplier },
-    } = shopping;
+    } = shoppingItem;
 
     return [
       { text: ID_Shopping, bold: true, alignment: 'center'  },
       { text: Name_Supplier, alignment: 'center' },
       { text: new Date(Datetime).toLocaleDateString() , alignment: 'center' },
       { text: Total, alignment: 'center'  },
+
     ];
   });
 
@@ -103,17 +101,17 @@ const generatePDF = () => {
           ],
         },
         layout: {
-          fontSize: 12, // Ajusta el tamaño de la fuente dentro de la tabla
-          margin: [0, 5, 0, 15], // Ajusta los márgenes de la tabla
+          fontSize: 12, 
+          margin: [0, 5, 0, 15], 
           fillColor: (rowIndex, node, columnIndex) => {
-            return rowIndex % 2 === 0 ? '#CCCCCC' : null; // Cambia el color de fondo de las filas pares
+            return rowIndex % 2 === 0 ? '#CCCCCC' : null; 
           },
         },
       },
     ],
     styles: {
       table: {
-        width: '100%', // Establece el ancho de la tabla al 100% del documento
+        width: '100%', 
       },
     },
   };

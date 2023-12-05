@@ -48,6 +48,8 @@ export function Supplier({ children }) {
 
   };
 
+  
+
   // export function Supplier({ children }) {
   //   const [supplier, setSupplier] = useState([]);
 
@@ -72,9 +74,11 @@ export function Supplier({ children }) {
   const getSuppliersByState = async () => {
     try {
       const res = await GetSuppliersByState();
-      return res.data;
+      setSupplier(res.data); // Actualizar el estado aquí si es necesario
+      return res.data; // Devolver los datos recuperados
     } catch (error) {
       console.error(error);
+      throw error; // Lanzar el error para manejarlo en el componente
     }
   };
 
@@ -135,6 +139,7 @@ export function Supplier({ children }) {
     <SupplierContext.Provider
       value={{
         supplier,
+        setSupplier,
         getSupplier,
         getSupplie,
         createSupplier,
