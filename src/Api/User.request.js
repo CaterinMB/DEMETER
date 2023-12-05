@@ -11,3 +11,11 @@ export const deleteUserRequest = (ID_User) => axios.delete(`/user/${ID_User}`);
 export const getWaitersRequest = () => axios.get(`waiter`);
 export const getWaiterRequest = (ID_User) => axios.get(`/waiter/${ID_User}`);
 export const createWaiterRequest = (waiter) => axios.post(`/add_waiter`, waiter);
+
+//----------------------Login------------------------------//
+export const loginRequest = user => axios.post(`/login`, user)
+export const verifyTokenRequest = () => axios.get('/verifyToken')
+export const forgotPasswordRequest = (emailData) => axios.post(`/resetPassword`, emailData);
+export const GetUserCookies = () => axios.get(`/getUserCookies`);
+
+export const NewPasswordRequest = (token) => axios.post(`/newPassword`, token)
