@@ -18,19 +18,25 @@ function SupplierPage() {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [supplierData, setSupplierData] = useState([])
+  const [showEnabledOnly, setShowEnabledOnly] = useState(false); // Estado para controlar la visibilidad
 
-
+  
   useEffect(() => {
     getSupplierByState().then(console.log(supplier));
   }, []);
 
- 
+  //funcion para inhabilitar proveedor
+  const status = supplier.State ? "" : "desactivado";
+
+  //función para mostrar solo los habilitdos
+  const handleCheckboxChange = (event) => {
+    setShowEnabledOnly(event.target.checked);
+  };
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  const status = supplier.State ? "" : "desactivado";
 
   const filteredSuppliers = supplier.filter((supplierItem) => {
     const {
@@ -43,10 +49,29 @@ function SupplierPage() {
       Email,
       State
     } = supplierItem;
-    const searchString =
-      `${Type_Document} ${Document} ${Name_Supplier} ${Name_Business} ${Phone} ${City} ${Email} ${State}`.toLowerCase();
-    return searchString.includes(searchTerm.toLowerCase());
+    
+    
+      if (showEnabledOnly) {
+        return (
+          supplierItem.State && // Verificar si el proveedor está habilitado
+          `${Type_Document} ${Document} ${Name_Supplier} ${Name_Business} ${City}  ${Phone}  ${Email}`
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
+        );
+      }
+
+  
+    // Si showEnabledOnly no está marcado, mostrar todos los proveedores que coincidan con la búsqueda
+    return (
+      `${Type_Document} ${Document} ${Name_Supplier} ${Name_Business} ${City}  ${Phone}  ${Email}`
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
+    );
   });
+  //   const searchString =
+  //     `${Type_Document} ${Document} ${Name_Supplier} ${Name_Business} ${Phone} ${City} ${Email} ${State}`.toLowerCase();
+  //   return searchString.includes(searchTerm.toLowerCase());
+  // });
 
   const onUpdate = (event, id, modalView) => {
     event.preventDefault();
@@ -96,6 +121,20 @@ function SupplierPage() {
                       </div>
                     </div>
                   </div>
+
+                  <div className="form-check ml-4 mt-1" >
+                        <input
+                          type="checkbox"
+                          title='Presiona para mostrar solo las compras habilitadas'
+                          className="form-check-input"
+                          id="showEnabledOnly"
+                          checked={showEnabledOnly}
+                          onChange={handleCheckboxChange}
+                        />
+                        <label className="form-check-label" htmlFor="showEnabledOnly">
+                          Mostrar solo habilitados
+                        </label>
+                      </div>
 
                   <div className="card-body table-border-style">
                     <div className="table-responsive">

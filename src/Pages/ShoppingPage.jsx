@@ -7,7 +7,6 @@ import ShoppingView from '../Components/ShoppingView';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-
 import '../css/style.css';
 import "../css/landing.css";
 
@@ -18,12 +17,8 @@ function ShoppingPage() {
   const { getOneShopping, shopping: Shopping, selectAction, disableShopping, getShopingByProvider } = useShoppingContext();
   const [searchTerm, setSearchTerm] = useState("");
   const [shoppingData, setShoppingData] = useState([])
+  const [showEnabledOnly, setShowEnabledOnly] = useState(false); // Estado para controlar la visibilidad
 
- 
-
-  const handlePageClick = ({ selected }) => {
-    setPageNumber(selected);
-  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,8 +33,13 @@ function ShoppingPage() {
     fetchData();
   }, [getShopingByProvider]);
 
-
   const status = Shopping.State ? "" : "desactivado";
+
+  //función para mostrar solo los inhabilitados
+
+  const handleCheckboxChange = (event) => {
+    setShowEnabledOnly(event.target.checked);
+  };
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
@@ -51,19 +51,31 @@ function ShoppingPage() {
       Datetime,
       Total,
       State,
-      Supplier: {
-        Name_Supplier
-      }
+      Supplier: { Name_Supplier },
     } = shoppingItem;
+  
     const itemDate = new Date(shoppingItem.Datetime).toLocaleDateString('en-CA');
-
-  // Formatear searchTerm para asegurar consistencia
-  const searchDate = new Date(searchTerm).toLocaleDateString('en-CA'); // Asegúrate de usar el formato correcto aquí
-
-  // Comparar las fechas formateadas
-  return itemDate === searchDate.toLowerCase() ||
-    `${ID_Shopping} ${itemDate} ${Total} ${State} ${Name_Supplier}`.toLowerCase().includes(searchTerm.toLowerCase());
-});
+    const searchDate = new Date(searchTerm).toLocaleDateString('en-CA');
+  
+    if (showEnabledOnly) {
+      // Filtrar por proveedores habilitados que coincidan con la búsqueda
+      return (
+        shoppingItem.State && // Verificar si el proveedor está habilitado
+        (itemDate === searchDate.toLowerCase() || // Comparar fechas
+          `${ID_Shopping} ${itemDate} ${Total} ${State} ${Name_Supplier}`
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase())) // Comparar términos de búsqueda
+      );
+    }
+  
+    // Si showEnabledOnly no está marcado, mostrar todos los proveedores que coincidan con la búsqueda
+    return (
+      itemDate === searchDate.toLowerCase() ||
+      `${ID_Shopping} ${itemDate} ${Total} ${State} ${Name_Supplier}`
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
+    );
+  });
 
 const generatePDF = () => {
   const tableBody = shoppingData.map((shoppingItem) => {
@@ -149,6 +161,8 @@ const generatePDF = () => {
                     </div>
                     <div className="col-md-6">
                       <div className="form-group">
+                      
+
                         <input
                           type="search"
                           title='Presiona para buscar la compra'
@@ -162,6 +176,21 @@ const generatePDF = () => {
                       </div>
                     </div>
                   </div>
+                 
+                      <div className="form-check ml-4 mt-1" >
+                        <input
+                          type="checkbox"
+                          title='Presiona para mostrar solo las compras habilitadas'
+                          className="form-check-input"
+                          id="showEnabledOnly"
+                          checked={showEnabledOnly}
+                          onChange={handleCheckboxChange}
+                        />
+                        <label className="form-check-label" htmlFor="showEnabledOnly">
+                          Mostrar solo habilitados
+                        </label>
+                      </div>
+                  
 
                   <div className="card-body table-border-style">
                     <div className="table-responsive">

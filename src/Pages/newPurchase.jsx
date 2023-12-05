@@ -211,6 +211,7 @@ function NewPurchase() {
             </div>
 
             <div className="flex mb-5">
+              
               <div className="mr-5 ml-5">
                 <label>
                   Medida:
@@ -220,12 +221,14 @@ function NewPurchase() {
                   </select>
                 </label>
               </div>
+
               <div>
                 <label className='ml-5'>
                   Precio:
                   <input className=" custom-input  " type="number" {...register("Price_Supplier")} />
                 </label>
               </div>
+
               <button title='Presiona para agregar el insumo' type="submit" className="btn btn-icon btn-primary ml-4 mb-3">Agregar insumo</button>
 
             </div>

@@ -45,16 +45,20 @@
 .select-measure {
     padding: 10px;
     font-size: 15px;
-    width: 100px; 
+    width: 140px; 
+    height: 34px; 
     border: 1px solid black; 
     border-radius: 4px;
     text-align: center;
+    max-width: 140px; /* Altura máxima del elemento select */
+    overflow-y: auto; 
   }
 
 .select-measure:focus{
     outline: none; 
     border-color: #FD7B15;
 }
+
 
 
 .deleteText {
@@ -77,9 +81,6 @@
   .table-shopping{
     height: 20%;
   }
-
-  
-
   
   .password-toggle-button {
     position: relative;
@@ -89,3 +90,4 @@
     padding: 0;
     cursor: pointer;
   }
+
