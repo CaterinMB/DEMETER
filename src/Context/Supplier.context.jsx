@@ -5,7 +5,8 @@ import {
   createSupplierRequest,
   disableSupplierRequest,
   updateSupplierRequest,
-  deleteSupplierRequest
+  deleteSupplierRequest,
+  GetSuppliersByState
 } from "../Api/Supplier.request.js";
 
 const SupplierContext = createContext();
@@ -26,12 +27,40 @@ export function Supplier({ children }) {
 
   const getSupplier = async () => {
     try {
-      const res = await getSupplierRequest();
+      const { data } = await getSupplierRequest() || {
+        data: []
+      };
+      // setSupplier(res.data);
+      return data
+    } catch (error) {
+      return []
+    }
+
+  };
+
+  const getSupplierByState = async () => {
+    try {
+      const res = await getSupplierRequest()
       setSupplier(res.data);
     } catch (error) {
-      console.error(error);
+      console.log(error)
     }
+
   };
+
+  
+
+  // export function Supplier({ children }) {
+  //   const [supplier, setSupplier] = useState([]);
+
+  //   const getSupplier = async () => {
+  //     try {
+  //       const res = await getSupplierRequest();
+  //       setSupplier(res.data);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
 
   const getSupplie = async (id) => {
     try {
@@ -39,6 +68,17 @@ export function Supplier({ children }) {
       return res.data;
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  const getSuppliersByState = async () => {
+    try {
+      const res = await GetSuppliersByState();
+      setSupplier(res.data); // Actualizar el estado aquí si es necesario
+      return res.data; // Devolver los datos recuperados
+    } catch (error) {
+      console.error(error);
+      throw error; // Lanzar el error para manejarlo en el componente
     }
   };
 
@@ -80,25 +120,34 @@ export function Supplier({ children }) {
   };
 
   const deleteSupplier = async (id) => {
+    let providerDeleted = true
     try {
       const res = await deleteSupplierRequest(id);
       if (res.status === 204)
         setSupplier(supplier.filter((supplier) => supplier.ID_Supplier !== id));
     } catch (error) {
-      console.log(error);
+      console.log("error");
+      if (!error.response.data) {
+        providerDeleted = false
+      }
     }
+
+    return providerDeleted
   };
 
   return (
     <SupplierContext.Provider
       value={{
         supplier,
+        setSupplier,
         getSupplier,
         getSupplie,
         createSupplier,
         toggleSupplyStatus,
         updateSupplier,
-        deleteSupplier
+        deleteSupplier,
+        getSupplierByState,
+        getSuppliersByState
       }}
     >
       {children}

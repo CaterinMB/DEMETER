@@ -1,6 +1,7 @@
 import axios from './Axios.js';
 
 export const getSupplierRequest = () => axios.get('/supplier');
+export const GetSuppliersByState = () => axios.get('/supplierByState');
 export const getSupplieRequest = (ID_Supplier) => axios.get(`/supplier/${ID_Supplier}`);  
 export const createSupplierRequest = (supplie) => axios.post('/supplier', supplie);
 export const disableSupplierRequest = (ID_Supplier) => axios.put(`/supplier/disable/${ID_Supplier}`);

@@ -25,6 +25,7 @@ export default function CreateSupplier({
     buttonClass: "btn btn-primary",
     buttonText: "Registrar"
   },
+  isDisabled = false,
   onOpen = () => null
 }) {
   const {
@@ -85,7 +86,7 @@ export default function CreateSupplier({
     if (isPhoneDuplicate) {
       setError("Phone", {
         type: "manual",
-        message: "La teléfono del proveedor ya existe."
+        message: "El teléfono del proveedor ya existe."
       });
       return;
     }
@@ -109,6 +110,7 @@ export default function CreateSupplier({
         type="button"
         className={buttonProps.buttonClass}
         onClick={handleOpen}
+        disabled={isDisabled}
       >
         {buttonProps.buttonText}
       </button>
@@ -162,7 +164,7 @@ export default function CreateSupplier({
                             htmlFor="Type_Document"
                             className="form-label mt-3"
                           >
-                            Tipo de documento
+                            Tipo de documento: <strong>*</strong> 
                           </label>
                           <select
                             {...register("Type_Document", {
@@ -177,6 +179,7 @@ export default function CreateSupplier({
                             <option value="CC">Cédula de ciudadanía</option>
                             <option value="CE">Cédula de extranjería</option>
                             <option value="PB">Pasaporte</option>
+                            <option value="NIT">Nit</option>
                           </select>
                           {errors.Type_Document && (
                             <p className="text-red-500">
@@ -191,7 +194,7 @@ export default function CreateSupplier({
 
                       <div className="form-group col-md-6">
                         <label htmlFor="Document" className="form-label">
-                          Documento
+                          Documento: <strong>*</strong> 
                         </label>
                         <input
                           {...register("Document", {
@@ -209,6 +212,7 @@ export default function CreateSupplier({
                           })}
                           type="text"
                           className="form-control"
+                          required
                         />
                         {errors.Document && (
                           <p className="text-red-500">
@@ -221,19 +225,20 @@ export default function CreateSupplier({
                     <div className="control">
                       <div className="form-group col-md-6">
                         <label htmlFor="Name_Supplier" className="form-label">
-                          Nombre
+                          Nombre: <strong>*</strong> 
                         </label>
                         <input
                           {...register("Name_Supplier", {
                             required: "El nombre es obligatorio",
                             pattern: {
-                              value: /^[A-ZÁÉÍÓÚÑ][a-záéíóúñ\s]*[a-záéíóúñ]$/,
+                              value:/^[A-ZÁÉÍÓÚÑ][a-zA-Z\sáéíóúñ]*$/,
                               message:
-                                "La primera letra debe ser mayúscula y solo letras."
+                                "La primera letra debe ser mayúscula"
                             }
                           })}
                           type="text"
                           className="form-control"
+                          required
                         />
                         {errors.Name_Supplier && (
                           <p className="text-red-500">
@@ -244,19 +249,19 @@ export default function CreateSupplier({
 
                       <div className="form-group col-md-6">
                         <label htmlFor="Name_Business" className="form-label">
-                          Empresa
+                          Empresa: <strong>*</strong> 
                         </label>
                         <input
                           {...register("Name_Business", {
-                            required: false,
                             pattern: {
-                              value: /^[A-ZÁÉÍÓÚÑ][a-záéíóúñ\s]*[a-záéíóúñ]$/,
+                              value:/^[A-ZÁÉÍÓÚÑ][a-zA-Z\sáéíóúñ]*$/,
                               message:
-                                "La primera letra debe ser mayúscula y solo letras."
+                                "La primera letra debe ser mayúscula"
                             }
                           })}
                           type="text"
                           className="form-control"
+                          
                         />
                         {errors.Name_Business && (
                           <p className="text-red-500">
@@ -269,7 +274,7 @@ export default function CreateSupplier({
                     <div className="control">
                       <div className="form-group col-md-6">
                         <label htmlFor="Phone" className="form-label">
-                          Teléfono
+                          Teléfono: <strong>*</strong> 
                         </label>
                         <input
                           {...register("Phone", {
@@ -286,7 +291,7 @@ export default function CreateSupplier({
 
                       <div className="form-group col-md-6">
                         <label htmlFor="Email" className="form-label">
-                          Email
+                          Email: <strong>*</strong> 
                         </label>
                         <input
                           {...register("Email", {
@@ -299,6 +304,7 @@ export default function CreateSupplier({
                           })}
                           type="email"
                           className="form-control"
+                          required
                         />
                         {errors.Email && (
                           <p className="text-red-500">{errors.Email.message}</p>
@@ -309,7 +315,7 @@ export default function CreateSupplier({
                     <div className="city">
                       <div className="form-group col-md-6">
                         <label htmlFor="City" className="form-label">
-                          Ciudad
+                          Ciudad: <strong>*</strong> 
                         </label>
                         <input
                           {...register("City", {
@@ -322,6 +328,7 @@ export default function CreateSupplier({
                           })}
                           type="text"
                           className="form-control"
+                          required
                         />
                       </div>
                     </div>
@@ -330,7 +337,7 @@ export default function CreateSupplier({
                         <button
                           className="btn btn-primary mr-5"
                           type="submit"
-                          disabled={!isValid}
+                          title="Presiona para confirmar el registro"
                         >
                           Confirmar
                         </button>
@@ -338,6 +345,7 @@ export default function CreateSupplier({
                           className="btn btn-primary"
                           onClick={handleClose}
                           type="button"
+                          title="Presiona para cancelar"
                         >
                           Cancelar
                         </button>

@@ -1,12 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import '../css/style.css'
 import '../css/landing.css'
 import ChromeReaderModeIcon from '@mui/icons-material/ChromeReaderMode';
 import LockIcon from '@mui/icons-material/Lock';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 
+import { useUser } from '../Context/User.context';
+
 const Header = () => {
 	const [showDropdown, setShowDropdown] = useState(false);
+	const { isAuthenticated, logout } = useUser()
+	const navigate = useNavigate();
 	const dropdownRef = useRef();
 
 	const toggleDropdown = () => {
@@ -15,23 +21,28 @@ const Header = () => {
 		setTimeout(() => setShowDropdown(false), 5000);
 	};
 
+
+	if (!isAuthenticated) {
+		return ''
+	}
+
 	useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-                setShowDropdown(false);
-            }
-        };
+		const handleClickOutside = (event) => {
+			if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+				setShowDropdown(false);
+			}
+		};
 
-        if (showDropdown) {
-            document.addEventListener('mousedown', handleClickOutside);
-        } else {
-            document.removeEventListener('mousedown', handleClickOutside);
-        }
+		if (showDropdown) {
+			document.addEventListener('mousedown', handleClickOutside);
+		} else {
+			document.removeEventListener('mousedown', handleClickOutside);
+		}
 
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, [showDropdown]);
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside);
+		};
+	}, [showDropdown]);
 
 	return (
 		<header className="pc-header">
@@ -86,9 +97,7 @@ const Header = () => {
 								</li><br />
 								<li className="dropdown-item">
 									<button
-										onClick={() => {
-											navigate('/');
-										}}
+										onClick={() => logout()}
 									>
 										<i className="material-icons-two-tone">
 											<ExitToAppIcon />
@@ -101,8 +110,8 @@ const Header = () => {
 					</li>
 				</ul>
 			</div>
-		</header>
+		</header >
 	);
 };
 
-export default Header;
+export default Header()

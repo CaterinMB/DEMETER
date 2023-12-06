@@ -3,6 +3,9 @@
 @tailwind components;
 @tailwind utilities;
 
+html{
+    height: 100%;
+}
 
 /**======================================================================
 =========================================================================
@@ -57,6 +60,11 @@ File: style.css
     }
 }
 
+.button{
+    display: flex;
+    justify-content: center;
+}
+
 body {
     margin: 0;
     font-family: "Inter", sans-serif;
@@ -67,11 +75,28 @@ body {
     background-color: #f0f2f8;
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    width: 100%;
+    height: 100%;
 }
+
+.div-gris {
+    width: 300px;
+    height: 600px;
+    background-color: #f0f2f8;
+    border-radius: 20px;
+   }
 
 .pagination{
     display: flex;
     justify-content:flex-end;
+}
+
+.estado-icon.active{
+    color: white;
+}
+
+.estado-icon.inactive{
+    color: red;
 }
 
 [tabindex="-1"]:focus:not(:focus-visible) {
@@ -2275,7 +2300,6 @@ progress {
 .form-control:focus {
     color: #293240;
     background-color: #ffffff;
-    border-color: #ff6600;
     outline: 0;
     box-shadow: mone;
 }
@@ -20075,7 +20099,7 @@ select.form-control[data-multiselectsplitter-secondselect-selector] {
     overflow: hidden;
     min-width: 100%;
     min-height: 100vh;
-    background: #000000;
+    background: #000;
 }
 
 @media (min-width: 1200px) {

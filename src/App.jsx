@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import './index.css'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import ProtectedRoute from './ProtectedRoute.jsx'
 
 //Context
@@ -27,7 +27,7 @@ import NewPurchase from './Pages/newPurchase.jsx'
 
 // Menu & Header
 import Navbar from './Components/Navbar.jsx'
-import Header from './components/Header.jsx'
+import Header from './Components/Header.jsx'
 
 
 function App() {

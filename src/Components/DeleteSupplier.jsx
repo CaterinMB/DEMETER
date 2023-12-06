@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { useSupplier } from "../Context/Supplier.context";
 import { AiFillDelete } from "react-icons/ai";
 
 import "../css/style.css";
+import LinkedSupplier from "./LinkedSupplier";
 
 const style = {
   position: "absolute",
@@ -14,7 +13,7 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 400,
-  height: 200,
+  height: 220,
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
@@ -24,17 +23,19 @@ const style = {
 export default function DeleteSupplier({
   currentSupplier = {
     ID_Supplier: null
-  }
+  },
+  isDisabled = false,
+  ...buttonParams
 }) {
   const [open, setOpen] = React.useState(false);
   const { deleteSupplier } = useSupplier();
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const confirmDelete = () => {
+  const confirmDelete = async () => {
     if (currentSupplier.ID_Supplier) {
       console.log(currentSupplier);
-      deleteSupplier(currentSupplier.ID_Supplier);
+      const isDeleted = await deleteSupplier(currentSupplier.ID_Supplier);
       handleClose(false);
     }
   };
@@ -45,9 +46,10 @@ export default function DeleteSupplier({
         type="button"
         className="btn  btn-icon btn-danger"
         onClick={() => handleOpen()}
+        disabled={isDisabled}
       >
         <i data-feather="camera">
-        <AiFillDelete />{" "}
+          <AiFillDelete />{" "}
         </i>
       </button>
       <Modal
@@ -58,7 +60,6 @@ export default function DeleteSupplier({
       >
         <Box sx={style}>
           <div className="fixed inset-0 flex items-center justify-center">
-
             <div className=" p-6 rounded shadow-md text-end ">
               <h1 className="text-3xl font-semibold ">Confirmar eliminación</h1>
               <p className="deleteText">
@@ -67,7 +68,7 @@ export default function DeleteSupplier({
               <div >
                 <button
                   onClick={confirmDelete}
-                  className="bg-red-500 text-white font-bold py-2 px-4 rounded ml-5 mt-5  "
+                  className="bg-red-500 text-white font-bold py-2 px-4 rounded ml-5 mt-5"
                 >
                   Eliminar
                 </button>
