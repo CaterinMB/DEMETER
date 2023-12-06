@@ -2268,7 +2268,7 @@ progress {
 .form-control {
     display: block;
     width: 100%;
-    padding: 0.575rem 1rem;
+    padding: 5px 10px;
     font-size: 0.875rem;
     font-weight: 400;
     line-height: 1.5;
@@ -4820,7 +4820,7 @@ fieldset:disabled .btn {
 
 .card-body {
     flex: 1 1 auto;
-    padding: 25px 25px;
+    padding: 5px 5px;
 }
 
 .card-title {
@@ -5090,7 +5090,7 @@ fieldset:disabled .btn {
     float: left;
     padding-right: 0.5rem;
     color: #6c757d;
-    content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='14' height='14' stroke='%236c757d' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round' class='css-i6dzq1'%3E%3Cpolyline points='9 18 15 12 9 6'%3E%3C/polyline%3E%3C/svg%3E");
+    content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='14' height='14' stroke='%236c757d' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round' className='css-i6dzq1'%3E%3Cpolyline points='9 18 15 12 9 6'%3E%3C/polyline%3E%3C/svg%3E");
 }
 
 .breadcrumb-item.active {
@@ -14952,7 +14952,7 @@ pre[class*="language-"]>code {
 .control {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 1px;
 }
 
 .city {
@@ -15261,7 +15261,6 @@ body:not(.minimenu) .pc-sidebar .pc-submenu .pc-submenu .pc-submenu>.pc-item:bef
         margin-left: 0;
     }
 }
-
 
 .pc-header {
     background: #fff;
@@ -15765,7 +15764,7 @@ body:not(.minimenu) .pc-sidebar .pc-submenu .pc-submenu .pc-submenu>.pc-item:bef
 }
 
 .upgrade-card .card-body {
-    padding-bottom: 100px;
+    padding-bottom: 70px;
     z-index: 1;
     position: relative;
 }
@@ -18651,7 +18650,7 @@ select.form-control {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    background: #ffffff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' stroke='currentColor' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round' class='css-i6dzq1'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") no-repeat right 0.75rem center/18px 25px;
+    background: #ffffff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' stroke='currentColor' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round' className='css-i6dzq1'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") no-repeat right 0.75rem center/18px 25px;
 }
 
 select.form-control[data-multiselectsplitter-firstselect-selector],

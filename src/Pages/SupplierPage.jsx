@@ -14,13 +14,11 @@ import DeleteSupplier from "../Components/DeleteSupplier.jsx";
 import LinkedSupplier from "../Components/LinkedSupplier.jsx";
 
 function SupplierPage() {
-  const { supplier, getSupplierByState, updateSupplier, getSupplie , toggleSupplyStatus } = useSupplier();
-
+  const { supplier, getSupplierByState, updateSupplier, getSupplie, toggleSupplyStatus } = useSupplier();
   const [searchTerm, setSearchTerm] = useState("");
-  const [supplierData, setSupplierData] = useState([])
   const [showEnabledOnly, setShowEnabledOnly] = useState(false); // Estado para controlar la visibilidad
 
-  
+
   useEffect(() => {
     getSupplierByState();
   }, []);
@@ -37,7 +35,6 @@ function SupplierPage() {
     setSearchTerm(event.target.value);
   };
 
-
   const filteredSuppliers = supplier.filter((supplierItem) => {
     const {
       Type_Document,
@@ -49,18 +46,17 @@ function SupplierPage() {
       Email,
       State
     } = supplierItem;
-    
-    
-      if (showEnabledOnly) {
-        return (
-          supplierItem.State && // Verificar si el proveedor está habilitado
-          `${Type_Document} ${Document} ${Name_Supplier} ${Name_Business} ${City}  ${Phone}  ${Email}`
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase())
-        );
-      }
 
-  
+
+    if (showEnabledOnly) {
+      return (
+        supplierItem.State && // Verificar si el proveedor está habilitado
+        `${Type_Document} ${Document} ${Name_Supplier} ${Name_Business} ${City}  ${Phone}  ${Email}`
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase())
+      );
+    }
+
     // Si showEnabledOnly no está marcado, mostrar todos los proveedores que coincidan con la búsqueda
     return (
       `${Type_Document} ${Document} ${Name_Supplier} ${Name_Business} ${City}  ${Phone}  ${Email}`
@@ -75,7 +71,7 @@ function SupplierPage() {
 
   const onUpdate = (event, id, modalView) => {
     event.preventDefault();
-    
+
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
 
@@ -123,18 +119,18 @@ function SupplierPage() {
                   </div>
 
                   <div className="form-check ml-4 mt-1" >
-                        <input
-                          type="checkbox"
-                          title='Presiona para mostrar solo las compras habilitadas'
-                          className="form-check-input"
-                          id="showEnabledOnly"
-                          checked={showEnabledOnly}
-                          onChange={handleCheckboxChange}
-                        />
-                        <label className="form-check-label" htmlFor="showEnabledOnly">
-                          Mostrar solo habilitados
-                        </label>
-                      </div>
+                    <input
+                      type="checkbox"
+                      title='Presiona para mostrar solo las compras habilitadas'
+                      className="form-check-input"
+                      id="showEnabledOnly"
+                      checked={showEnabledOnly}
+                      onChange={handleCheckboxChange}
+                    />
+                    <label className="form-check-label" htmlFor="showEnabledOnly">
+                      Mostrar solo habilitados
+                    </label>
+                  </div>
 
                   <div className="card-body table-border-style">
                     <div className="table-responsive">
@@ -164,7 +160,7 @@ function SupplierPage() {
                               <td>{supplierItem.Email}</td>
                               <td className={`${status}`}>
                                 {supplierItem.State ? "Habilitado" : "Deshabilitado"}
-                                </td>
+                              </td>
                               <td className="flex items-center">
                                 <CreateSupplier
                                   isDisabled={!supplierItem.State}
@@ -192,26 +188,26 @@ function SupplierPage() {
                                   }}
                                 />
                                 <div title="Presiona para eliminar el proveedor">
-                                <DeleteSupplier
-                                  currentSupplier={supplierItem}
-                                  isDisabled={!supplierItem.State}
-                                />
+                                  <DeleteSupplier
+                                    currentSupplier={supplierItem}
+                                    isDisabled={!supplierItem.State}
+                                  />
 
                                 </div>
-                             
+
                                 <button
-                                   type="button"
-                                   title='Presiona para inhabilitar o habilitar el proveedor'
-                                   className={`btn  btn-icon btn-success ml-1 ${status}`}
-                                   onClick={() => toggleSupplyStatus(supplierItem.ID_Supplier)}
-                                  
+                                  type="button"
+                                  title='Presiona para inhabilitar o habilitar el proveedor'
+                                  className={`btn  btn-icon btn-success ml-1 ${status}`}
+                                  onClick={() => toggleSupplyStatus(supplierItem.ID_Supplier)}
+
                                 >
-                                   {supplierItem.State ? (
-                                     <MdToggleOn className={`estado-icon active${status}`} />
-                                   ) : (
-                                     <MdToggleOff className={`estado-icon inactive${status}`} />
- 
-                                   )}
+                                  {supplierItem.State ? (
+                                    <MdToggleOn className={`estado-icon active${status}`} />
+                                  ) : (
+                                    <MdToggleOff className={`estado-icon inactive${status}`} />
+
+                                  )}
                                 </button>
                               </td>
                             </tr>

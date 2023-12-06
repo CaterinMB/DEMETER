@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import ProtectedRoute from './ProtectedRoute.jsx'
 
 //Context
@@ -7,23 +8,26 @@ import { User } from './Context/User.context.jsx'
 import { Supplier } from './Context/Supplier.context.jsx'
 import { ShoppingProvider } from './Context/Shopping.context.jsx'
 import { Supplies } from './Context/Supplies.context.jsx'
+import { CategorySupplies } from './Context/CategorySupplies.context.jsx'
+import { CategoryProducts } from './Context/CategoryProducts.context.jsx'
 
 // Pages
 import UserPage from './Pages/UserPage.jsx'
+import RolePage from './Pages/RolePage.jsx'
 import SupplierPage from './Pages/SupplierPage.jsx'
+import SuppliesPage from './Pages/SuppliesPage.jsx'
+import SuppliesCategoryPage from './Pages/SuppliesCategoryPage.jsx'
+import ProductCategoryPage from './Pages/ProductCategoryPage.jsx'
+import WaiterPage from './Pages/WaiterPage.jsx'
 import ShoppingPage from './Pages/ShoppingPage.jsx'
 import Login from './Pages/Login.jsx'
 import ResetPassword from './Pages/ResetPassword.jsx'
 import NewPassword from './Pages/NewPassword.jsx'
 import NewPurchase from './Pages/newPurchase.jsx'
 
-//components
-import ShoppingBill from './Components/ShoppingBill.jsx'
-
 // Menu & Header
 import Navbar from './Components/Navbar.jsx'
 import Header from './Components/Header.jsx'
-import { useEffect, useState } from 'react'
 
 
 function App() {
@@ -31,39 +35,38 @@ function App() {
     <BrowserRouter>
       <Role>
         <User>
-        <Supplies>
-          <ShoppingProvider>
-            <Supplier>
-            <Header/>
-            <Navbar/>
+          <CategorySupplies>
+            <CategoryProducts>
+              <Supplier>
+                <Supplies>
+                  <ShoppingProvider>
+                    <Navbar />
+                    <Header />
+                    <Routes>
+                      <Route path='/' element={<Login />} />
+                      <Route path='/resetPassword' element={<ResetPassword />} />
+                      <Route path='/newPassword/:idUser' element={<NewPassword />} />
 
-             
-                
-              <Routes>
-
-                <Route path='/' element={<Login />} />
-                <Route path='/resetPassword' element={<ResetPassword />} />
-                <Route path='/newPassword/:idUser' element={<NewPassword />} />
-
-                <Route element={<ProtectedRoute />}>
-                  <Route path='/dashboard' element={<h3>DashBoard</h3>} />
-                  <Route path='/setting' element={<h3>Roles y permisos</h3>} />
-                  <Route path='/user' element={<UserPage />} />
-                  <Route path='/category_supplies' element={<h3>Cateria insumo</h3>} />
-                  <Route path='/supplies' element={<h3>Insumos</h3>} />
-                  <Route path='/supplier' element={<SupplierPage />} />
-                  <Route path='/shopping' element={<ShoppingPage />} />
-                  <Route path='/shop' element={<NewPurchase />} />
-                  <Route path='/category_product' element={<h3>Categoria producto</h3>} />
-                  <Route path='/product' element={<h3>Producto</h3>} />
-                  <Route path='/waiter' element={<h3>Meseros</h3>} />
-                  <Route path='/sale' element={<h3>Venta</h3>} />
-                </Route>
-              </Routes>
-
-            </Supplier>
-          </ShoppingProvider>
-          </Supplies>
+                      <Route element={<ProtectedRoute />}>
+                        <Route path='/dashboard' element={<h3>DashBoard</h3>} />
+                        <Route path='/setting' element={<RolePage />} />
+                        <Route path='/user' element={<UserPage />} />
+                        <Route path='/category_supplies' element={<SuppliesCategoryPage />} />
+                        <Route path='/supplies' element={<SuppliesPage />} />
+                        <Route path='/supplier' element={<SupplierPage />} />
+                        <Route path='/shopping' element={<ShoppingPage/>} />
+                        <Route path='/shop' element={<NewPurchase />} />
+                        <Route path='/category_product' element={<ProductCategoryPage />} />
+                        <Route path='/product' element={<h3>Producto</h3>} />
+                        <Route path='/waiter' element={<WaiterPage />} />
+                        <Route path='/sale' element={<h3>Venta</h3>} />
+                      </Route>
+                    </Routes>
+                  </ShoppingProvider>
+                </Supplies>
+              </Supplier>
+            </CategoryProducts>
+          </CategorySupplies>
         </User>
       </Role>
     </BrowserRouter>

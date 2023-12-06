@@ -34,7 +34,7 @@ export default function CreateSupplier({
     setError,
     reset,
     setValue,
-    formState: { errors }
+    formState: { errors, isValid }
   } = useForm();
   const { createSupplier, supplier } = useSupplier();
 
@@ -150,7 +150,7 @@ export default function CreateSupplier({
                 })();
             </script> */}
                   <form
-                 
+                    className="was-validated"
                     onSubmit={(event) =>
                       typeof onDefaultSubmit === "function"
                         ? onDefaultSubmit(event, setOpen)

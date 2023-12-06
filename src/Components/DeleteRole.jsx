@@ -16,7 +16,7 @@ const style = {
 };
 
 
-function DeleteUser({ onClose, onDelete }) {
+function DeleteRole({ onClose, onDelete }) {
 
     const onCancel = () => {
         onClose();
@@ -30,7 +30,7 @@ function DeleteUser({ onClose, onDelete }) {
                     <div className="p-6 rounded shadow-md text-end">
                         <h1 className="text-3xl font-semibold ">Confirmar eliminación</h1>
                         <p className="deleteText">
-                            ¿Estás seguro de que deseas eliminar este usuario?
+                            ¿Estás seguro de que deseas eliminar este rol?
                         </p>
                         <div className="flex justify-between">
                             <button
@@ -53,4 +53,4 @@ function DeleteUser({ onClose, onDelete }) {
     );
 }
 
-export default DeleteUser
+export default DeleteRole

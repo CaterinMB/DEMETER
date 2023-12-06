@@ -1,9 +1,8 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { getUsersRequest, getUserRequest, createUserRequest, statusUserRequest, updateUserRequest, deleteUserRequest, loginRequest, verifyTokenRequest, forgotPasswordRequest, NewPasswordRequest, GetUserCookies } from '../Api/User.request.js'
-import { getWaitersRequest, createWaiterRequest } from '../Api/User.request.js';
+import { getWaitersRequest, getWaiterRequest, createWaiterRequest } from '../Api/User.request.js';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
-
 
 export const UserContext = createContext();
 
@@ -26,8 +25,6 @@ export const User = ({ children }) => {
   const [changePasswordSuccess, setChangePasswordSuccess] = useState('');
 
   const navigate = useNavigate();
-
-
 
   const getUsers = async () => {
     try {
@@ -122,7 +119,6 @@ export const User = ({ children }) => {
     }
   };
 
-
   const forgotPassword = async (email) => {
     try {
       const res = await forgotPasswordRequest({ Email: email });
@@ -146,9 +142,6 @@ export const User = ({ children }) => {
       setForgotPasswordSuccess('');
     }
   };
-
-
-
 
   //cambiar la contraseña NewPasswordd
 
@@ -209,7 +202,14 @@ export const User = ({ children }) => {
     }
   };
 
-
+  const getWaiter = async (id) => {
+    try {
+      const res = await getWaiterRequest(id);
+      return res.data
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   useEffect(() => {
     async function checkLogin() {
@@ -284,6 +284,7 @@ export const User = ({ children }) => {
         deleteUser,
         // ---------- Mesero ---------- //
         getWaiters,
+        getWaiter,
         createWaiter,
         //-------------login------------//
         isAuthenticated,
