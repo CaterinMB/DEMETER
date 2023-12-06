@@ -21,7 +21,6 @@ const Header = () => {
 		setTimeout(() => setShowDropdown(false), 5000);
 	};
 
-
 	if (!isAuthenticated) {
 		return ''
 	}
@@ -114,4 +113,4 @@ const Header = () => {
 	);
 };
 
-export default Header()
+export default Header;
