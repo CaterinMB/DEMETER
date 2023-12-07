@@ -85,9 +85,9 @@ function CreateLosses({ supply, onLossCreated }) {
                                             {...register('Unit', {
                                                 required: 'Este campo es obligatorio',
                                                 validate: (value) => {
-                                                    const parsedValue = parseInt(value);
-                                                    if (isNaN(parsedValue)) {
-                                                        return 'La cantidad de pérdida debe ser un número válido.';
+                                                    const parsedValue = parseFloat(value);
+                                                    if (isNaN(parsedValue) || parsedValue < 0 || parsedValue > 99999999) {
+                                                        return 'La cantidad de pérdida debe ser un número válido entre 0 y 99999999.';
                                                     }
                                                 },
                                             })}
@@ -106,6 +106,19 @@ function CreateLosses({ supply, onLossCreated }) {
                                         <textarea
                                             {...register('Reason', {
                                                 required: 'Este campo es obligatorio',
+                                                minLength: {
+                                                    value: 10,
+                                                    message: 'El motivo de la pérdida debe tener al menos 10 caracteres.',
+                                                },
+                                                maxLength: {
+                                                    value: 250,
+                                                    message: 'El motivo de la pérdida no debe exceder los 250 caracteres.',
+                                                },
+                                                validate: (value) => {
+                                                    if (!/^[A-ZÁÉÍÓÚÑa-záéíóúñ\s,.]*$/.test(value)) {
+                                                        return 'El motivo de la pérdida debe comenzar con mayúscula y puede contener letras, espacios, tildes, comas y puntos.';
+                                                    }
+                                                },
                                             })}
                                             type="textarea"
                                             className="form-control"
