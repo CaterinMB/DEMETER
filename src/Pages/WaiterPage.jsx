@@ -128,7 +128,7 @@ function WaiterPage() {
                                                     onChange={handleCheckboxChange}
                                                 />
                                                 <label className="form-check-label" htmlFor="showEnabledOnly">
-                                                    Mostrar solo habilitados.
+                                                    Solo habilitados.
                                                 </label>
                                             </div>
                                         </div>

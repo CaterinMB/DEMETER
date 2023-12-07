@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import Box from "@mui/material/Box";
 import { useForm } from 'react-hook-form';
@@ -18,17 +18,20 @@ const style = {
     pb: 3
 };
 
-function CreateWaiter({ onClose, onCreated }) {
-    const { register, handleSubmit, formState: { errors, isValid }, setError } = useForm();
-    const { createWaiter, user } = useUser();
-    const [selectedType, setSelectedType] = useState({ label: 'Seleccione tipo', value: '', isDisabled: true });
+function UpdateUser({ onClose, userToEdit }) {
+    const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: userToEdit });
+    const { updateUser, user } = useUser();
+    const [selectedType, setSelectedType] = useState(userToEdit.Type_Document);
+    const { role } = useRole();
+    const [selectedRole, setSelectedRole] = useState(userToEdit.Role_ID);
 
     const typeOptions = [
-        { label: 'Seleccione tipo', value: '', isDisabled: true },
         { label: 'Cédula de ciudadanía', value: 'CC' },
         { label: 'Cédula de extranjería', value: 'CE' },
         { label: 'Pasaporte', value: 'PB' },
     ];
+
+    const rolOpcions = role.map(option => ({ label: option.Name_Role, value: option.ID_Role }));
 
     const customStyles = {
         control: (provided, state) => ({
@@ -50,29 +53,44 @@ function CreateWaiter({ onClose, onCreated }) {
         }),
     };
 
+    useEffect(() => {
+        register('Document', {
+            required: 'El documento es obligatorio',
+            validate: (value) => {
+                const duplicateUser = user.find(
+                    (users) =>
+                        users.Document === value &&
+                        users.ID_User !== userToEdit.ID_User
+                );
+
+                if (duplicateUser) {
+                    return 'Este número de documento ya existe.';
+                }
+                return true;
+            },
+        });
+        register('Email', {
+            required: 'El correo es obligatorio',
+            validate: (value) => {
+                const duplicateEmail = user.find(
+                    (users) =>
+                        users.Email === value &&
+                        users.ID_User !== userToEdit.ID_User
+                );
+
+                if (duplicateEmail) {
+                    return 'Este correo ya existe.';
+                }
+                return true;
+            },
+        });
+    }, [register, user, userToEdit.ID_User]);
+
     const onSubmit = handleSubmit(async (values) => {
-        const isDocumentouplicate = user.some(waiters => waiters.Document === values.Document);
+        values.Type_Document = selectedType;
+        values.Role_ID = selectedRole;
 
-        if (isDocumentouplicate) {
-            setError('Document', {
-                type: 'manual',
-                message: 'El documento del usuario ya existe.'
-            });
-            return;
-        }
-
-        if (!selectedType || selectedType.value === '') {
-            setError('Type_Document', {
-                type: 'manual',
-                message: 'Debe seleccionar un tipo de documento.'
-            });
-            return;
-        }
-
-        values.Type_Document = selectedType.value;
-
-        createWaiter(values);
-        onCreated();
+        updateUser(userToEdit.ID_User, values);
         onClose();
     });
 
@@ -86,7 +104,7 @@ function CreateWaiter({ onClose, onCreated }) {
                 <div className="col-md-12">
                     <div className="card">
                         <div className="card-header">
-                            <h5>Registro de mesero</h5>
+                            <h5>Editar un empleado</h5>
                         </div>
                         <div className="card-body">
                             <form onSubmit={onSubmit}>
@@ -238,10 +256,9 @@ function CreateWaiter({ onClose, onCreated }) {
                                         <button
                                             className="btn btn-primary mr-5"
                                             type="submit"
-                                            // disabled={!isValid}
                                             title='Se guardan los datos del nuevo mesero.'
                                         >
-                                            Confirmar
+                                            Guardar
                                         </button>
 
                                     </div>
@@ -255,4 +272,4 @@ function CreateWaiter({ onClose, onCreated }) {
     )
 }
 
-export default CreateWaiter
+export default UpdateUser
