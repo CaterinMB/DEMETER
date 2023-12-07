@@ -11,6 +11,7 @@ import { CategorySupplies } from './Context/CategorySupplies.context.jsx'
 import { CategoryProducts } from './Context/CategoryProducts.context.jsx'
 import { SaleProvider } from './Context/SaleContext.jsx'
 import { DashboardProvider } from './Context/Dashboard.context.jsx'
+import { Losses } from './Context/Losses.context.jsx'
 
 // Pages
 import UserPage from './Pages/UserPage.jsx'
@@ -37,6 +38,7 @@ function App() {
               <CategoryProducts>
                 <Supplier>
                   <Supplies>
+                  <Losses>
                     <ShoppingProvider>
                       <SaleProvider>
                         <Navbar />
@@ -56,6 +58,7 @@ function App() {
                         </Routes>
                       </SaleProvider>
                     </ShoppingProvider>
+                  </Losses>
                   </Supplies>
                 </Supplier>
               </CategoryProducts>

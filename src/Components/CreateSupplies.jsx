@@ -43,7 +43,7 @@ function CreateSupplies({
   onDefaultSubmit = null,
   buttonProps = {
     buttonClass: 'btn btn-primary',
-    buttonText: 'Registrar',
+    buttonText: 'Registrar insumo',
   },
 }) {
   const {

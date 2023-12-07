@@ -5,6 +5,8 @@ import { MdToggleOn, MdToggleOff } from "react-icons/md";
 import { useSupplies } from "../Context/Supplies.context.jsx";
 import { useCategorySupplies } from '../Context/CategorySupplies.context.jsx';
 import CreateSupplies from "../Components/CreateSupplies.jsx";
+import SeeLosses from "../Components/SeeLosses.jsx";
+import CreateLosses from '../Components/CreateLosses';
 import UpdateSupplies from "../Components/UpdateSupplies.jsx";
 import DeleteSupplies from "../Components/DeleteSupplies.jsx";
 import Pagination from '@mui/material/Pagination';
@@ -87,6 +89,10 @@ function SuppliesPage() {
     setCurrentPage(value);
   };
 
+  const handleLossCreated = () => {
+    getSupplies();
+  };
+
   return (
     <section className="pc-container">
       <div className="pcoded-content">
@@ -165,6 +171,7 @@ function SuppliesPage() {
                               <td>{supply.State ? 'Habilitado' : 'Deshabilitado'}</td>
                               <td>
                                 <div style={{ display: "flex", alignItems: "center" }}>
+
                                   <UpdateSupplies
                                     buttonProps={{
                                       buttonClass: `ml-1 btn btn-icon btn-primary ${!supply.State ? "text-gray-400 cursor-not-allowed" : ""}`,
@@ -174,6 +181,11 @@ function SuppliesPage() {
                                     supplyToEdit={supply}
                                     onUpdate={handleUpdateSupply}
                                   />
+
+                                  <CreateLosses supply={supply} onLossCreated={handleLossCreated} />
+
+                                  <SeeLosses supply={supply} />
+
                                   <button
                                     onClick={() => handleDelete(supply)}
                                     className={`ml-1 btn btn-icon btn-danger ${!supply.State ? "text-gray-400 cursor-not-allowed" : ""}`}
@@ -209,17 +221,17 @@ function SuppliesPage() {
 
 
       <div className="pagination-container pagination">
-          <Stack spacing={2}>
-            <Pagination
-              count={pageCount}
-              page={currentPage}
-              siblingCount={2}
-              onChange={handlePageChange}
-              variant="outlined"
-              shape="rounded"
-            />
-          </Stack>
-        </div>
+        <Stack spacing={2}>
+          <Pagination
+            count={pageCount}
+            page={currentPage}
+            siblingCount={2}
+            onChange={handlePageChange}
+            variant="outlined"
+            shape="rounded"
+          />
+        </Stack>
+      </div>
 
       <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 2 }}>
         <Typography variant="body2" color="text.secondary">

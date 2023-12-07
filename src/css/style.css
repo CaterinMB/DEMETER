@@ -2286,6 +2286,11 @@ progress {
     margin-left: 23%;
 }
 
+.form-control[type="textarea"] {
+    width: 200%;
+    height: 120px;
+}
+
 .movement {
     position: absolute;
     margin-left: 61%;
