@@ -175,6 +175,7 @@ function CreateSupplies({
           reset();
           setOpen(true);
         }}
+        title="Este botón sirve para crear un insumo"
       >
         {buttonProps.buttonText}
       </button>

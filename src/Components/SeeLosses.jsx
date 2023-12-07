@@ -39,9 +39,10 @@ function SeeLosses({ supply }) {
         <React.Fragment>
             <button
                 type="button"
-                className={`ml-1 btn btn-icon btn-primary ${!supply.State ? "text-gray-400 cursor-not-allowed" : ""}`}
+                className={`ml-1 btn btn-icon btn-info ${!supply.State ? "text-gray-400 cursor-not-allowed" : ""}`}
                 onClick={handleOpen}
                 disabled={!supply.State}
+                title="Este botón sirve ver las dadas de baja del insumo"
             >
                 <AiOutlineFileText />
             </button>

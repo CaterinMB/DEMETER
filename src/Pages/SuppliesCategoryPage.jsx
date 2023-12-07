@@ -133,6 +133,7 @@ function SuppliesCategoryPage() {
                           id="showEnabledOnly"
                           checked={showEnabledOnly}
                           onChange={handleCheckboxChange}
+                          title="Este interruptor sirve para visualizar únicamente las categorías habilitadas"
                         />
                         <label className="form-check-label" htmlFor="showEnabledOnly">
                           Mostrar solo habilitados
@@ -184,6 +185,7 @@ function SuppliesCategoryPage() {
                                     onClick={() => handleDelete(suppliesCategory)}
                                     className={`btn btn-icon btn-danger ${!suppliesCategory.State ? "text-gray-400 cursor-not-allowed" : ""}`}
                                     disabled={!suppliesCategory.State}
+                                    title="Este botón sirve para eliminar la categoría"
                                   >
                                     <AiFillDelete />
                                   </button>
@@ -191,6 +193,7 @@ function SuppliesCategoryPage() {
                                     type="button"
                                     className={`btn btn-icon btn-success ${suppliesCategory.State ? 'active' : 'inactive'}`}
                                     onClick={() => handleToggleStatus(suppliesCategory)}
+                                    title="Este botón sirve para cambiar el estado de la categoría"
                                   >
                                     {suppliesCategory.State ? (
                                       <MdToggleOn className={`estado-icon active`} />
@@ -222,6 +225,7 @@ function SuppliesCategoryPage() {
               onChange={handlePageChange}
               variant="outlined"
               shape="rounded"
+              title="Este botón sirve para cambiar de página"
             />
           </Stack>
         </div>

@@ -121,6 +121,7 @@ function UpdateSupplies({
                     setOpen(true);
                 }}
                 disabled={buttonProps.isDisabled}
+                title="Este botón sirve para editar el insumo"
             >
                 {buttonProps.buttonText}
             </button>

@@ -53,11 +53,12 @@ function CreateLosses({ supply, onLossCreated }) {
         <React.Fragment>
             <button
                 type="button"
-                className={`ml-1 btn btn-icon btn-primary ${!supply.State ? "text-gray-400 cursor-not-allowed" : ""}`}
+                className={`ml-1 btn btn-icon btn-warning ${!supply.State ? "text-gray-400 cursor-not-allowed" : ""}`}
                 onClick={() => {
                     setOpen(true);
                 }}
                 disabled={!supply.State}
+                title="Este botón sirve para registrar la baja del insumo"
             >
                 <IoMdArrowDropdown />
             </button>
