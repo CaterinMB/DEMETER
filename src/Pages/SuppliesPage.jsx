@@ -117,7 +117,7 @@ function SuppliesPage() {
                           id="showEnabledOnly"
                           checked={showEnabledOnly}
                           onChange={handleCheckboxChange}
-                          title="Este interruptor sirve para visualizar únicamente los insumos habilitados"
+                          title="Este interruptor sirve para visualizar únicamente los insumos habilitados."
                         />
                         <label className="form-check-label" htmlFor="showEnabledOnly">
                           Mostrar solo habilitados
@@ -191,7 +191,7 @@ function SuppliesPage() {
                                     onClick={() => handleDelete(supply)}
                                     className={`ml-1 btn btn-icon btn-danger ${!supply.State ? "text-gray-400 cursor-not-allowed" : ""}`}
                                     disabled={!supply.State}
-                                    title="Este botón sirve para eliminar el insumo"
+                                    title="Este botón sirve para eliminar el insumo."
                                   >
                                     <AiFillDelete />
                                   </button>
@@ -199,7 +199,7 @@ function SuppliesPage() {
                                     type="button"
                                     className={`ml-1 btn btn-icon btn-success ${supply.State ? "active" : "inactive"}`}
                                     onClick={() => toggleSupplyStatus(supply.ID_Supplies)}
-                                    title="Este botón sirve para cambiar el estado del insumo"
+                                    title="Este botón sirve para cambiar el estado del insumo."
                                   >
                                     {supply.State ? (
                                       <MdToggleOn className={`estado-icon active`} />
@@ -232,7 +232,7 @@ function SuppliesPage() {
             onChange={handlePageChange}
             variant="outlined"
             shape="rounded"
-            title="Este botón sirve para cambiar de página"
+            title="Este botón sirve para cambiar de página."
           />
         </Stack>
       </div>

@@ -3,7 +3,6 @@ import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import { AiOutlineFileText } from 'react-icons/ai';
 import { useLosses } from '../Context/Losses.context';
-import { format } from 'date-fns';
 
 const style = {
     position: 'absolute',
@@ -35,14 +34,18 @@ function SeeLosses({ supply }) {
         setOpen(false);
     };
 
+    const hasLosses = losses.some(loss => {
+        console.log('Supplies_ID:', loss.Supplies_ID, 'ID_Supplies:', supply.ID_Supplies);
+        return String(loss.Supplies_ID) === String(supply.ID_Supplies);
+    });
     return (
         <React.Fragment>
             <button
                 type="button"
-                className={`ml-1 btn btn-icon btn-info ${!supply.State ? "text-gray-400 cursor-not-allowed" : ""}`}
+                className={`ml-1 btn btn-icon btn-info ${(!hasLosses || !supply.State) ? "text-gray-400 cursor-not-allowed" : ""}`}
                 onClick={handleOpen}
-                disabled={!supply.State}
-                title="Este botón sirve ver las dadas de baja del insumo"
+                disabled={!hasLosses || !supply.State}
+                title="Este botón sirve para ver las bajas del insumo"
             >
                 <AiOutlineFileText />
             </button>
@@ -60,38 +63,40 @@ function SeeLosses({ supply }) {
                                 <h5>Pérdidas Asociadas</h5>
                             </div>
                             <div className="card-body">
-                                <table className="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Fecha</th>
-                                            <th>Cantidad pérdida</th>
-                                            <th>Razón de pérdida</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {losses.map((loss) => (
-                                            <tr key={loss.ID_Losses}>
-                                                <td>  
-                                                {loss.createdAt ? format(new Date(loss.createdAt), 'dd/MM/yyyy HH:mm:ss') : 'Fecha no disponible'}
-                                                </td>
-                                                <td>{loss.Unit}</td>
-                                                <td>{loss.Reason}</td>
+                                <div className="table-responsive">
+                                    <table className="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Cantidad pérdida</th>
+                                                <th>Medida</th>
+                                                <th>Razón de pérdida</th>
                                             </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-
-                                <div className="buttonconfirm">
-                                    <div className="mb-3">
-                                        <button
-                                            className="btn btn-primary"
-                                            onClick={handleClose}
-                                            type="button"
-                                        >
-                                            Cerrar
-                                        </button>
-                                    </div>
+                                        </thead>
+                                        <tbody>
+                                            {losses
+                                                .filter(loss => loss.Supplies_ID === supply.ID_Supplies)
+                                                .map((loss) => (
+                                                    <tr key={loss.ID_Losses}>
+                                                        <td>{loss.Unit}</td>
+                                                        <td>{loss.Measure}</td>
+                                                        <td style={{ maxWidth: '200px', overflowX: 'auto' }} >{loss.Reason}</td>
+                                                    </tr>
+                                                ))}
+                                        </tbody>
+                                    </table>
                                 </div>
+                            </div>
+                        </div>
+                        <div className="buttonconfirm">
+                            <div className="mb-3">
+                                <button
+                                    className="btn btn-primary"
+                                    onClick={handleClose}
+                                    type="button"
+                                    title="Este botón sirve para cerrar la ventana modal."
+                                >
+                                    Cerrar
+                                </button>
                             </div>
                         </div>
                     </div>

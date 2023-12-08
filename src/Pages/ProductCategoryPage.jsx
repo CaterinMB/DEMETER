@@ -129,7 +129,7 @@ function ProductCategoryPage() {
                           id="showEnabledOnly"
                           checked={showEnabledOnly}
                           onChange={handleCheckboxChange}
-                          title="Este interruptor sirve para visualizar únicamente las categorías habilitadas"
+                          title="Este interruptor sirve para visualizar únicamente las categorías habilitadas."
                         />
                         <label className="form-check-label" htmlFor="showEnabledOnly">
                           Mostrar solo habilitados
@@ -181,7 +181,7 @@ function ProductCategoryPage() {
                                     onClick={() => handleDelete(productCategory)}
                                     className={`btn btn-icon btn-danger ${!productCategory.State ? "text-gray-400 cursor-not-allowed" : ""}`}
                                     disabled={!productCategory.State}
-                                    title="Este botón sirve para eliminar la categoría"
+                                    title="Este botón sirve para eliminar la categoría."
                                   >
                                     <AiFillDelete />
                                   </button>
@@ -189,7 +189,7 @@ function ProductCategoryPage() {
                                     type="button"
                                     className={`btn btn-icon btn-success ${productCategory.State ? "active" : "inactive"}`}
                                     onClick={() => handleToggleStatus(productCategory)}
-                                    title="Este botón sirve para cambiar el estado de la categoría"
+                                    title="Este botón sirve para cambiar el estado de la categoría."
                                   >
                                     {productCategory.State ? (
                                       <MdToggleOn className={`estado-icon active`} />
@@ -213,18 +213,18 @@ function ProductCategoryPage() {
       </div>
 
       <div className="pagination-container pagination">
-          <Stack spacing={2}>
-            <Pagination
-              count={pageCount}
-              page={currentPage}
-              siblingCount={2}
-              onChange={handlePageChange}
-              variant="outlined"
-              shape="rounded"
-              title="Este botón sirve para cambiar de página"
-            />
-          </Stack>
-        </div>
+        <Stack spacing={2}>
+          <Pagination
+            count={pageCount}
+            page={currentPage}
+            siblingCount={2}
+            onChange={handlePageChange}
+            variant="outlined"
+            shape="rounded"
+            title="Este botón sirve para cambiar de página."
+          />
+        </Stack>
+      </div>
 
       <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 2 }}>
         <Typography variant="body2" color="text.secondary">

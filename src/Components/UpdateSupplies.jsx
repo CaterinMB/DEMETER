@@ -293,6 +293,7 @@ function UpdateSupplies({
                                                 className="btn btn-primary mr-5"
                                                 type="submit"
                                                 disabled={!isValid || !selectedMeasure || !selectedCategory}
+                                                title="Este botón sirve para guardar la información y cerrar la ventana modal."
                                             >
                                                 Confirmar
                                             </button>
@@ -300,6 +301,7 @@ function UpdateSupplies({
                                                 className="btn btn-primary"
                                                 onClick={onCancel}
                                                 type="submit"
+                                                title="Este botón sirve para cerrar la ventana modal sin guardar la información."
                                             >
                                                 Cancelar
                                             </button>

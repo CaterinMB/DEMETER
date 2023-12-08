@@ -2274,6 +2274,12 @@ progress {
     border-radius: 5px;
 }
 
+.form-selects-losses {
+    width: 100%;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+}
+
 @media (prefers-reduced-motion: reduce) {
     .form-control {
         transition: none;
@@ -15006,13 +15012,19 @@ pre[class*="language-"]>code {
     margin-bottom: 0;
 }
 
-/* ===== BORRAR ===== */
 .control {
     display: flex;
     align-items: center;
     gap: 1px;
     margin-left: 40px;
 }
+
+.control-losses {
+    display: flex;
+    align-items: center;
+    gap: 1px;
+}
+
 
 .city {
     display: flex;

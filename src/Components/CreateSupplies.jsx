@@ -43,7 +43,7 @@ function CreateSupplies({
   onDefaultSubmit = null,
   buttonProps = {
     buttonClass: 'btn btn-primary',
-    buttonText: 'Registrar insumo',
+    buttonText: 'Registrar',
   },
 }) {
   const {
@@ -85,6 +85,7 @@ function CreateSupplies({
       });
       return;
     }
+
     const dataToSend = {
       ...values,
       Measure: selectedMeasure.value,
@@ -155,16 +156,17 @@ function CreateSupplies({
 
   const onCancel = () => {
     setOpen(false);
+    reset();
     setSelectedMeasure(null);
     setSelectedCategory(null);
   };
 
   const options = Category_supplies
-  .filter(category => category.State)
-  .map(category => ({
-    value: category.ID_SuppliesCategory,
-    label: category.Name_SuppliesCategory,
-  }));
+    .filter(category => category.State)
+    .map(category => ({
+      value: category.ID_SuppliesCategory,
+      label: category.Name_SuppliesCategory,
+    }));
 
   return (
     <React.Fragment>
@@ -345,6 +347,7 @@ function CreateSupplies({
                         className="btn btn-primary mr-5"
                         type="submit"
                         disabled={!isValid || !selectedMeasure || !selectedCategory}
+                        title="Este botón sirve para guardar la información y cerrar la ventana modal."
                       >
                         Confirmar
                       </button>
@@ -352,6 +355,7 @@ function CreateSupplies({
                         className="btn btn-primary"
                         onClick={onCancel}
                         type="submit"
+                        title="Este botón sirve para cerrar la ventana modal sin guardar la información."
                       >
                         Cancelar
                       </button>

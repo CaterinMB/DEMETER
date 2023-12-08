@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import { useForm } from 'react-hook-form';
 import { useLosses } from '../Context/Losses.context';
 import { IoMdArrowDropdown } from 'react-icons/io';
+import Select from 'react-select';
 
 const style = {
     position: 'absolute',
@@ -19,6 +20,25 @@ const style = {
     pb: 3,
 };
 
+const customStyles = {
+    control: (provided, state) => ({
+        ...provided,
+        '&:hover': {
+            border: state.isFocused ? '1px solid #e36209' : '1px solid #ced4da',
+        },
+    }),
+    option: (provided, state) => ({
+        ...provided,
+        backgroundColor: state.isSelected ? '#e36209' : state.isFocused ? '#e36209' : 'white',
+        color: state.isSelected ? 'white' : state.isFocused ? '#555' : '#201E1E',
+        '&:hover': {
+            backgroundColor: '#e36209',
+            color: 'white',
+        },
+        cursor: state.isDisabled ? 'not-allowed' : 'default',
+    }),
+};
+
 function CreateLosses({ supply, onLossCreated }) {
     const { createLoss } = useLosses();
     const [open, setOpen] = useState(false);
@@ -28,15 +48,25 @@ function CreateLosses({ supply, onLossCreated }) {
         handleSubmit,
         setValue,
         formState: { errors, isValid },
+        reset,
     } = useForm();
 
+    const [selectedMeasure, setSelectedMeasure] = useState(null);
+
+    const handleMeasureChange = (selectedOption) => {
+        setSelectedMeasure(selectedOption);
+    };
+
     const onSubmit = handleSubmit(async (values) => {
+        console.log(values)
         try {
             await createLoss({
                 ...values,
                 Supplies_ID: supply.ID_Supplies,
+                Measure: selectedMeasure.value,
             });
             setOpen(false);
+
             if (onLossCreated) {
                 onLossCreated();
             }
@@ -47,7 +77,10 @@ function CreateLosses({ supply, onLossCreated }) {
 
     const onCancel = () => {
         setOpen(false);
+        setSelectedMeasure(null);
+        reset();
     };
+
 
     return (
         <React.Fragment>
@@ -78,26 +111,58 @@ function CreateLosses({ supply, onLossCreated }) {
                             <div className="card-body">
                                 <form onSubmit={(event) => onSubmit(event)}>
 
-                                    <div className="form-group col-md-6">
-                                        <label htmlFor="Unit" className="form-label">
-                                            Cantidad pérdida:
-                                        </label>
-                                        <input
-                                            {...register('Unit', {
-                                                required: 'Este campo es obligatorio',
-                                                validate: (value) => {
-                                                    const parsedValue = parseFloat(value);
-                                                    if (isNaN(parsedValue) || parsedValue < 0 || parsedValue > 99999999) {
-                                                        return 'La cantidad de pérdida debe ser un número válido entre 0 y 99999999.';
-                                                    }
-                                                },
-                                            })}
-                                            type="text"
-                                            className="form-control"
-                                        />
-                                        {errors.Unit && (
-                                            <p className="text-red-500">{errors.Unit.message}</p>
-                                        )}
+                                    <div className="control-losses">
+                                        <div className="form-group col-md-6">
+                                            <label htmlFor="Unit" className="form-label">
+                                                Cantidad pérdida:
+                                            </label>
+                                            <input
+                                                {...register('Unit', {
+                                                    required: 'Este campo es obligatorio',
+                                                    validate: (value) => {
+                                                        const parsedValue = parseFloat(value);
+                                                        if (isNaN(parsedValue) || parsedValue < 0 || parsedValue > 99999999) {
+                                                            return 'La cantidad de pérdida debe ser un número válido entre 0 y 99999999.';
+                                                        }
+                                                    },
+                                                })}
+                                                type="text"
+                                                className="form-control"
+                                            />
+                                            {errors.Unit && (
+                                                <p className="text-red-500">{errors.Unit.message}</p>
+                                            )}
+                                        </div>
+
+                                        <div className="form-group col-md-6">
+                                            <label htmlFor="Measure" className="form-label">
+                                                Medida: <strong>*</strong>
+                                            </label>
+                                            <Select
+                                                options={[
+                                                    { value: 'Unidad(es)', label: 'Unidad(es)' },
+                                                    { value: 'Kilogramos (kg)', label: 'Kilogramos (kg)' },
+                                                    { value: 'Gramos (g)', label: 'Gramos (g)' },
+                                                    { value: 'Litros (L)', label: 'Litros (L)' },
+                                                    { value: 'Mililitros (ml)', label: 'Mililitros (ml)' },
+                                                ]}
+                                                value={selectedMeasure}
+                                                onChange={handleMeasureChange}
+                                                styles={customStyles}
+                                                className="form-selects-losses"
+                                                theme={(theme) => ({
+                                                    ...theme,
+                                                    colors: {
+                                                        ...theme.colors,
+                                                        primary: '#e36209',
+                                                    },
+                                                })}
+                                            />
+                                            {errors.Measure && (
+                                                <p className="text-red-500">{errors.Measure.message}</p>
+                                            )}
+                                            <div className="invalid-feedback">Ingrese la medida</div>
+                                        </div>
                                     </div>
 
                                     <div className="form-group col-md-6">

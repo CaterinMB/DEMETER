@@ -25,12 +25,13 @@ function CreateCategory_supplies({
         buttonText: 'Registrar',
     },
 }) {
-const {
-    register,
-    handleSubmit,
-    setError,
-    formState: { errors, isValid },
-} = useForm();
+    const {
+        register,
+        handleSubmit,
+        setError,
+        formState: { errors, isValid },
+        reset,
+    } = useForm();
 
     const { Category_supplies, createCategory_supplies } = useCategorySupplies();
 
@@ -51,10 +52,12 @@ const {
 
         createCategory_supplies(values);
         setOpen(false);
+        reset();
     });
 
     const onCancel = () => {
         setOpen(false);
+        reset();
     };
 
     return (
@@ -118,6 +121,7 @@ const {
                                                 className="btn btn-primary mr-5"
                                                 type="submit"
                                                 disabled={!isValid}
+                                                title="Este botón sirve para guardar la información y cerrar la ventana modal."
                                             >
                                                 Confirmar
                                             </button>
@@ -125,6 +129,7 @@ const {
                                                 className="btn btn-primary"
                                                 onClick={onCancel}
                                                 type="submit"
+                                                title="Este botón sirve para cerrar la ventana modal sin guardar la información."
                                             >
                                                 Cancelar
                                             </button>
