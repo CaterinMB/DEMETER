@@ -139,7 +139,7 @@ function SuppliesPage() {
                     </div>
                   </div>
 
-                  <div className="card-body table-border-style">
+                  <div className="card-body">
                     <div className="table-responsive">
                       <table className="table table-hover">
                         <thead>
@@ -169,9 +169,9 @@ function SuppliesPage() {
                                   )?.Name_SuppliesCategory || ''
                                   : ''}
                               </td>
-                              <td>{supply.State ? 'Habilitado' : 'Deshabilitado'}</td>
+                              <td style={{ maxWidth: '90px' }}>{supply.State ? 'Habilitado' : 'Deshabilitado'}</td>
                               <td>
-                                <div style={{ display: "flex", alignItems: "center" }}>
+                                <div style={{ alignItems: "center" }}>
 
                                   <UpdateSupplies
                                     buttonProps={{

@@ -50,13 +50,12 @@ function CreateSupplies({
     register,
     handleSubmit,
     setError,
-    formState: { errors, isValid },
+    formState: { errors },
     reset,
   } = useForm();
 
   const { createSupplies, supplies } = useSupplies();
   const { Category_supplies } = useCategorySupplies();
-
   const [open, setOpen] = useState(false);
   const [selectedMeasure, setSelectedMeasure] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -70,6 +69,7 @@ function CreateSupplies({
   };
 
   const onSubmit = handleSubmit(async (values) => {
+
     if (!selectedMeasure) {
       setError('Measure', {
         type: 'manual',
@@ -126,7 +126,7 @@ function CreateSupplies({
     if (!dataToSend.Stock || isNaN(parseInt(dataToSend.Stock))) {
       setError('Stock', {
         type: 'manual',
-        message: 'El stock mínimo es requerido y debe ser un número válido.',
+        message: 'La existencia mínima es requerida y debe ser un número válido.',
       });
       return;
     }
@@ -134,7 +134,7 @@ function CreateSupplies({
     if (parseInt(dataToSend.Stock) < 0 || parseInt(dataToSend.Stock) > 999) {
       setError('Stock', {
         type: 'manual',
-        message: 'El stock mínimo debe ser un número entero entre 0 y 999.',
+        message: 'La existencia mínima debe ser un número entero entre 0 y 999.',
       });
       return;
     }
@@ -142,7 +142,7 @@ function CreateSupplies({
     if (parseInt(dataToSend.Stock) > parseInt(dataToSend.Unit)) {
       setError('Stock', {
         type: 'manual',
-        message: `El stock mínimo no puede ser mayor que la cantidad de insumo (${dataToSend.Unit}).`,
+        message: `La existencia mínima no puede ser mayor que la cantidad de insumo (${dataToSend.Unit}).`,
       });
       return;
     }
@@ -211,9 +211,9 @@ function CreateSupplies({
                         {...register('Name_Supplies', {
                           required: 'Este campo es obligatorio',
                           pattern: {
-                            value: /^[A-ZÁÉÍÓÚÑ][a-záéíóúñ\s]*[a-záéíóúñ]$/,
+                            value: /^[A-ZÁÉÍÓÚÑ][a-záéíóúñ\s]*[a-záéíóúñ]$/u,
                             message:
-                              'El nombre del insumo debe tener la primera letra en mayúscula, el resto en minúscula y solo se permiten letras.',
+                              'La primera letra debe ser mayúscula y el resto minúscula.',
                           },
                         })}
                         type="text"
@@ -236,7 +236,7 @@ function CreateSupplies({
                           validate: (value) => {
                             const parsedValue = parseInt(value);
                             if (isNaN(parsedValue)) {
-                              return 'La cantidad debe ser un número válido.';
+                              return 'Debe ser un número entero.';
                             }
                           },
                         })}
@@ -292,15 +292,15 @@ function CreateSupplies({
                             const parsedUnit = parseInt(Unit);
 
                             if (isNaN(parsedValue)) {
-                              return 'La existencia mínima debe ser un número válido.';
+                              return 'Debe ser un número entero.';
                             }
 
                             if (parsedValue < 0 || parsedValue > 999) {
-                              return 'La existencia mínima debe ser un número entero entre 0 y 999.';
+                              return 'Debe ser un número entero entre 0 y 999.';
                             }
 
                             if (parsedValue > parsedUnit) {
-                              return `La existencia mínima no puede ser mayor que la cantidad de insumo (${parsedUnit}).`;
+                              return `No puede ser mayor que la cantidad: (${parsedUnit}).`;
                             }
                           },
                         })}
@@ -337,7 +337,6 @@ function CreateSupplies({
                           {errors.SuppliesCategory_ID.message}
                         </p>
                       )}
-                      <div className="invalid-feedback">Ingrese la categoría</div>
                     </div>
                   </div>
 
@@ -346,7 +345,6 @@ function CreateSupplies({
                       <button
                         className="btn btn-primary mr-5"
                         type="submit"
-                        disabled={!isValid || !selectedMeasure || !selectedCategory}
                         title="Este botón sirve para guardar la información y cerrar la ventana modal."
                       >
                         Confirmar

@@ -29,7 +29,7 @@ function CreateCategory_supplies({
         register,
         handleSubmit,
         setError,
-        formState: { errors, isValid },
+        formState: { errors },
         reset,
     } = useForm();
 
@@ -99,9 +99,9 @@ function CreateCategory_supplies({
                                                 {...register('Name_SuppliesCategory', {
                                                     required: 'Este campo es obligatorio',
                                                     pattern: {
-                                                        value: /^[A-ZÁÉÍÓÚÑ][a-záéíóúñ\s]*[a-záéíóúñ]$/,
+                                                        value: /^[A-ZÁÉÍÓÚÑ][a-záéíóúñ\s]*[a-záéíóúñ]$/u,
                                                         message:
-                                                            'El nombre de la categoria de insumo debe tener la primera letra en mayúscula, el resto en minúscula y solo se permiten letras.',
+                                                            'Debe tener la primera letra en mayúscula, el resto en minúscula.',
                                                     },
                                                 })}
                                                 type="text"
@@ -120,7 +120,6 @@ function CreateCategory_supplies({
                                             <button
                                                 className="btn btn-primary mr-5"
                                                 type="submit"
-                                                disabled={!isValid}
                                                 title="Este botón sirve para guardar la información y cerrar la ventana modal."
                                             >
                                                 Confirmar

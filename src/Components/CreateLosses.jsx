@@ -47,7 +47,7 @@ function CreateLosses({ supply, onLossCreated }) {
         register,
         handleSubmit,
         setValue,
-        formState: { errors, isValid },
+        formState: { errors },
         reset,
     } = useForm();
 
@@ -122,7 +122,7 @@ function CreateLosses({ supply, onLossCreated }) {
                                                     validate: (value) => {
                                                         const parsedValue = parseFloat(value);
                                                         if (isNaN(parsedValue) || parsedValue < 0 || parsedValue > 99999999) {
-                                                            return 'La cantidad de pérdida debe ser un número válido entre 0 y 99999999.';
+                                                            return 'Debe ser un número entero entre 0 y 99999999.';
                                                         }
                                                     },
                                                 })}
@@ -174,15 +174,15 @@ function CreateLosses({ supply, onLossCreated }) {
                                                 required: 'Este campo es obligatorio',
                                                 minLength: {
                                                     value: 10,
-                                                    message: 'El motivo de la pérdida debe tener al menos 10 caracteres.',
+                                                    message: 'Debe tener al menos 10 caracteres.',
                                                 },
                                                 maxLength: {
                                                     value: 250,
-                                                    message: 'El motivo de la pérdida no debe exceder los 250 caracteres.',
+                                                    message: 'No debe exceder los 250 caracteres.',
                                                 },
                                                 validate: (value) => {
                                                     if (!/^[A-ZÁÉÍÓÚÑa-záéíóúñ\s,.]*$/.test(value)) {
-                                                        return 'El motivo de la pérdida debe comenzar con mayúscula y puede contener letras, espacios, tildes, comas y puntos.';
+                                                        return 'Debe comenzar con mayúscula, solo puede contener letras, espacios, tildes, comas y puntos.';
                                                     }
                                                 },
                                             })}
@@ -199,7 +199,6 @@ function CreateLosses({ supply, onLossCreated }) {
                                             <button
                                                 className="btn btn-primary mr-5"
                                                 type="submit"
-                                                disabled={!isValid}
                                             >
                                                 Confirmar
                                             </button>

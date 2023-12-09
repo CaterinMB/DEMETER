@@ -58,7 +58,7 @@ function UpdateSupplies({
         register,
         handleSubmit,
         setValue,
-        formState: { errors, isValid },
+        formState: { errors },
     } = useForm();
 
     useEffect(() => {
@@ -96,7 +96,7 @@ function UpdateSupplies({
                 await updateSupplies(supplie.ID_Supplies, supplie);
                 setOpen(false);
             } catch (error) {
-                console.error('Error al actualizar el suministro', error);
+                console.error('Error al actualizar el insumo', error);
             }
         }
     });
@@ -151,9 +151,9 @@ function UpdateSupplies({
                                                 {...register('Name_Supplies', {
                                                     required: 'Este campo es obligatorio',
                                                     pattern: {
-                                                        value: /^[A-ZÁÉÍÓÚÑ][a-záéíóúñ\s]*[a-záéíóúñ]$/,
+                                                        value: /^[A-ZÁÉÍÓÚÑ][a-záéíóúñ\s]*[a-záéíóúñ]$/u,
                                                         message:
-                                                            'El nombre del insumo debe tener la primera letra en mayúscula, el resto en minúscula y solo se permiten letras.',
+                                                            'Debe tener la primera letra en mayúscula y el resto en minúscula.',
                                                     },
                                                 })}
                                                 type="text"
@@ -177,7 +177,7 @@ function UpdateSupplies({
                                                     validate: (value) => {
                                                         const parsedValue = parseInt(value);
                                                         if (isNaN(parsedValue)) {
-                                                            return 'La cantidad debe ser un número válido.';
+                                                            return 'Debe ser un número entero.';
                                                         }
                                                     },
                                                 })}
@@ -234,15 +234,15 @@ function UpdateSupplies({
                                                         const parsedUnit = parseInt(Unit);
 
                                                         if (isNaN(parsedValue)) {
-                                                            return 'El stock mínimo debe be a number.';
+                                                            return 'Debe ser un número entero.';
                                                         }
 
                                                         if (parsedValue < 0 || parsedValue > 999) {
-                                                            return 'El stock mínimo debe ser un número entero entre 0 y 999.';
+                                                            return 'Debe ser un número entero entre 0 y 999.';
                                                         }
 
                                                         if (parsedValue > parsedUnit) {
-                                                            return `El stock mínimo no puede ser mayor que la cantidad de insumo (${parsedUnit}).`;
+                                                            return `No puede ser mayor que la cantidad: (${parsedUnit}).`;
                                                         }
                                                     },
                                                 })}
@@ -292,7 +292,6 @@ function UpdateSupplies({
                                             <button
                                                 className="btn btn-primary mr-5"
                                                 type="submit"
-                                                disabled={!isValid || !selectedMeasure || !selectedCategory}
                                                 title="Este botón sirve para guardar la información y cerrar la ventana modal."
                                             >
                                                 Confirmar

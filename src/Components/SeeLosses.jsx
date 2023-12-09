@@ -35,7 +35,6 @@ function SeeLosses({ supply }) {
     };
 
     const hasLosses = losses.some(loss => {
-        console.log('Supplies_ID:', loss.Supplies_ID, 'ID_Supplies:', supply.ID_Supplies);
         return String(loss.Supplies_ID) === String(supply.ID_Supplies);
     });
     return (

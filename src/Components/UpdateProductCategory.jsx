@@ -33,7 +33,7 @@ function UpdateProductCategory({
     register,
     handleSubmit,
     setValue,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm();
 
   useEffect(() => {
@@ -98,9 +98,9 @@ function UpdateProductCategory({
                         {...register('Name_ProductCategory', {
                           required: 'Este campo es obligatorio',
                           pattern: {
-                            value: /^[A-ZÁÉÍÓÚÑ][a-záéíóúñ\s]*[a-záéíóúñ]$/,
+                            value: /^[A-ZÁÉÍÓÚÑ][a-záéíóúñ\s]*[a-záéíóúñ]$/u,
                             message:
-                              'El nombre de la categoria del producto debe tener la primera letra en mayúscula, el resto en minúscula y solo se permiten letras.',
+                              'Debe tener la primera letra en mayúscula, el resto en minúscula.',
                           },
                         })}
                         type="text"
@@ -120,7 +120,6 @@ function UpdateProductCategory({
                       <button
                         className="btn btn-primary mr-5"
                         type="submit"
-                        disabled={!isValid}
                         title="Este botón sirve para guardar la información y cerrar la ventana modal."
                       >
                         Confirmar

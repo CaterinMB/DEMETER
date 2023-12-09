@@ -29,7 +29,7 @@ function CreateCategory_products({
         register,
         handleSubmit,
         setError,
-        formState: { errors, isValid },
+        formState: { errors },
         reset,
     } = useForm();
 
@@ -80,7 +80,7 @@ function CreateCategory_products({
                     <div className="col-md-12">
                         <div className="card">
                             <div className="card-header">
-                                <h5>Registro de categoria de productos</h5>
+                                <h5>Registro de categoría de productos</h5>
                             </div>
                             <div className="card-body">
                                 <form
@@ -99,9 +99,9 @@ function CreateCategory_products({
                                                 {...register('Name_ProductCategory', {
                                                     required: 'Este campo es obligatorio',
                                                     pattern: {
-                                                        value: /^[A-ZÁÉÍÓÚÑ][a-záéíóúñ\s]*[a-záéíóúñ]$/,
+                                                        value: /^[A-ZÁÉÍÓÚÑ][a-záéíóúñ\s]*[a-záéíóúñ]$/u,
                                                         message:
-                                                            'El nombre de la categoria de producto debe tener la primera letra en mayúscula, el resto en minúscula y solo se permiten letras.',
+                                                            'Debe tener la primera letra en mayúscula, el resto en minúscula.',
                                                     },
                                                 })}
                                                 type="text"
@@ -120,7 +120,6 @@ function CreateCategory_products({
                                             <button
                                                 className="btn btn-primary mr-5"
                                                 type="submit"
-                                                disabled={!isValid}
                                                 title="Este botón sirve para guardar la información y cerrar la ventana modal."
                                             >
                                                 Confirmar

@@ -3,6 +3,7 @@ import { BiEdit } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
 import { MdToggleOn, MdToggleOff } from "react-icons/md";
 import { useCategoryProducts } from '../Context/CategoryProducts.context.jsx';
+import { useProduct } from '../Context/Product.context.jsx';
 import CreateProductCategory from "../Components/CreateProductCategory.jsx";
 import UpdateProductCategory from "../Components/UpdateProductCategory.jsx";
 import DeleteProductCategory from "../Components/DeleteProductCategory.jsx";
@@ -17,6 +18,7 @@ import "../css/landing.css";
 
 function ProductCategoryPage() {
   const { Category_products, getCategory_products, deleteCategory_products, toggleCategoryProductStatus } = useCategoryProducts();
+  const { Product, getProduct } = useProduct();
   const [searchTerm, setSearchTerm] = useState("");
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedProductCategoryToDelete, setSelectedProductCategoryToDelete] = useState(null);
@@ -66,10 +68,19 @@ function ProductCategoryPage() {
   const visibleProductsCategory = sortedProductsCategory.slice(startIndex, endIndex);
 
   const handleDelete = async (productCategory) => {
-    setShowWarning(false);
-    setSelectedProductCategoryToDelete(productCategory);
-    setDeleteModalOpen(true);
+    const categoryID = productCategory.ID_ProductCategory;
+
+    const productInCategory = Product.filter((product) => product.ProductCategory_ID === categoryID);
+
+    if (productInCategory.length > 0) {
+      setShowWarning(true);
+    } else {
+      setShowWarning(false);
+      setSelectedProductCategoryToDelete(productCategory);
+      setDeleteModalOpen(true);
+    }
   };
+
 
   const closeDeleteModal = () => {
     setDeleteModalOpen(false);
@@ -84,17 +95,9 @@ function ProductCategoryPage() {
   const handleToggleStatus = async (productCategory) => {
     const categoryID = productCategory.ID_ProductCategory;
 
-    //
-    //
-    //
-    //Terminar, falta importar el context de products
-    //
-    //
-    //
-    //
-    const productsInCategory = products.filter((product) => product.ProductCategory_ID === categoryID);
+    const productInCategory = Product.filter((product) => product.ProductCategory_ID === categoryID);
 
-    if (productsInCategory.length > 0) {
+    if (productInCategory.length > 0) {
       setShowWarningDisable(true);
     } else {
       setShowWarningDisable(false);
