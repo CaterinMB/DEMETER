@@ -61,23 +61,22 @@ function SeeLosses({ supply }) {
                             <div className="card-header">
                                 <h5>Pérdidas Asociadas</h5>
                             </div>
-                            <div className="card-body">
+                            <div className="card-body" style={{ maxHeight: '400px', overflowX: 'auto' }}>
                                 <div className="table-responsive">
                                     <table className="table table-hover">
                                         <thead>
                                             <tr>
-                                                <th>Cantidad pérdida</th>
-                                                <th>Medida</th>
+                                                <th style={{ width: '100px' }}>Cantidad pérdida</th>
                                                 <th>Razón de pérdida</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {losses
                                                 .filter(loss => loss.Supplies_ID === supply.ID_Supplies)
+                                                .sort((a, b) => b.ID_Losses - a.ID_Losses) 
                                                 .map((loss) => (
                                                     <tr key={loss.ID_Losses}>
                                                         <td>{loss.Unit}</td>
-                                                        <td>{loss.Measure}</td>
                                                         <td style={{ maxWidth: '200px', overflowX: 'auto' }} >{loss.Reason}</td>
                                                     </tr>
                                                 ))}
