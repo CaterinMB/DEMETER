@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { useSupplies } from '../Context/Supplies.context';
 import { useCategorySupplies } from '../Context/CategorySupplies.context';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import Select from 'react-select';
 
 const style = {
@@ -47,6 +47,7 @@ function CreateSupplies({
   },
 }) {
   const {
+    control,
     register,
     handleSubmit,
     setError,
@@ -60,13 +61,6 @@ function CreateSupplies({
   const [selectedMeasure, setSelectedMeasure] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
 
-  const handleMeasureChange = (selectedOption) => {
-    setSelectedMeasure(selectedOption);
-  };
-
-  const handleCategoryChange = (selectedOption) => {
-    setSelectedCategory(selectedOption);
-  };
 
   const onSubmit = handleSubmit(async (values) => {
 
@@ -254,30 +248,39 @@ function CreateSupplies({
                       <label htmlFor="Measure" className="form-label">
                         Medida: <strong>*</strong>
                       </label>
-                      <Select
-                        options={[
-                          { value: 'Unidad(es)', label: 'Unidad(es)' },
-                          { value: 'Kilogramos (kg)', label: 'Kilogramos (kg)' },
-                          { value: 'Gramos (g)', label: 'Gramos (g)' },
-                          { value: 'Litros (L)', label: 'Litros (L)' },
-                          { value: 'Mililitros (ml)', label: 'Mililitros (ml)' },
-                        ]}
-                        value={selectedMeasure}
-                        onChange={handleMeasureChange}
-                        styles={customStyles}
-                        className="form-selects"
-                        theme={(theme) => ({
-                          ...theme,
-                          colors: {
-                            ...theme.colors,
-                            primary: '#e36209',
-                          },
-                        })}
+                      <Controller
+                        control={control}
+                        name="Measure"
+                        rules={{ required: 'Este campo es obligatorio' }}
+                        render={({ field }) => (
+                          <Select
+                            options={[
+                              { value: 'Kilogramos (kg)', label: 'Kilogramos (kg)' },
+                              { value: 'Gramos (g)', label: 'Gramos (g)' },
+                              { value: 'Litros (L)', label: 'Litros (L)' },
+                              { value: 'Mililitros (ml)', label: 'Mililitros (ml)' },
+                              { value: 'Unidad(es)', label: 'Unidad(es)' },
+                            ]}
+                            value={selectedMeasure}
+                            onChange={(selectedOption) => {
+                              setSelectedMeasure(selectedOption);
+                              field.onChange(selectedOption.value);
+                            }}
+                            styles={customStyles}
+                            className="form-selects"
+                            theme={(theme) => ({
+                              ...theme,
+                              colors: {
+                                ...theme.colors,
+                                primary: '#e36209',
+                              },
+                            })}
+                          />
+                        )}
                       />
                       {errors.Measure && (
                         <p className="text-red-500">{errors.Measure.message}</p>
                       )}
-                      <div className="invalid-feedback">Ingrese la medida</div>
                     </div>
 
                     <div className="form-group col-md-6">
@@ -318,24 +321,32 @@ function CreateSupplies({
                       <label htmlFor="SuppliesCategory_ID" className="form-label">
                         Categoría: <strong>*</strong>
                       </label>
-                      <Select
-                        options={options}
-                        value={selectedCategory}
-                        onChange={handleCategoryChange}
-                        styles={customStyles}
-                        className="form-selects"
-                        theme={(theme) => ({
-                          ...theme,
-                          colors: {
-                            ...theme.colors,
-                            primary: '#e36209',
-                          },
-                        })}
+                      <Controller
+                        control={control}
+                        name="SuppliesCategory_ID"
+                        rules={{ required: 'Este campo es obligatorio' }}
+                        render={({ field }) => (
+                          <Select
+                            options={options}
+                            value={selectedCategory}
+                            onChange={(selectedOption) => {
+                              setSelectedCategory(selectedOption);
+                              field.onChange(selectedOption);
+                            }}
+                            styles={customStyles}
+                            className="form-selects"
+                            theme={(theme) => ({
+                              ...theme,
+                              colors: {
+                                ...theme.colors,
+                                primary: '#e36209',
+                              },
+                            })}
+                          />
+                        )}
                       />
                       {errors.SuppliesCategory_ID && (
-                        <p className="text-red-500">
-                          {errors.SuppliesCategory_ID.message}
-                        </p>
+                        <p className="text-red-500">{errors.SuppliesCategory_ID.message}</p>
                       )}
                     </div>
                   </div>

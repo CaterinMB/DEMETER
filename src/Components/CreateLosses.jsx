@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { useLosses } from '../Context/Losses.context';
 import { IoMdArrowDropdown } from 'react-icons/io';
 import Select from 'react-select';
@@ -44,6 +44,7 @@ function CreateLosses({ supply, onLossCreated }) {
     const [open, setOpen] = useState(false);
 
     const {
+        control,
         register,
         handleSubmit,
         setValue,
@@ -58,7 +59,15 @@ function CreateLosses({ supply, onLossCreated }) {
     };
 
     const onSubmit = handleSubmit(async (values) => {
-        console.log(values)
+
+        if (!selectedMeasure) {
+            setError('Measure', {
+                type: 'manual',
+                message: 'Debes seleccionar una medida.',
+            });
+            return;
+        }
+
         try {
             await createLoss({
                 ...values,
@@ -138,30 +147,39 @@ function CreateLosses({ supply, onLossCreated }) {
                                             <label htmlFor="Measure" className="form-label">
                                                 Medida: <strong>*</strong>
                                             </label>
-                                            <Select
-                                                options={[
-                                                    { value: 'Unidad(es)', label: 'Unidad(es)' },
-                                                    { value: 'Kilogramos (kg)', label: 'Kilogramos (kg)' },
-                                                    { value: 'Gramos (g)', label: 'Gramos (g)' },
-                                                    { value: 'Litros (L)', label: 'Litros (L)' },
-                                                    { value: 'Mililitros (ml)', label: 'Mililitros (ml)' },
-                                                ]}
-                                                value={selectedMeasure}
-                                                onChange={handleMeasureChange}
-                                                styles={customStyles}
-                                                className="form-selects-losses"
-                                                theme={(theme) => ({
-                                                    ...theme,
-                                                    colors: {
-                                                        ...theme.colors,
-                                                        primary: '#e36209',
-                                                    },
-                                                })}
+                                            <Controller
+                                                control={control}
+                                                name="Measure"
+                                                rules={{ required: 'Este campo es obligatorio' }}
+                                                render={({ field }) => (
+                                                    <Select
+                                                        options={[
+                                                            { value: 'Unidad(es)', label: 'Unidad(es)' },
+                                                            { value: 'Kilogramos (kg)', label: 'Kilogramos (kg)' },
+                                                            { value: 'Gramos (g)', label: 'Gramos (g)' },
+                                                            { value: 'Litros (L)', label: 'Litros (L)' },
+                                                            { value: 'Mililitros (ml)', label: 'Mililitros (ml)' },
+                                                        ]}
+                                                        value={selectedMeasure}
+                                                        onChange={(selectedOption) => {
+                                                            setSelectedMeasure(selectedOption);
+                                                            field.onChange(selectedOption.value);
+                                                        }}
+                                                        styles={customStyles}
+                                                        className="form-selects-losses"
+                                                        theme={(theme) => ({
+                                                            ...theme,
+                                                            colors: {
+                                                                ...theme.colors,
+                                                                primary: '#e36209',
+                                                            },
+                                                        })}
+                                                    />
+                                                )}
                                             />
                                             {errors.Measure && (
                                                 <p className="text-red-500">{errors.Measure.message}</p>
                                             )}
-                                            <div className="invalid-feedback">Ingrese la medida</div>
                                         </div>
                                     </div>
 
