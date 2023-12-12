@@ -1,4 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './index.css'
 
 //Context
@@ -34,6 +36,7 @@ import Header from './Components/Header.jsx'
 function App() {
   return (
     <BrowserRouter>
+    <ToastContainer />
       <Role>
         <User>
           <CategorySupplies>
